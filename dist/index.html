@@ -98,9 +98,9 @@
                 <div id="term" class="bg-green-300">
                     <!-- Term 3 -->
                     <!-- Classes -->
-                    <div id="class" class="h-14 mx-2 mt-1 mb-0 bg-yellow-400 flex flex-col md:flex-row">
+                    <div id="class" class="mx-2 mt-1 mb-0 bg-yellow-400 flex flex-col md:flex-row">
                         <!-- Class name -->
-                        <div class="h-full max-w-[100%] w-96 mr-1 flex items-end bg-red-400">
+                        <div class="h-full md:h-14 max-w-[100%] w-96 mr-1 flex items-end bg-red-400">
                             <div class="h-9 w-full bg-gray-300">
                                 <textarea rows="1"
                                     class="no-scrollbar resize-none w-full h-full pl-2.5 pt-2 text-sm outline-none rounded-lg text-gray-900 bg-white dark:bg-gray-800 dark:placeholder-gray-400 dark:text-white"
@@ -110,8 +110,7 @@
                         <!-- Class name -->
                         <div class="flex mt-0.5 md:mt-0">
                             <!-- Grade Module -->
-                            <div
-                                class="h-full w-[4.25rem] min-w-[3.75rem] mr-1 flex flex-col items-start bg-fuchsia-400">
+                            <div class="h-14 w-[4.25rem] min-w-[3.75rem] mr-1 flex flex-col items-start bg-fuchsia-400">
                                 <div class="h-5 w-full bg-indigo-500 flex">
                                     <textarea rows="1"
                                         class="no-scrollbar resize-none w-3/4 h-full mr-0.5 text-center text-xs outline-none rounded-md text-gray-900 bg-white dark:bg-gray-800 dark:placeholder-gray-400 dark:text-white"
@@ -130,8 +129,7 @@
                             </div>
                             <!-- Grade Module -->
                             <!-- Grade Module -->
-                            <div
-                                class="h-full w-[4.25rem] min-w-[3.75rem] mr-1 flex flex-col items-start bg-fuchsia-400">
+                            <div class="h-14 w-[4.25rem] min-w-[3.75rem] mr-1 flex flex-col items-start bg-fuchsia-400">
                                 <div class="h-5 w-full bg-indigo-500 flex">
                                     <textarea rows="1"
                                         class="no-scrollbar resize-none w-3/4 h-full mr-0.5 text-center text-xs outline-none rounded-md text-gray-900 bg-white dark:bg-gray-800 dark:placeholder-gray-400 dark:text-white"
@@ -150,8 +148,7 @@
                             </div>
                             <!-- Grade Module -->
                             <!-- Grade Module -->
-                            <div
-                                class="h-full w-[4.25rem] min-w-[3.75rem] mr-1 flex flex-col items-start bg-fuchsia-400">
+                            <div class="h-14 w-[4.25rem] min-w-[3.75rem] mr-1 flex flex-col items-start bg-fuchsia-400">
                                 <div class="h-5 w-full bg-indigo-500 flex">
                                     <textarea rows="1"
                                         class="no-scrollbar resize-none w-3/4 h-full mr-0.5 text-center text-xs outline-none rounded-md text-gray-900 bg-white dark:bg-gray-800 dark:placeholder-gray-400 dark:text-white"
@@ -169,9 +166,8 @@
                                 </div>
                             </div>
                             <!-- Grade Module -->
-
                             <!-- Average Grade -->
-                            <div class="h-full w-[3.75rem] min-w-[3rem] mr-1 flex items-end bg-red-400">
+                            <div class="h-14 w-[3.75rem] min-w-[3rem] mr-1 flex items-end bg-red-400">
                                 <div class="h-9 w-full bg-gray-300">
                                     <textarea rows="1"
                                         class="no-scrollbar resize-none w-full h-full text-center pt-2 text-sm outline-none rounded-lg text-gray-900 bg-white dark:bg-gray-800 dark:placeholder-gray-400 dark:text-white"
@@ -181,195 +177,7 @@
                             <!-- Average Grade -->
 
                             <!-- Letter Note -->
-                            <div class="h-full w-[3rem] min-w-[2rem] mr-1 flex items-end bg-red-400">
-                                <div class="h-9 w-full bg-gray-300">
-                                    <textarea rows="1"
-                                        class="no-scrollbar resize-none w-full h-full text-center pt-2 text-sm outline-none rounded-lg text-gray-900 bg-white dark:bg-gray-800 dark:placeholder-gray-400 dark:text-white"
-                                        placeholder="Letter"></textarea>
-                                </div>
-                            </div>
-                            <!-- Letter Note -->
-                        </div>
-                    </div>
-                    <!-- Classes --><!-- Classes -->
-                    <div id="class" class="h-14 mx-2 mt-1 mb-0 bg-yellow-400 flex flex-col md:flex-row">
-                        <!-- Class name -->
-                        <div class="h-full max-w-[100%] w-96 mr-1 flex items-end bg-red-400">
-                            <div class="h-9 w-full bg-gray-300">
-                                <textarea rows="1"
-                                    class="no-scrollbar resize-none w-full h-full pl-2.5 pt-2 text-sm outline-none rounded-lg text-gray-900 bg-white dark:bg-gray-800 dark:placeholder-gray-400 dark:text-white"
-                                    placeholder="Class name"></textarea>
-                            </div>
-                        </div>
-                        <!-- Class name -->
-                        <div class="flex mt-0.5 md:mt-0">
-                            <!-- Grade Module -->
-                            <div
-                                class="h-full w-[4.25rem] min-w-[3.75rem] mr-1 flex flex-col items-start bg-fuchsia-400">
-                                <div class="h-5 w-full bg-indigo-500 flex">
-                                    <textarea rows="1"
-                                        class="no-scrollbar resize-none w-3/4 h-full mr-0.5 text-center text-xs outline-none rounded-md text-gray-900 bg-white dark:bg-gray-800 dark:placeholder-gray-400 dark:text-white"
-                                        placeholder="Type"></textarea>
-                                    <textarea rows="1" inputmode="numeric"
-                                        class="no-scrollbar resize-none w-1/2 h-full text-center text-xs outline-none rounded-lg text-gray-900 bg-white dark:bg-gray-800 dark:placeholder-gray-400 dark:text-white"
-                                        placeholder="%"
-                                        oninput="this.value = this.value.replace(/[^0-9]/g, '').substr(0, 3);"></textarea>
-                                </div>
-                                <div class="h-9 mt-1 w-full bg-white">
-                                    <textarea rows="1" inputmode="numeric"
-                                        class="no-scrollbar resize-none w-full h-full text-center pt-2 text-sm outline-none rounded-lg text-gray-900 bg-white dark:bg-gray-800 dark:placeholder-gray-400 dark:text-white"
-                                        placeholder="Grade"
-                                        oninput="this.value = this.value.replace(/[^0-9]/g, '').substr(0, 3);"></textarea>
-                                </div>
-                            </div>
-                            <!-- Grade Module -->
-                            <!-- Grade Module -->
-                            <div
-                                class="h-full w-[4.25rem] min-w-[3.75rem] mr-1 flex flex-col items-start bg-fuchsia-400">
-                                <div class="h-5 w-full bg-indigo-500 flex">
-                                    <textarea rows="1"
-                                        class="no-scrollbar resize-none w-3/4 h-full mr-0.5 text-center text-xs outline-none rounded-md text-gray-900 bg-white dark:bg-gray-800 dark:placeholder-gray-400 dark:text-white"
-                                        placeholder="Type"></textarea>
-                                    <textarea rows="1" inputmode="numeric"
-                                        class="no-scrollbar resize-none w-1/2 h-full text-center text-xs outline-none rounded-lg text-gray-900 bg-white dark:bg-gray-800 dark:placeholder-gray-400 dark:text-white"
-                                        placeholder="%"
-                                        oninput="this.value = this.value.replace(/[^0-9]/g, '').substr(0, 3);"></textarea>
-                                </div>
-                                <div class="h-9 mt-1 w-full bg-white">
-                                    <textarea rows="1" inputmode="numeric"
-                                        class="no-scrollbar resize-none w-full h-full text-center pt-2 text-sm outline-none rounded-lg text-gray-900 bg-white dark:bg-gray-800 dark:placeholder-gray-400 dark:text-white"
-                                        placeholder="Grade"
-                                        oninput="this.value = this.value.replace(/[^0-9]/g, '').substr(0, 3);"></textarea>
-                                </div>
-                            </div>
-                            <!-- Grade Module -->
-                            <!-- Grade Module -->
-                            <div
-                                class="h-full w-[4.25rem] min-w-[3.75rem] mr-1 flex flex-col items-start bg-fuchsia-400">
-                                <div class="h-5 w-full bg-indigo-500 flex">
-                                    <textarea rows="1"
-                                        class="no-scrollbar resize-none w-3/4 h-full mr-0.5 text-center text-xs outline-none rounded-md text-gray-900 bg-white dark:bg-gray-800 dark:placeholder-gray-400 dark:text-white"
-                                        placeholder="Type"></textarea>
-                                    <textarea rows="1" inputmode="numeric"
-                                        class="no-scrollbar resize-none w-1/2 h-full text-center text-xs outline-none rounded-lg text-gray-900 bg-white dark:bg-gray-800 dark:placeholder-gray-400 dark:text-white"
-                                        placeholder="%"
-                                        oninput="this.value = this.value.replace(/[^0-9]/g, '').substr(0, 3);"></textarea>
-                                </div>
-                                <div class="h-9 mt-1 w-full bg-white">
-                                    <textarea rows="1" inputmode="numeric"
-                                        class="no-scrollbar resize-none w-full h-full text-center pt-2 text-sm outline-none rounded-lg text-gray-900 bg-white dark:bg-gray-800 dark:placeholder-gray-400 dark:text-white"
-                                        placeholder="Grade"
-                                        oninput="this.value = this.value.replace(/[^0-9]/g, '').substr(0, 3);"></textarea>
-                                </div>
-                            </div>
-                            <!-- Grade Module -->
-
-                            <!-- Average Grade -->
-                            <div class="h-full w-[3.75rem] min-w-[3rem] mr-1 flex items-end bg-red-400">
-                                <div class="h-9 w-full bg-gray-300">
-                                    <textarea rows="1"
-                                        class="no-scrollbar resize-none w-full h-full text-center pt-2 text-sm outline-none rounded-lg text-gray-900 bg-white dark:bg-gray-800 dark:placeholder-gray-400 dark:text-white"
-                                        placeholder="Average"></textarea>
-                                </div>
-                            </div>
-                            <!-- Average Grade -->
-
-                            <!-- Letter Note -->
-                            <div class="h-full w-[3rem] min-w-[2rem] mr-1 flex items-end bg-red-400">
-                                <div class="h-9 w-full bg-gray-300">
-                                    <textarea rows="1"
-                                        class="no-scrollbar resize-none w-full h-full text-center pt-2 text-sm outline-none rounded-lg text-gray-900 bg-white dark:bg-gray-800 dark:placeholder-gray-400 dark:text-white"
-                                        placeholder="Letter"></textarea>
-                                </div>
-                            </div>
-                            <!-- Letter Note -->
-                        </div>
-                    </div>
-                    <!-- Classes --><!-- Classes -->
-                    <div id="class" class="h-14 mx-2 mt-1 mb-0 bg-yellow-400 flex flex-col md:flex-row">
-                        <!-- Class name -->
-                        <div class="h-full max-w-[100%] w-96 mr-1 flex items-end bg-red-400">
-                            <div class="h-9 w-full bg-gray-300">
-                                <textarea rows="1"
-                                    class="no-scrollbar resize-none w-full h-full pl-2.5 pt-2 text-sm outline-none rounded-lg text-gray-900 bg-white dark:bg-gray-800 dark:placeholder-gray-400 dark:text-white"
-                                    placeholder="Class name"></textarea>
-                            </div>
-                        </div>
-                        <!-- Class name -->
-                        <div class="flex mt-0.5 md:mt-0">
-                            <!-- Grade Module -->
-                            <div
-                                class="h-full w-[4.25rem] min-w-[3.75rem] mr-1 flex flex-col items-start bg-fuchsia-400">
-                                <div class="h-5 w-full bg-indigo-500 flex">
-                                    <textarea rows="1"
-                                        class="no-scrollbar resize-none w-3/4 h-full mr-0.5 text-center text-xs outline-none rounded-md text-gray-900 bg-white dark:bg-gray-800 dark:placeholder-gray-400 dark:text-white"
-                                        placeholder="Type"></textarea>
-                                    <textarea rows="1" inputmode="numeric"
-                                        class="no-scrollbar resize-none w-1/2 h-full text-center text-xs outline-none rounded-lg text-gray-900 bg-white dark:bg-gray-800 dark:placeholder-gray-400 dark:text-white"
-                                        placeholder="%"
-                                        oninput="this.value = this.value.replace(/[^0-9]/g, '').substr(0, 3);"></textarea>
-                                </div>
-                                <div class="h-9 mt-1 w-full bg-white">
-                                    <textarea rows="1" inputmode="numeric"
-                                        class="no-scrollbar resize-none w-full h-full text-center pt-2 text-sm outline-none rounded-lg text-gray-900 bg-white dark:bg-gray-800 dark:placeholder-gray-400 dark:text-white"
-                                        placeholder="Grade"
-                                        oninput="this.value = this.value.replace(/[^0-9]/g, '').substr(0, 3);"></textarea>
-                                </div>
-                            </div>
-                            <!-- Grade Module -->
-                            <!-- Grade Module -->
-                            <div
-                                class="h-full w-[4.25rem] min-w-[3.75rem] mr-1 flex flex-col items-start bg-fuchsia-400">
-                                <div class="h-5 w-full bg-indigo-500 flex">
-                                    <textarea rows="1"
-                                        class="no-scrollbar resize-none w-3/4 h-full mr-0.5 text-center text-xs outline-none rounded-md text-gray-900 bg-white dark:bg-gray-800 dark:placeholder-gray-400 dark:text-white"
-                                        placeholder="Type"></textarea>
-                                    <textarea rows="1" inputmode="numeric"
-                                        class="no-scrollbar resize-none w-1/2 h-full text-center text-xs outline-none rounded-lg text-gray-900 bg-white dark:bg-gray-800 dark:placeholder-gray-400 dark:text-white"
-                                        placeholder="%"
-                                        oninput="this.value = this.value.replace(/[^0-9]/g, '').substr(0, 3);"></textarea>
-                                </div>
-                                <div class="h-9 mt-1 w-full bg-white">
-                                    <textarea rows="1" inputmode="numeric"
-                                        class="no-scrollbar resize-none w-full h-full text-center pt-2 text-sm outline-none rounded-lg text-gray-900 bg-white dark:bg-gray-800 dark:placeholder-gray-400 dark:text-white"
-                                        placeholder="Grade"
-                                        oninput="this.value = this.value.replace(/[^0-9]/g, '').substr(0, 3);"></textarea>
-                                </div>
-                            </div>
-                            <!-- Grade Module -->
-                            <!-- Grade Module -->
-                            <div
-                                class="h-full w-[4.25rem] min-w-[3.75rem] mr-1 flex flex-col items-start bg-fuchsia-400">
-                                <div class="h-5 w-full bg-indigo-500 flex">
-                                    <textarea rows="1"
-                                        class="no-scrollbar resize-none w-3/4 h-full mr-0.5 text-center text-xs outline-none rounded-md text-gray-900 bg-white dark:bg-gray-800 dark:placeholder-gray-400 dark:text-white"
-                                        placeholder="Type"></textarea>
-                                    <textarea rows="1" inputmode="numeric"
-                                        class="no-scrollbar resize-none w-1/2 h-full text-center text-xs outline-none rounded-lg text-gray-900 bg-white dark:bg-gray-800 dark:placeholder-gray-400 dark:text-white"
-                                        placeholder="%"
-                                        oninput="this.value = this.value.replace(/[^0-9]/g, '').substr(0, 3);"></textarea>
-                                </div>
-                                <div class="h-9 mt-1 w-full bg-white">
-                                    <textarea rows="1" inputmode="numeric"
-                                        class="no-scrollbar resize-none w-full h-full text-center pt-2 text-sm outline-none rounded-lg text-gray-900 bg-white dark:bg-gray-800 dark:placeholder-gray-400 dark:text-white"
-                                        placeholder="Grade"
-                                        oninput="this.value = this.value.replace(/[^0-9]/g, '').substr(0, 3);"></textarea>
-                                </div>
-                            </div>
-                            <!-- Grade Module -->
-
-                            <!-- Average Grade -->
-                            <div class="h-full w-[3.75rem] min-w-[3rem] mr-1 flex items-end bg-red-400">
-                                <div class="h-9 w-full bg-gray-300">
-                                    <textarea rows="1"
-                                        class="no-scrollbar resize-none w-full h-full text-center pt-2 text-sm outline-none rounded-lg text-gray-900 bg-white dark:bg-gray-800 dark:placeholder-gray-400 dark:text-white"
-                                        placeholder="Average"></textarea>
-                                </div>
-                            </div>
-                            <!-- Average Grade -->
-
-                            <!-- Letter Note -->
-                            <div class="h-full w-[3rem] min-w-[2rem] mr-1 flex items-end bg-red-400">
+                            <div class="h-14 w-[3rem] min-w-[2rem] mr-1 flex items-end bg-red-400">
                                 <div class="h-9 w-full bg-gray-300">
                                     <textarea rows="1"
                                         class="no-scrollbar resize-none w-full h-full text-center pt-2 text-sm outline-none rounded-lg text-gray-900 bg-white dark:bg-gray-800 dark:placeholder-gray-400 dark:text-white"
