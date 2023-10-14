@@ -13,12 +13,24 @@ function lightMode() {
 }
 
 function autoTheme() {
-    const darkModeCookie = getCookie('darkMode');
+    if (getCookie('visited') === 'true') {
+        const darkModeCookie = getCookie('darkMode');
 
-    if(darkModeCookie === 'true'){
-        darkMode();
-    }else{
-        lightMode();
+        if (darkModeCookie === 'true') {
+            darkMode();
+        } else if (darkModeCookie === 'false'){
+            lightMode();
+        }
+    } else {
+        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            darkMode();
+        } else {
+            lightMode();
+        }
+
+        if(getCookie('visited') === ""){
+            setCookie('visited', 'true', 365);
+        }
     }
 }
 autoTheme();
