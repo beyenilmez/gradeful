@@ -8,9 +8,9 @@
 </head>
 
 <body class="bg-slate-250 dark:bg-slate-750">
-    <div>
+    <div x-data="{ settingsOpen: true}">
         <!-- Navbar -->
-        <nav class="sticky top-0 z-50 p-5 pb-0 pt-0">
+        <nav class="sticky top-0 z-40 p-5 pb-0 pt-0">
             <div
                 class="rounded-xl p-5 mt-5 dark:bg-slate-650 bg-slate-300 border dark:border-slate-550 border-slate-400 drop-shadow flex items-center h-24">
                 <!-- University Logo -->
@@ -38,27 +38,31 @@
                     3.62
                 </div>
 
-                <div class="w-full flex justify-end" x-data="{ isOpen: false }">
+                <div class="w-full flex justify-end" x-data="{ cogOpen: false }">
                     <!-- Dark mode switcher -->
                     <a onclick="lightMode()"
                         class="dark:flex hidden items-center justify-center w-10 h-10 text-slate-300 hover:bg-slate-600 active:bg-slate-550 rounded-lg transition-all duration-100"
                         href="#!">
                         <svg class="w-6 h-6 fill-slate-300" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 20">
-                            <path d="M17.8 13.75a1 1 0 0 0-.859-.5A7.488 7.488 0 0 1 10.52 2a1 1 0 0 0 0-.969A1.035 1.035 0 0 0 9.687.5h-.113a9.5 9.5 0 1 0 8.222 14.247 1 1 0 0 0 .004-.997Z"></path>
+                            <path
+                                d="M17.8 13.75a1 1 0 0 0-.859-.5A7.488 7.488 0 0 1 10.52 2a1 1 0 0 0 0-.969A1.035 1.035 0 0 0 9.687.5h-.113a9.5 9.5 0 1 0 8.222 14.247 1 1 0 0 0 .004-.997Z">
+                            </path>
                         </svg>
                     </a>
                     <a onclick="darkMode()"
                         class="dark:hidden flex items-center justify-center w-10 h-10 text-slate-700 hover:bg-slate-350 active:bg-slate-400 rounded-lg transition-all duration-100"
                         href="#!">
-                        <svg class="w-6 h-6 fill-slate-700" xmlns="http://www.w3.org/2000/svg"
-                            fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M10 15a5 5 0 1 0 0-10 5 5 0 0 0 0 10Zm0-11a1 1 0 0 0 1-1V1a1 1 0 0 0-2 0v2a1 1 0 0 0 1 1Zm0 12a1 1 0 0 0-1 1v2a1 1 0 1 0 2 0v-2a1 1 0 0 0-1-1ZM4.343 5.757a1 1 0 0 0 1.414-1.414L4.343 2.929a1 1 0 0 0-1.414 1.414l1.414 1.414Zm11.314 8.486a1 1 0 0 0-1.414 1.414l1.414 1.414a1 1 0 0 0 1.414-1.414l-1.414-1.414ZM4 10a1 1 0 0 0-1-1H1a1 1 0 0 0 0 2h2a1 1 0 0 0 1-1Zm15-1h-2a1 1 0 1 0 0 2h2a1 1 0 0 0 0-2ZM4.343 14.243l-1.414 1.414a1 1 0 1 0 1.414 1.414l1.414-1.414a1 1 0 0 0-1.414-1.414ZM14.95 6.05a1 1 0 0 0 .707-.293l1.414-1.414a1 1 0 1 0-1.414-1.414l-1.414 1.414a1 1 0 0 0 .707 1.707Z"></path>
+                        <svg class="w-6 h-6 fill-slate-700" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                            viewBox="0 0 20 20">
+                            <path
+                                d="M10 15a5 5 0 1 0 0-10 5 5 0 0 0 0 10Zm0-11a1 1 0 0 0 1-1V1a1 1 0 0 0-2 0v2a1 1 0 0 0 1 1Zm0 12a1 1 0 0 0-1 1v2a1 1 0 1 0 2 0v-2a1 1 0 0 0-1-1ZM4.343 5.757a1 1 0 0 0 1.414-1.414L4.343 2.929a1 1 0 0 0-1.414 1.414l1.414 1.414Zm11.314 8.486a1 1 0 0 0-1.414 1.414l1.414 1.414a1 1 0 0 0 1.414-1.414l-1.414-1.414ZM4 10a1 1 0 0 0-1-1H1a1 1 0 0 0 0 2h2a1 1 0 0 0 1-1Zm15-1h-2a1 1 0 1 0 0 2h2a1 1 0 0 0 0-2ZM4.343 14.243l-1.414 1.414a1 1 0 1 0 1.414 1.414l1.414-1.414a1 1 0 0 0-1.414-1.414ZM14.95 6.05a1 1 0 0 0 .707-.293l1.414-1.414a1 1 0 1 0-1.414-1.414l-1.414 1.414a1 1 0 0 0 .707 1.707Z">
+                            </path>
                         </svg>
                     </a>
                     <!-- Dark mode switcher end -->
 
                     <!-- Cog dropdown -->
-                    <button @click="isOpen = !isOpen"
+                    <button @click="cogOpen = !cogOpen"
                         class="ml-2.5 w-10 dark:stroke-slate-300 stroke-slate-700 p-1.5 dark:hover:bg-slate-600 hover:bg-slate-350 dark:active:bg-slate-550 active:bg-slate-400 rounded-lg transition-all duration-100">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2"
                             stroke-linecap="round" stroke-linejoin="round">
@@ -69,32 +73,32 @@
                         </svg>
                     </button>
 
-                    <div x-show="isOpen" x:cloak x-transition:enter="transition-transform ease-out duration-300"
+                    <div x-show="cogOpen" x:cloak x-transition:enter="transition-transform ease-out duration-300"
                         x-transition:enter-start="-translate-y-4 opacity-0"
                         x-transition:enter-end="translate-y-0 opacity-100"
                         x-transition:leave="transition-transform ease-in duration-300"
                         x-transition:leave-start="translate-y-0 opacity-100"
-                        x-transition:leave-end="-translate-y-4 opacity-0" @click.away="isOpen = false"
+                        x-transition:leave-end="-translate-y-4 opacity-0" @click.away="cogOpen = false"
                         class="absolute mt-10 w-44 py-2 dark:bg-slate-750 bg-slate-250 border dark:border-slate-700 rounded-lg shadow-lg z-10 dark:text-slate-150 text-slate-800">
 
                         <button
                             class="w-full py-1 dark:hover:bg-slate-700 hover:bg-slate-350 dark:active:bg-slate-650 active:bg-slate-400 transition-all duration-100"
-                            @click="isOpen = false">
+                            @click="cogOpen = false">
                             Add Semester
                         </button>
                         <button
                             class="w-full py-1 dark:hover:bg-slate-700 hover:bg-slate-350 dark:active:bg-slate-650 active:bg-slate-400 transition-all duration-100 border-t dark:border-slate-700 border-slate-400"
-                            @click="isOpen = false">
+                            @click="cogOpen = false">
                             Export
                         </button>
                         <button
                             class="w-full py-1 dark:hover:bg-slate-700 hover:bg-slate-350 dark:active:bg-slate-650 active:bg-slate-400 transition-all duration-100"
-                            @click="isOpen = false">
+                            @click="cogOpen = false">
                             Import
                         </button>
                         <button
                             class="w-full py-1 dark:hover:bg-slate-700 hover:bg-slate-350 dark:active:bg-slate-650 active:bg-slate-400 transition-all duration-100 border-t dark:border-slate-700 border-slate-400"
-                            @click="isOpen = false">
+                            @click="cogOpen = false; settingsOpen = true">
                             Settings
                         </button>
                     </div>
@@ -106,6 +110,164 @@
 
         </nav>
         <!-- Navbar -->
+
+        <!-- Settings popup -->
+        <div x-data="{ infoOpen: true }" x-show="settingsOpen" x:cloak x-transition:enter="ease-out duration-100"
+            x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+            x-transition:leave="ease-in duration-100" x-transition:leave-start="opacity-100"
+            x-transition:leave-end="opacity-0"
+            class="w-full h-full absolute z-50 top-0 flex justify-center items-center bg-black/[.70] dark:text-slate-300 text-slate-750">
+            <div
+                class="absolute z-50 md:w-[40rem] w-[80%] rounded-lg flex flex-col dark:bg-slate-650 bg-slate-350 shadow-lg">
+                <div
+                    class="dark:bg-slate-750 bg-slate-250 w-full h-fit py-1.5 flex items-center justify-between rounded-t-lg">
+                    <div class="pl-3 text-lg font-semibold">
+                        Settings
+                    </div>
+                    <!-- Close button -->
+                    <button @click="settingsOpen = false"
+                        class="w-8 rounded-lg mr-1 dark:hover:bg-slate-700 hover:bg-slate-350 dark:active:bg-slate-650 active:bg-slate-400 transition-all duration-100">
+                        <svg class="w-full dark:fill-slate-300 fill-slate-750" version="1.1" viewBox="0 0 24 24"
+                            xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
+                            xmlns:xlink="http://www.w3.org/1999/xlink">
+                            <path
+                                d="M14.8,12l3.6-3.6c0.8-0.8,0.8-2,0-2.8c-0.8-0.8-2-0.8-2.8,0L12,9.2L8.4,5.6c-0.8-0.8-2-0.8-2.8,0   c-0.8,0.8-0.8,2,0,2.8L9.2,12l-3.6,3.6c-0.8,0.8-0.8,2,0,2.8C6,18.8,6.5,19,7,19s1-0.2,1.4-0.6l3.6-3.6l3.6,3.6   C16,18.8,16.5,19,17,19s1-0.2,1.4-0.6c0.8-0.8,0.8-2,0-2.8L14.8,12z"
+                                id="exit" />
+                        </svg>
+                    </button>
+                    <!-- Close button -->
+                </div>
+                <div class="md:flex-row flex flex-col min-h-fit h-80">
+                    <!-- Setting tabs -->
+                    <div
+                        class="dark:bg-slate-700 rounded-bl-lg bg-slate-300 p-2 md:h-full h-fit w-full md:w-fit flex md:flex-col md:border-r md:border-b-0 border-b dark:border-slate-500 border-slate-400">
+                        <button @click="infoOpen = true" x-bind:class="{ 'dark:bg-slate-600 bg-slate-400': infoOpen }"
+                            class="rounded-lg md:w-40 w-1/2 h-10 dark:hover:bg-slate-650 dark:active:bg-slate-600 hover:bg-slate-350 active:bg-slate-400 md:mb-2 md:mr-0 mr-2 transition-all duration-100">
+                            Information
+                        </button>
+                        <button @click="infoOpen = false" x-bind:class="{ 'dark:bg-slate-600 bg-slate-400': !infoOpen }"
+                            class="rounded-lg md:w-40 w-1/2 h-10 dark:hover:bg-slate-650 dark:active:bg-slate-600 hover:bg-slate-350 active:bg-slate-400 transition-all duration-100">
+                            Grade scale
+                        </button>
+                        <div class="md:w-0 w-2"></div>
+                    </div>
+                    <!-- Setting tabs -->
+                    <div class="w-full h-full p-5">
+                        <!-- Info settings -->
+                        <div class="h-full flex flex-col" x-show="infoOpen">
+                            <!-- Uni name -->
+                            <div class="w-full mr-2 flex flex-col items-start mb-3">
+                                <div class="w-full h-full flex">
+                                    <div class="w-full h-full mr-0.5 text-xs">
+                                        University name
+                                    </div>
+                                </div>
+                                <div class="mt-1 w-full h-full flex items-end">
+                                    <div class="w-full flex">
+                                        <textarea rows="1" inputmode="numeric"
+                                            class="no-scrollbar resize-none w-full h-7 pl-3 pt-[0.15rem] text-sm outline-none rounded-lg border dark:text-slate-300 text-slate-700 dark:border-slate-400 border-slate-500 bg-transparent dark:placeholder-slate-500 placeholder-slate-450"
+                                            placeholder="My university"></textarea>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!-- Uni name -->
+                            <!-- Dept name -->
+                            <div class="w-full mr-2 flex flex-col items-start mb-3">
+                                <div class="w-full h-full flex">
+                                    <div class="w-full h-full mr-0.5 text-xs">
+                                        Department
+                                    </div>
+                                </div>
+                                <div class="mt-1 w-full h-full flex items-end">
+                                    <div class="w-full flex">
+                                        <textarea rows="1" inputmode="numeric"
+                                            class="no-scrollbar resize-none w-full h-7 pl-3 pt-[0.15rem] text-sm outline-none rounded-lg border dark:text-slate-300 text-slate-700 dark:border-slate-400 border-slate-500 bg-transparent dark:placeholder-slate-500 placeholder-slate-450"
+                                            placeholder="My department"></textarea>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!-- Dept name -->
+                            <!-- Buttons -->
+                            <div class="w-full h-full flex items-end justify-end">
+                                <button disabled
+                                    class="disabled:opacity-70 border p-1 px-2 h-fit rounded-lg dark:bg-rose-700 bg-rose-400 border-rose-500 dark:border-rose-400 enabled:dark:hover:bg-rose-600 enabled:hover:bg-rose-500 enabled:dark:active:bg-rose-500 enabled:active:bg-rose-600 transition-all duration-100 mr-2">Discard</button>
+                                <button disabled
+                                    class="disabled:opacity-70 border p-1 px-2 h-fit rounded-lg dark:bg-emerald-700 bg-emerald-400 border-emerald-500 dark:border-emerald-400 enabled:dark:hover:bg-emerald-600 enabled:hover:bg-emerald-500 enabled:dark:active:bg-emerald-500 enabled:active:bg-emerald-600 transition-all duration-100">Save</button>
+                            </div>
+                            <!-- Buttons -->
+                        </div>
+                        <!-- Info settings -->
+
+                        <!-- Grade settings -->
+                        <div class="h-full flex flex-col" x-show="!infoOpen">
+                            <!-- GPAs -->
+                            <div class="w-full mr-2 flex flex-col items-start mb-3">
+                                <div class="w-full h-full flex">
+                                    <div class="w-full h-full mr-0.5 text-xs">
+                                        GPAs
+                                    </div>
+                                </div>
+                                <div class="mt-1 w-full h-full flex items-end">
+                                    <div class="w-full flex">
+                                        <textarea rows="1" inputmode="numeric"
+                                            class="no-scrollbar resize-none w-full h-7 pl-3 pt-[0.15rem] text-sm outline-none rounded-lg border dark:text-slate-300 text-slate-700 dark:border-slate-400 border-slate-500 bg-transparent dark:placeholder-slate-500 placeholder-slate-450"
+                                            placeholder="4.00, 3.50, 3.00, 2.50, 2.00, 1.50, 1.00, 0.50, 0.00"></textarea>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!-- GPAs -->
+                            <!-- Grades -->
+                            <div class="w-full mr-2 flex flex-col items-start mb-3">
+                                <div class="w-full h-full flex">
+                                    <div class="w-full h-full mr-0.5 text-xs">
+                                        Grades
+                                    </div>
+                                </div>
+                                <div class="mt-1 w-full h-full flex items-end">
+                                    <div class="w-full flex">
+                                        <textarea rows="1" inputmode="numeric"
+                                            class="uppercase no-scrollbar resize-none w-full h-7 pl-3 pt-[0.15rem] text-sm outline-none rounded-lg border dark:text-slate-300 text-slate-700 dark:border-slate-400 border-slate-500 bg-transparent dark:placeholder-slate-500 placeholder-slate-450"
+                                            placeholder="AA, BA, BB, CB, CC, DC, DD, FD, FF"></textarea>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!-- Grades -->
+                            <!-- Scores -->
+                            <div class="w-full mr-2 flex flex-col items-start mb-3">
+                                <div class="w-full h-full flex">
+                                    <div class="w-full h-full mr-0.5 text-xs">
+                                        Scores
+                                    </div>
+                                </div>
+                                <div class="mt-1 w-full h-full flex items-end">
+                                    <div class="w-full flex">
+                                        <textarea rows="1" inputmode="numeric"
+                                            class="no-scrollbar resize-none w-full h-7 pl-3 pt-[0.15rem] text-sm outline-none rounded-lg border dark:text-slate-300 text-slate-700 dark:border-slate-400 border-slate-500 bg-transparent dark:placeholder-slate-500 placeholder-slate-450"
+                                            placeholder="90, 85, 80, 75, 70, 65, 60, 50"></textarea>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!-- Scores -->
+                            <!-- Buttons -->
+                            <div class="w-full h-full flex items-end justify-end">
+                                <button disabled
+                                    class="disabled:opacity-70 border p-1 px-2 h-fit rounded-lg dark:bg-rose-700 bg-rose-400 border-rose-500 dark:border-rose-400 enabled:dark:hover:bg-rose-600 enabled:hover:bg-rose-500 enabled:dark:active:bg-rose-500 enabled:active:bg-rose-600 transition-all duration-100 mr-2">Discard</button>
+                                <button disabled
+                                    class="disabled:opacity-70 border p-1 px-2 h-fit rounded-lg dark:bg-emerald-700 bg-emerald-400 border-emerald-500 dark:border-emerald-400 enabled:dark:hover:bg-emerald-600 enabled:hover:bg-emerald-500 enabled:dark:active:bg-emerald-500 enabled:active:bg-emerald-600 transition-all duration-100">Save</button>
+                            </div>
+                            <!-- Buttons -->
+                        </div>
+                        <!-- Grade settings -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Settings popup -->
 
         <!-- Grid wrapper -->
         <div
@@ -182,7 +344,7 @@
                                 <div class="mt-1 w-full h-full flex items-end">
                                     <div class="w-full flex">
                                         <textarea rows="1" inputmode="numeric"
-                                            class="no-scrollbar resize-none w-full h-7 text-center pt-[0.15rem] text-sm outline-none rounded-lg border dark:text-slate-300 text-slate-700 dark:border-slate-400 border-slate-500 bg-transparent dark:placeholder-slate-500 placeholder-slate-700"
+                                            class="no-scrollbar resize-none w-full h-7 text-center pt-[0.15rem] text-sm outline-none rounded-lg border dark:text-slate-300 text-slate-700 dark:border-slate-400 border-slate-500 bg-transparent dark:placeholder-slate-500 placeholder-slate-450"
                                             placeholder="Grade"
                                             oninput="this.value = this.value.replace(/[^0-9]/g, '').substr(0, 3);"></textarea>
                                     </div>
@@ -200,7 +362,7 @@
                                 <div class="mt-1 w-full h-full flex items-end">
                                     <div class="w-full flex">
                                         <textarea rows="1" inputmode="numeric"
-                                            class="no-scrollbar resize-none w-full h-7 text-center pt-[0.15rem] text-sm outline-none rounded-lg border dark:text-slate-300 text-slate-700 dark:border-slate-400 border-slate-500 bg-transparent dark:placeholder-slate-500 placeholder-slate-700"
+                                            class="no-scrollbar resize-none w-full h-7 text-center pt-[0.15rem] text-sm outline-none rounded-lg border dark:text-slate-300 text-slate-700 dark:border-slate-400 border-slate-500 bg-transparent dark:placeholder-slate-500 placeholder-slate-450"
                                             placeholder="Grade"
                                             oninput="this.value = this.value.replace(/[^0-9]/g, '').substr(0, 3);"></textarea>
                                     </div>
@@ -218,7 +380,7 @@
                                 <div class="mt-1 w-full h-full flex items-end">
                                     <div class="w-full flex">
                                         <textarea rows="1" inputmode="numeric"
-                                            class="no-scrollbar resize-none w-full h-7 text-center pt-[0.15rem] text-sm outline-none rounded-lg border dark:text-slate-300 text-slate-700 dark:border-slate-400 border-slate-500 bg-transparent dark:placeholder-slate-500 placeholder-slate-700"
+                                            class="no-scrollbar resize-none w-full h-7 text-center pt-[0.15rem] text-sm outline-none rounded-lg border dark:text-slate-300 text-slate-700 dark:border-slate-400 border-slate-500 bg-transparent dark:placeholder-slate-500 placeholder-slate-450"
                                             placeholder="Grade"
                                             oninput="this.value = this.value.replace(/[^0-9]/g, '').substr(0, 3);"></textarea>
                                     </div>
@@ -315,13 +477,13 @@
                             <div class="max-w-[4.25rem] w-[1000%] mr-2 flex flex-col items-start">
                                 <div class="w-full h-full flex">
                                     <textarea rows="1"
-                                        class="no-scrollbar resize-none w-full h-7 text-center pt-[0.15rem] text-sm outline-none rounded-lg border dark:text-slate-300 text-slate-700 dark:border-slate-400 border-slate-500 bg-transparent dark:placeholder-slate-500 placeholder-slate-700"
+                                        class="no-scrollbar resize-none w-full h-7 text-center pt-[0.15rem] text-sm outline-none rounded-lg border dark:text-slate-300 text-slate-700 dark:border-slate-400 border-slate-500 bg-transparent dark:placeholder-slate-500 placeholder-slate-450"
                                         placeholder="Type"></textarea>
                                 </div>
                                 <div class="mt-1 w-full h-full">
                                     <div class="w-full flex">
                                         <textarea rows="1" inputmode="numeric"
-                                            class="no-scrollbar resize-none w-full h-7 text-center pt-[0.15rem] text-sm outline-none rounded-lg border dark:text-slate-300 text-slate-700 dark:border-slate-400 border-slate-500 bg-transparent dark:placeholder-slate-500 placeholder-slate-700"
+                                            class="no-scrollbar resize-none w-full h-7 text-center pt-[0.15rem] text-sm outline-none rounded-lg border dark:text-slate-300 text-slate-700 dark:border-slate-400 border-slate-500 bg-transparent dark:placeholder-slate-500 placeholder-slate-450"
                                             placeholder="%"
                                             oninput="this.value = this.value.replace(/[^0-9]/g, '').substr(0, 3);"></textarea>
                                     </div>
@@ -333,13 +495,13 @@
                             <div class="max-w-[4.25rem] w-[1000%] mr-2 flex flex-col items-start">
                                 <div class="w-full h-full flex">
                                     <textarea rows="1"
-                                        class="no-scrollbar resize-none w-full h-7 text-center pt-[0.15rem] text-sm outline-none rounded-lg border dark:text-slate-300 text-slate-700 dark:border-slate-400 border-slate-500 bg-transparent dark:placeholder-slate-500 placeholder-slate-700"
+                                        class="no-scrollbar resize-none w-full h-7 text-center pt-[0.15rem] text-sm outline-none rounded-lg border dark:text-slate-300 text-slate-700 dark:border-slate-400 border-slate-500 bg-transparent dark:placeholder-slate-500 placeholder-slate-450"
                                         placeholder="Type"></textarea>
                                 </div>
                                 <div class="mt-1 w-full h-full">
                                     <div class="w-full flex">
                                         <textarea rows="1" inputmode="numeric"
-                                            class="no-scrollbar resize-none w-full h-7 text-center pt-[0.15rem] text-sm outline-none rounded-lg border dark:text-slate-300 text-slate-700 dark:border-slate-400 border-slate-500 bg-transparent dark:placeholder-slate-500 placeholder-slate-700"
+                                            class="no-scrollbar resize-none w-full h-7 text-center pt-[0.15rem] text-sm outline-none rounded-lg border dark:text-slate-300 text-slate-700 dark:border-slate-400 border-slate-500 bg-transparent dark:placeholder-slate-500 placeholder-slate-450"
                                             placeholder="%"
                                             oninput="this.value = this.value.replace(/[^0-9]/g, '').substr(0, 3);"></textarea>
                                     </div>
@@ -351,13 +513,13 @@
                             <div class="max-w-[4.25rem] w-[1000%] mr-2 flex flex-col items-start">
                                 <div class="w-full h-full flex">
                                     <textarea rows="1"
-                                        class="no-scrollbar resize-none w-full h-7 text-center pt-[0.15rem] text-sm outline-none rounded-lg border dark:text-slate-300 text-slate-700 dark:border-slate-400 border-slate-500 bg-transparent dark:placeholder-slate-500 placeholder-slate-700"
+                                        class="no-scrollbar resize-none w-full h-7 text-center pt-[0.15rem] text-sm outline-none rounded-lg border dark:text-slate-300 text-slate-700 dark:border-slate-400 border-slate-500 bg-transparent dark:placeholder-slate-500 placeholder-slate-450"
                                         placeholder="Type"></textarea>
                                 </div>
                                 <div class="mt-1 w-full h-full">
                                     <div class="w-full flex">
                                         <textarea rows="1" inputmode="numeric"
-                                            class="no-scrollbar resize-none w-full h-7 text-center pt-[0.15rem] text-sm outline-none rounded-lg border dark:text-slate-300 text-slate-700 dark:border-slate-400 border-slate-500 bg-transparent dark:placeholder-slate-500 placeholder-slate-700"
+                                            class="no-scrollbar resize-none w-full h-7 text-center pt-[0.15rem] text-sm outline-none rounded-lg border dark:text-slate-300 text-slate-700 dark:border-slate-400 border-slate-500 bg-transparent dark:placeholder-slate-500 placeholder-slate-450"
                                             placeholder="%"
                                             oninput="this.value = this.value.replace(/[^0-9]/g, '').substr(0, 3);"></textarea>
                                     </div>
@@ -389,21 +551,21 @@
                             <!-- Average -->
 
                             <!-- Letter -->
-                            <div class="max-w-[4.25rem] w-[1000%] mr-2 flex flex-col items-start" x-data="{ isChecked: true }">
+                            <div class="max-w-[4.25rem] w-[1000%] mr-2 flex flex-col items-start"
+                                x-data="{ isChecked: true }">
                                 <div class="w-full flex flex-col h-full">
                                     <div class="w-full h-full mr-0.5 text-center text-xs font-light truncate">
                                         Letter Grade
                                     </div>
                                     <div class="w-full h-full mr-0.5 flex items-center text-xs font-light truncate">
-                                        <input x-model="isChecked" type="checkbox" value=""
-                                            class="w-3 h-3 mr-1 ml-0.5">
+                                        <input x-model="isChecked" type="checkbox" value="" class="w-3 h-3 mr-1 ml-0.5">
                                         Auto
                                     </div>
                                 </div>
                                 <div class="mt-1 w-full h-full flex items-end">
                                     <div class="w-full flex">
                                         <textarea rows="1" x-bind:disabled="isChecked"
-                                            class="uppercase no-scrollbar resize-none w-full h-7 text-center pt-[0.15rem] text-sm outline-none rounded-lg border dark:text-slate-300 disabled:opacity-50 disabled:cursor-not-allowed text-slate-700 dark:border-slate-400 border-slate-500 bg-transparent dark:placeholder-slate-500 placeholder-slate-700"
+                                            class="uppercase no-scrollbar resize-none w-full h-7 text-center pt-[0.15rem] text-sm outline-none rounded-lg border dark:text-slate-300 disabled:opacity-50 disabled:cursor-not-allowed text-slate-700 dark:border-slate-400 border-slate-500 bg-transparent dark:placeholder-slate-500 placeholder-slate-450"
                                             placeholder="XX">BA</textarea>
                                     </div>
                                 </div>
