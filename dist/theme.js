@@ -2,23 +2,23 @@ function darkMode() {
     const htmlTag = document.querySelector('html');
 
     htmlTag.classList.add('dark');
-    setCookie('darkMode', 'true', 30);
+    localStorage.setItem('darkMode', 'true');
 }
 
 function lightMode() {
     const htmlTag = document.querySelector('html');
 
     htmlTag.classList.remove('dark');
-    setCookie('darkMode', 'false', 30);
+    localStorage.setItem('darkMode', 'false');
 }
 
 function autoTheme() {
-    if (getCookie('visited') === 'true') {
-        const darkModeCookie = getCookie('darkMode');
+    if (localStorage.getItem('visited') === 'true') {
+        const darkModeStorage = localStorage.getItem('darkMode');
 
-        if (darkModeCookie === 'true') {
+        if (darkModeStorage === 'true') {
             darkMode();
-        } else if (darkModeCookie === 'false'){
+        } else if (darkModeStorage === 'false') {
             lightMode();
         }
     } else {
@@ -28,8 +28,8 @@ function autoTheme() {
             lightMode();
         }
 
-        if(getCookie('visited') === ""){
-            setCookie('visited', 'true', 365);
+        if (localStorage.getItem('visited') !== 'true') {
+            localStorage.setItem('visited', 'true');
         }
     }
 }
