@@ -3,6 +3,7 @@ const dropContainers = document.querySelectorAll('.drop_container');
 
 dropContainers.forEach(dropItems => {
     const sortable = new Sortable(dropItems, {
+        draggable: ".class",
         animation: 300,
         delay:100,
         chosenClass: "sortable-chosen",
