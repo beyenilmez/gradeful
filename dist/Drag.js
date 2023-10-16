@@ -5,7 +5,7 @@ dropContainers.forEach(dropItems => {
     const sortable = new Sortable(dropItems, {
         draggable: ".class",
         animation: 300,
-        delay:100,
+        delay: 115,
         chosenClass: "sortable-chosen",
         dragClass: "sortable-drag",
         ghostClass: "sortable-ghost",
@@ -13,10 +13,11 @@ dropContainers.forEach(dropItems => {
             // Get the current order of elements after a drag-and-drop action
             const currentOrder = sortable.toArray();
 
-console.log(currentOrder)
+            console.log(currentOrder)
 
             // Save the order to localStorage, using the container's unique ID
             localStorage.setItem(`elementOrder-${dropItems.id}`, JSON.stringify(currentOrder));
+            console.log(`elementOrder-${dropItems.id}`, JSON.stringify(currentOrder))
         }
     });
 
