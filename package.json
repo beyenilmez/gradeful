@@ -3,12 +3,14 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
+  "scripts": {},
+  "author": "beyenilmez",
   "license": "ISC",
   "devDependencies": {
     "tailwindcss": "^3.3.3"
+  },
+  "dependencies": {
+    "alpinejs": "^3.13.1",
+    "sortablejs": "^1.15.0"
   }
 }
