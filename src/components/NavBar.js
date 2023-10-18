@@ -1,5 +1,6 @@
 import { Settings } from "react-feather";
 import Button from "./Button";
+import OutsideAlerter from "../utils/OutsideAlerter";
 
 function NavBar() {
     return (
@@ -80,30 +81,42 @@ function NavBar() {
                         </svg>
                     </button>
 
-                    <Button content={<Settings color="" size={"1.75rem"} />}
-                        action={() => { console.log("Settings"); }}
-                    />
+                    <OutsideAlerter>
 
-                    <div
-                        className="absolute mt-64 right-0 w-44 py-2 dark:bg-slate-750 bg-slate-250 border dark:border-slate-700 rounded-lg shadow-lg z-10 dark:text-slate-150 text-slate-800">
+                        <Button content={<Settings color="" size={"1.75rem"} />}
+                            action={() => {
+                                if (document.getElementById("settings-dropdown").style.display != "block") {
+                                    document.getElementById("settings-dropdown").style.display = "block";
+                                }
+                                else {
+                                    document.getElementById("settings-dropdown").style.display = "none";
+                                }
+                            }}
+                        />
 
-                        <button
-                            className="w-full py-1 dark:hover:bg-slate-700 hover:bg-slate-350 dark:active:bg-slate-650 active:bg-slate-400 transition-all duration-100">
-                            Add Semester
-                        </button>
-                        <button
-                            className="w-full py-1 dark:hover:bg-slate-700 hover:bg-slate-350 dark:active:bg-slate-650 active:bg-slate-400 transition-all duration-100 border-t dark:border-slate-700 border-slate-400">
-                            Export
-                        </button>
-                        <button
-                            className="w-full py-1 dark:hover:bg-slate-700 hover:bg-slate-350 dark:active:bg-slate-650 active:bg-slate-400 transition-all duration-100">
-                            Import
-                        </button>
-                        <button
-                            className="w-full py-1 dark:hover:bg-slate-700 hover:bg-slate-350 dark:active:bg-slate-650 active:bg-slate-400 transition-all duration-100 border-t dark:border-slate-700 border-slate-400">
-                            Settings
-                        </button>
-                    </div>
+                        {/* Settings dropdown */}
+                        <div id="settings-dropdown"
+                            className="hidden absolute mt-64 right-0 w-44 py-2 dark:bg-slate-750 bg-slate-250 border dark:border-slate-700 rounded-lg shadow-lg z-10 dark:text-slate-150 text-slate-800">
+
+                            <button
+                                className="w-full py-1 dark:hover:bg-slate-700 hover:bg-slate-350 dark:active:bg-slate-650 active:bg-slate-400 transition-all duration-100">
+                                Add Semester
+                            </button>
+                            <button
+                                className="w-full py-1 dark:hover:bg-slate-700 hover:bg-slate-350 dark:active:bg-slate-650 active:bg-slate-400 transition-all duration-100 border-t dark:border-slate-700 border-slate-400">
+                                Export
+                            </button>
+                            <button
+                                className="w-full py-1 dark:hover:bg-slate-700 hover:bg-slate-350 dark:active:bg-slate-650 active:bg-slate-400 transition-all duration-100">
+                                Import
+                            </button>
+                            <button
+                                className="w-full py-1 dark:hover:bg-slate-700 hover:bg-slate-350 dark:active:bg-slate-650 active:bg-slate-400 transition-all duration-100 border-t dark:border-slate-700 border-slate-400">
+                                Settings
+                            </button>
+                        </div>
+                        {/* Settings dropdown */}
+                    </OutsideAlerter>
                 </div>
             </div>
 
