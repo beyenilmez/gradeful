@@ -1,41 +1,31 @@
 import React, { useRef, useEffect } from "react";
 import PropTypes from "prop-types";
-import NavBar from "../components/NavBar";
 
-/**
- * Hook that alerts clicks outside of the passed ref
- */
-function useOutsideAlerter(ref) {
+function useOutsideAlerter(ref, action) {
     useEffect(() => {
-        /**
-         * Alert if clicked on outside of element
-         */
         function handleClickOutside(event) {
             if (ref.current && !ref.current.contains(event.target)) {
-                document.getElementById("settings-dropdown").style.display = "none";
+                action();
             }
         }
-        // Bind the event listener
         document.addEventListener("mousedown", handleClickOutside);
         return () => {
-            // Unbind the event listener on clean up
             document.removeEventListener("mousedown", handleClickOutside);
         };
-    }, [ref]);
+    }, [ref, action]);
 }
 
-/**
- * Component that alerts if you click outside of it
- */
 function OutsideAlerter(props) {
     const wrapperRef = useRef(null);
-    useOutsideAlerter(wrapperRef);
+
+    useOutsideAlerter(wrapperRef, props.action);
 
     return <div ref={wrapperRef}>{props.children}</div>;
 }
 
 OutsideAlerter.propTypes = {
-    children: PropTypes.element.isRequired
+    children: PropTypes.element.isRequired,
+    action: PropTypes.func.isRequired,
 };
 
 export default OutsideAlerter;
