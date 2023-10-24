@@ -4,7 +4,7 @@ import Button from "./Button";
 import OutsideAlerter from "../utils/OutsideAlerter";
 import { themeDark, themeLight, themeSystem } from "../utils/theme";
 
-function NavBar() {
+function NavBar({ setShowSettings }) {
     let [settingsDropdown, setSettingsDropdown] = useState(false);
     let [themeDropdown, setThemeDropdown] = useState(false);
     let [activeTheme, setActiveTheme] = useState(localStorage.getItem('theme'));
@@ -110,7 +110,7 @@ function NavBar() {
                                 className="w-full py-1 dark:hover:bg-slate-700 hover:bg-slate-350 dark:active:bg-slate-650 active:bg-slate-400 transition-all duration-100">
                                 Import
                             </button>
-                            <button onClick={() => { setSettingsDropdown(false); }}
+                            <button onClick={() => { setSettingsDropdown(false); setShowSettings(true) }}
                                 className="w-full py-1 dark:hover:bg-slate-700 hover:bg-slate-350 dark:active:bg-slate-650 active:bg-slate-400 transition-all duration-100 border-t dark:border-slate-700 border-slate-400">
                                 Settings
                             </button>

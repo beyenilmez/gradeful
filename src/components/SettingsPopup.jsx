@@ -109,25 +109,27 @@ function GradeSettings({ extraClass }) {
   );
 }
 
-function SettingsPopup() {
+function SettingsPopup({ showSettings, setShowSettings }) {
   let [settingsTab, setSettingsTab] = useState("infoSettings");
 
   return (
-    <div className="w-full h-full absolute z-40 top-0 flex justify-center items-center bg-black/[.70] dark:text-slate-300 text-slate-750">
+    <div className={`${showSettings ? "flex" : "hidden"
+      } w-full h-full absolute z-40 top-0 justify-center items-center bg-black/[.70] dark:text-slate-300 text-slate-750`}>
       <div
         className="absolute z-50 md:w-[40rem] w-[80%] rounded-lg flex flex-col dark:bg-slate-650 bg-slate-350 shadow-lg">
         <div className="dark:bg-slate-750 bg-slate-250 w-full h-fit p-1.5 flex items-center justify-between rounded-t-lg">
           <div className="pl-3 text-lg font-semibold">
             Settings
           </div>
-          <Button extraClass={"dark:active:bg-slate-650 active:bg-slate-400"}><X size="1.5rem" /></Button>
+          <Button action={() => setShowSettings(false)} extraClass={"dark:active:bg-slate-650 active:bg-slate-400"}><X size="1.5rem" /></Button>
         </div>
         <div className="md:flex-row flex flex-col min-h-fit h-80">
           <div
             className="dark:bg-slate-700 md:rounded-bl-lg bg-slate-300 p-2 md:h-full h-fit w-full md:w-fit flex md:flex-col md:border-r md:border-b-0 border-b dark:border-slate-500 border-slate-400">
-            <Button action={() => setSettingsTab("infoSettings")} extraClass={`${////dzrtgszfths
-            } w-[80%] md:w-auto md:px-6 md:text-base text-sm truncate py-2 dark:hover:bg-slate-650 dark:active:bg-slate-600 hover:bg-slate-350 active:bg-slate-400`}>Information</Button>
-            <Button action={() => setSettingsTab("gradeSettings")} extraClass={"w-[80%] md:w-auto md:px-6 md:text-base text-sm truncate py-2 dark:hover:bg-slate-650 dark:active:bg-slate-600 hover:bg-slate-350 active:bg-slate-400"}>Grade Scale</Button>
+            <Button action={() => setSettingsTab("infoSettings")} extraClass={`${settingsTab === "infoSettings" ? "dark:bg-slate-600 bg-slate-400" : ""
+              } w-[80%] md:w-auto md:px-6 md:text-base text-sm truncate py-2 dark:hover:bg-slate-650 dark:active:bg-slate-600 hover:bg-slate-350 active:bg-slate-400`}>Information</Button>
+            <Button action={() => setSettingsTab("gradeSettings")} extraClass={`${settingsTab === "gradeSettings" ? "dark:bg-slate-600 bg-slate-400" : ""
+              } w-[80%] md:w-auto md:px-6 md:text-base text-sm truncate py-2 dark:hover:bg-slate-650 dark:active:bg-slate-600 hover:bg-slate-350 active:bg-slate-400 mt-1`}>Grade Scale</Button>
           </div>
           <div className="w-full h-full p-5">
             <InfoSettings extraClass={`${settingsTab === "infoSettings" ? "block" : "hidden"}`} />
