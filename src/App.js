@@ -3,7 +3,7 @@ import NavBar from "./components/NavBar";
 import SettingsPopup from "./components/SettingsPopup";
 import Term from "./components/Term";
 import { ReactSortable } from "react-sortablejs";
-import './css/drag.css';
+//import './css/drag.css';
 
 const termList = [
   {
@@ -34,7 +34,7 @@ function App() {
       <ReactSortable
       //Dragging mobile problem
         chosenClass="sortable-chosen"
-        className="drop_container grid gap-7 grid-cols-1 md:grid-cols-2 m-8 dark:text-slate-200 text-slate-800"
+        className="grid gap-7 grid-cols-1 md:grid-cols-2 m-8 dark:text-slate-200 text-slate-800"
         dragClass="sortable-drag"
         ghostClass="sortable-ghost"
         list={draggableTermList}
@@ -42,6 +42,13 @@ function App() {
         animation="300"
         delay="115"
         easing="ease-out"
+        onEnd={(evt) => {
+          setDraggableTermList(prevList => {
+            const updatedList = [...prevList];
+            console.log(updatedList); // log the updated list
+            return updatedList;
+          });
+        }}
       >
         {draggableTermList.map(item => (
           <Term dataid={item.termId} name={item.termName} ></Term>
