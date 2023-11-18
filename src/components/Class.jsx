@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Button from './Button';
-import { Plus, ChevronRight, Trash } from 'react-feather';
+import { ChevronRight, Edit2 } from 'react-feather';
 
-function Term({ name, children }) {
+function Class({ name, children }) {
     const [isActive, setIsActive] = useState(false);
     const [contentHeight, setContentHeight] = useState('0');
     const [contentTransitionDuration, setContentTransitionDuration] = useState('300ms');
@@ -39,7 +39,7 @@ function Term({ name, children }) {
     };
 
     return (
-        <div className="draggable hover:cursor-pointer dark:bg-slate-750 bg-slate-250 border dark:border-slate-550 border-slate-350 shadow-lg rounded-md h-fit">
+        <div className="draggable font-light hover:cursor-pointer dark:bg-slate-700 bg-slate-300 shadow rounded-md">
 
             <div className="flex items-center justify-between py-1 px-2" onClick={toggleActive}>
                 <div className='flex items-center'>
@@ -48,22 +48,21 @@ function Term({ name, children }) {
                 </div>
 
                 <div className='flex items-center'>
-                    <div className="flex items-center h-[2rem] px-1 mx-1 rounded-lg dark:bg-slate-700 bg-slate-300">
+                    <div className="flex items-center h-7 px-1 mx-1 rounded-lg dark:bg-slate-650 bg-slate-350">
                         <div>
                             0.00
                         </div>
                     </div>
+                    <div className="flex items-center h-7 px-1 mx-1 rounded-lg dark:bg-slate-650 bg-slate-350">
+                        <div>
+                            XX
+                        </div>
+                    </div>
                     <Button action={toggleActive}
-                        className={`h-[2rem] mr-0.5 flex items-center justify-center dark:hover:bg-slate-700 hover:bg-slate-300 dark:active:bg-slate-650 active:bg-slate-400 transition-[width] duration-300 ${isActive ? 'w-[2rem]' : 'w-0'}`}
+                        className={`h-7 mr-0.5 flex items-center justify-center dark:hover:bg-slate-650 hover:bg-slate-350 dark:active:bg-slate-600 active:bg-slate-400 transition-[width] duration-300 ${isActive ? 'w-7' : 'w-0'}`}
                         padding={"0"}
                     >
-                        <Plus size="1.5rem" />
-                    </Button>
-                    <Button action={toggleActive}
-                        className={`h-[2rem] flex items-center justify-center dark:hover:bg-slate-700 hover:bg-slate-300 dark:active:bg-slate-650 active:bg-slate-400 transition-[width] duration-300 ${isActive ? 'w-[2rem]' : 'w-0'}`}
-                        padding={"0"}
-                    >
-                        <Trash size="1.2rem" />
+                        <Edit2 size="1rem" />
                     </Button>
                 </div>
             </div>
@@ -81,4 +80,4 @@ function Term({ name, children }) {
     );
 }
 
-export default Term;
+export default Class;
