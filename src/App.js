@@ -92,49 +92,44 @@ const universityData = {
 
 document.body.className = 'bg-slate-250 dark:bg-slate-750 dark:text-slate-200 text-slate-800';
 
+const sortableOptions = {
+  animation: "300",
+  delay: "115",
+  easing: 'ease-out',
+  draggable: ".draggable",
+  chosenClass: "sortable-chosen",
+  dragClass: "sortable-drag",
+  ghostClass: "sortable-ghost"
+}
+
 function App() {
   let [showSettings, setShowSettings] = useState(false);
-  const [draggableTermList, setDraggableTermList] = useState(universityData.semesters);
-  const [classList, setClassList] = useState();
+  const [termList, setTermList] = useState(universityData.semesters);
+  const classListState = useState();
+  const setClassList = classListState[1];
 
   return (
     <div>
       <NavBar setShowSettings={setShowSettings} />
       <SettingsPopup showSettings={showSettings} setShowSettings={setShowSettings} />
-      <ReactSortable
-        //Dragging mobile problem
-        draggable=".draggable"
-        chosenClass="sortable-chosen"
+      <ReactSortable {...sortableOptions}
         className="grid gap-7 grid-cols-1 md:grid-cols-2 m-8 dark:text-slate-200 text-slate-800"
-        dragClass="sortable-drag"
-        ghostClass="sortable-ghost"
-        list={draggableTermList}
-        setList={setDraggableTermList}
-        animation="300"
-        delay="115"
-        easing="ease-out"
+        list={termList}
+        setList={setTermList}
         onEnd={(evt) => {
-          setDraggableTermList(prevList => {
+          setTermList(prevList => {
             const updatedList = [...prevList];
             console.log(updatedList); // log the updated list
             return updatedList;
           });
         }}
       >
-        {draggableTermList.map((term) => (
+        {termList.map((term) => (
           <Term name={term.name} key={term.name}>
-            <ReactSortable
-              //Dragging mobile problem
-              draggable=".draggable"
-              chosenClass="sortable-chosen"
+            <ReactSortable {...sortableOptions}
               className="grid gap-1 mx-2 pb-1.5 grid-cols-1"
-              dragClass="sortable-drag"
-              ghostClass="sortable-ghost"
               list={term.lessons}
               setList={setClassList}
-              animation="300"
-              delay="115"
-              easing="ease-out"
               onEnd={(evt) => {
                 setClassList(prevList => {
                   const updatedList = [...prevList];
@@ -151,7 +146,7 @@ function App() {
                 </Class>
               ))}
             </ReactSortable>
-            
+
           </Term>
         ))}
       </ReactSortable>
