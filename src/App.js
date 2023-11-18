@@ -4,6 +4,7 @@ import SettingsPopup from "./components/SettingsPopup";
 import Term from "./components/Term";
 import { ReactSortable } from "react-sortablejs";
 //import './css/drag.css';
+//import Accordion from "./components/Accordion";
 
 const termList = [
   {
@@ -17,6 +18,10 @@ const termList = [
   {
     termName: "Term 3",
     termId: "3"
+  },
+  {
+    termName: "Term 4",
+    termId: "4"
   },
 ];
 
@@ -32,7 +37,8 @@ function App() {
       <NavBar setShowSettings={setShowSettings} />
       <SettingsPopup showSettings={showSettings} setShowSettings={setShowSettings} />
       <ReactSortable
-      //Dragging mobile problem
+        //Dragging mobile problem
+        draggable=".draggable"
         chosenClass="sortable-chosen"
         className="grid gap-7 grid-cols-1 md:grid-cols-2 m-8 dark:text-slate-200 text-slate-800"
         dragClass="sortable-drag"
@@ -51,7 +57,7 @@ function App() {
         }}
       >
         {draggableTermList.map(item => (
-          <Term dataid={item.termId} name={item.termName} ></Term>
+          <Term name={item.termName} >aff</Term>
         ))}
       </ReactSortable>
     </div>

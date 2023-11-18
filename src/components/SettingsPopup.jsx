@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { X } from 'react-feather';
 import Button from './Button';
 
-function InfoSettings({ extraClass }) {
+function InfoSettings({ className }) {
   return (
-    <div className={`${extraClass} h-full flex flex-col`}>
+    <div className={`${className} h-full flex flex-col`}>
       <div className="w-full mr-2 flex flex-col items-start mb-3">
         <div className="w-full h-full flex">
           <div className="w-full h-full mr-0.5 text-xs">
@@ -47,9 +47,9 @@ function InfoSettings({ extraClass }) {
   );
 }
 
-function GradeSettings({ extraClass }) {
+function GradeSettings({ className }) {
   return (
-    <div className={`${extraClass} h-full flex flex-col`}>
+    <div className={`${className} h-full flex flex-col`}>
 
       <div class="w-full mr-2 flex flex-col items-start mb-3">
         <div class="w-full h-full flex">
@@ -121,19 +121,19 @@ function SettingsPopup({ showSettings, setShowSettings }) {
           <div className="pl-3 text-lg font-semibold">
             Settings
           </div>
-          <Button action={() => setShowSettings(false)} extraClass={"dark:active:bg-slate-650 active:bg-slate-400"}><X size="1.5rem" /></Button>
+          <Button action={() => setShowSettings(false)} className={"dark:active:bg-slate-650 active:bg-slate-400"}><X size="1.5rem" /></Button>
         </div>
         <div className="md:flex-row flex flex-col min-h-fit h-80">
           <div
             className="dark:bg-slate-700 md:rounded-bl-lg bg-slate-300 p-2 md:h-full h-fit w-full md:w-fit flex md:flex-col md:border-r md:border-b-0 border-b dark:border-slate-500 border-slate-400">
-            <Button action={() => setSettingsTab("infoSettings")} extraClass={`${settingsTab === "infoSettings" ? "dark:bg-slate-600 bg-slate-400" : ""
+            <Button action={() => setSettingsTab("infoSettings")} className={`${settingsTab === "infoSettings" ? "dark:bg-slate-600 bg-slate-400" : ""
               } w-[80%] md:w-auto md:px-6 md:text-base text-sm truncate py-2 dark:hover:bg-slate-650 dark:active:bg-slate-600 hover:bg-slate-350 active:bg-slate-400`}>Information</Button>
-            <Button action={() => setSettingsTab("gradeSettings")} extraClass={`${settingsTab === "gradeSettings" ? "dark:bg-slate-600 bg-slate-400" : ""
+            <Button action={() => setSettingsTab("gradeSettings")} className={`${settingsTab === "gradeSettings" ? "dark:bg-slate-600 bg-slate-400" : ""
               } w-[80%] md:w-auto md:px-6 md:text-base text-sm truncate py-2 dark:hover:bg-slate-650 dark:active:bg-slate-600 hover:bg-slate-350 active:bg-slate-400 mt-1`}>Grade Scale</Button>
           </div>
           <div className="w-full h-full p-5">
-            <InfoSettings extraClass={`${settingsTab === "infoSettings" ? "block" : "hidden"}`} />
-            <GradeSettings extraClass={`${settingsTab === "gradeSettings" ? "block" : "hidden"}`} />
+            <InfoSettings className={`${settingsTab === "infoSettings" ? "block" : "hidden"}`} />
+            <GradeSettings className={`${settingsTab === "gradeSettings" ? "block" : "hidden"}`} />
           </div>
         </div>
       </div>
