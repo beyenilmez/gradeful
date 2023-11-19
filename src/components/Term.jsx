@@ -2,8 +2,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import Button from './Button';
 import { Plus, ChevronRight, Trash } from 'react-feather';
 
-function Term({ name, children }) {
-    const [isActive, setIsActive] = useState(false);
+function Term({ name, expand, children }) {
+    const [isActive, setIsActive] = useState(expand ? true : false);
     const [contentHeight, setContentHeight] = useState('0');
     const [contentTransitionDuration, setContentTransitionDuration] = useState('300ms');
     const childrenRef = useRef(null);

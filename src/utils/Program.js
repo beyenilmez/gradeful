@@ -3,7 +3,7 @@ var grades;
 var multipliers;
 
 // University class definition
-export class University {
+window.University = class University {
     // Default values for university properties
     name = "My University";
     faculty = "My Faculty";
@@ -42,20 +42,13 @@ export class University {
             return (this.semesters.reduce((a, b) => a + (b.average() * (b.active ? b.totalCredit() : 0)), 0) / totalCredit);
         }
     }
-
-    // Method to load university data
-    async load(data) {
-        // Read data from the JSON file
-        const loadedUni = JSON.parse(data);
-
-        console.log(loadedUni);
-
-    }
 }
 
 // Semester class definition
 class Semester {
+    name = "New Term";
     active = true;
+    expanded = false;
 
     lessons = [];
 
@@ -91,6 +84,8 @@ class Lesson {
     name;
     credit;
     grades = [];
+
+    expanded = false;
 
     constructor(name, credit) {
         this.name = name;

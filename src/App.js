@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import NavBar from "./components/NavBar";
 import SettingsPopup from "./components/SettingsPopup";
 import Term from "./components/Term";
@@ -6,88 +6,7 @@ import { ReactSortable } from "react-sortablejs";
 //import './css/drag.css';
 //import Accordion from "./components/Accordion";
 import Class from './components/Class';
-//import { University } from './utils/Program';
-
-const universityData = {
-  "name": "My University",
-  "faculty": "My Faculty",
-  "department": "My Department",
-  "semesters": [
-    {
-      "name": "Term 1",
-      "active": true,
-      "lessons": [
-        {
-          "name": "Mathematics",
-          "credit": 3,
-          "grades": [
-            { "name": "final", "value": 95, "percentage": 40 },
-            { "name": "midterm", "value": 85, "percentage": 30 },
-            { "name": "quiz", "value": 75, "percentage": 30 }
-          ]
-        },
-        {
-          "name": "Physics",
-          "credit": 4,
-          "grades": [
-            { "name": "final", "value": 90, "percentage": 50 },
-            { "name": "midterm", "value": 80, "percentage": 25 },
-            { "name": "quiz", "value": 85, "percentage": 25 }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "Term 2",
-      "active": true,
-      "lessons": [
-        {
-          "name": "Computer Science",
-          "credit": 3,
-          "grades": [
-            { "name": "final", "value": 85, "percentage": 50 },
-            { "name": "midterm", "value": 75, "percentage": 30 },
-            { "name": "quiz", "value": 80, "percentage": 20 }
-          ]
-        },
-        {
-          "name": "History",
-          "credit": 2,
-          "grades": [
-            { "name": "final", "value": 80, "percentage": 60 },
-            { "name": "midterm", "value": 70, "percentage": 20 },
-            { "name": "quiz", "value": 75, "percentage": 20 }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "Term 3",
-      "active": false,
-      "lessons": [
-        {
-          "name": "Literature",
-          "credit": 2,
-          "grades": [
-            { "name": "final", "value": 85, "percentage": 40 },
-            { "name": "midterm", "value": 80, "percentage": 30 },
-            { "name": "quiz", "value": 75, "percentage": 30 }
-          ]
-        },
-        {
-          "name": "Biology",
-          "credit": 3,
-          "grades": [
-            { "name": "final", "value": 90, "percentage": 50 },
-            { "name": "midterm", "value": 85, "percentage": 25 },
-            { "name": "quiz", "value": 80, "percentage": 25 }
-          ]
-        }
-      ]
-    }
-  ]
-};
-
+import './utils/Program';
 
 
 document.body.className = 'bg-slate-250 dark:bg-slate-750 dark:text-slate-200 text-slate-800';
@@ -103,10 +22,21 @@ const sortableOptions = {
 }
 
 function App() {
+  //const jsonData = '{"name":"My University","faculty":"My Faculty","department":"My Department","semesters":[{"name":"Term 1","active":true,"expanded":false,"lessons":[{"name":"Mathematics","credit":3,"expanded":false,"grades":[{"name":"final","value":95,"percentage":40},{"name":"midterm","value":85,"percentage":30},{"name":"quiz","value":75,"percentage":30}]},{"name":"Physics","credit":4,"expanded":false,"grades":[{"name":"final","value":90,"percentage":50},{"name":"midterm","value":80,"percentage":25},{"name":"quiz","value":85,"percentage":25}]}]},{"name":"Term 2","active":true,"expanded":false,"lessons":[{"name":"Computer Science","credit":3,"expanded":false,"grades":[{"name":"final","value":85,"percentage":50},{"name":"midterm","value":75,"percentage":30},{"name":"quiz","value":80,"percentage":20}]},{"name":"History","credit":2,"expanded":false,"grades":[{"name":"final","value":80,"percentage":60},{"name":"midterm","value":70,"percentage":20},{"name":"quiz","value":75,"percentage":20}]}]},{"name":"Term 3","active":false,"lessons":[{"name":"Literature","credit":2,"expanded":false,"grades":[{"name":"final","value":85,"percentage":40},{"name":"midterm","value":80,"percentage":30},{"name":"quiz","value":75,"percentage":30}]},{"name":"Biology","credit":3,"expanded":false,"grades":[{"name":"final","value":90,"percentage":50},{"name":"midterm","value":85,"percentage":25},{"name":"quiz","value":80,"percentage":25}]}]}]}';
+  const uni = useMemo(() => new window.University(), []);
+  //const [universityData, setUniversityData] = useState(JSON.parse(jsonData));
+  const [universityData, setUniversityData] = useState(localStorage.getItem('university') ? JSON.parse(localStorage.getItem('university')) : uni);
+
   let [showSettings, setShowSettings] = useState(false);
   const [termList, setTermList] = useState(universityData.semesters);
   const classListState = useState();
   const setClassList = classListState[1];
+
+  useEffect(() => {
+    console.log(universityData);
+    localStorage.setItem('university', JSON.stringify(universityData));
+  }, [universityData, uni])
+
 
   return (
     <div>
@@ -119,13 +49,14 @@ function App() {
         onEnd={(evt) => {
           setTermList(prevList => {
             const updatedList = [...prevList];
-            console.log(updatedList); // log the updated list
+            setUniversityData({ ...universityData, semesters: updatedList });
+
             return updatedList;
           });
         }}
       >
         {termList.map((term) => (
-          <Term name={term.name} key={term.name}>
+          <Term name={term.name} expand={term.expanded}>
             <ReactSortable {...sortableOptions}
               className="grid gap-1 mx-2 pb-1.5 grid-cols-1"
               list={term.lessons}
@@ -133,9 +64,10 @@ function App() {
               onEnd={(evt) => {
                 setClassList(prevList => {
                   const updatedList = [...prevList];
-                  console.log(updatedList); // log the updated list
-                  // update the termlist 
                   term.lessons = updatedList;
+
+                  setUniversityData({ ...universityData, semesters: termList });
+
                   return updatedList;
                 });
               }}
