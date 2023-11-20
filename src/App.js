@@ -37,7 +37,6 @@ function App() {
     localStorage.setItem('university', JSON.stringify(universityData));
   }, [universityData, uni])
 
-
   return (
     <div>
       <NavBar setShowSettings={setShowSettings} />

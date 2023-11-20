@@ -3,7 +3,7 @@ var grades;
 var multipliers;
 
 // University class definition
-window.University = class University {
+window.University =  class University {
     // Default values for university properties
     name = "My University";
     faculty = "My Faculty";

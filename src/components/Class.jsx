@@ -59,8 +59,9 @@ function Class({ name, children }) {
                         </div>
                     </div>
                     <Button action={toggleActive}
-                        className={`h-7 mr-0.5 flex items-center justify-center dark:hover:bg-slate-650 hover:bg-slate-350 dark:active:bg-slate-600 active:bg-slate-400 transition-[width] duration-300 ${isActive ? 'w-7' : 'w-0'}`}
+                        className={`h-7 mr-0.5 flex items-center justify-center dark:hover:bg-slate-650 hover:bg-slate-350 dark:active:bg-slate-600 active:bg-slate-400 ${isActive ? 'w-7' : 'w-0'}`}
                         padding={"0"}
+                        transition={"transition-[width] duration-300"}
                     >
                         <Edit2 size="1rem" />
                     </Button>
