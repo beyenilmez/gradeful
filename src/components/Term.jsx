@@ -2,14 +2,14 @@ import React, { useState, useRef, useEffect } from 'react';
 import Button from './Button';
 import { Plus, ChevronRight, Trash } from 'react-feather';
 
-function Term({ name, expand, children }) {
-    const [isActive, setIsActive] = useState(expand ? true : false);
+function Term({ name, children }) {
+    const [isActive, setIsActive] = useState(false);
     const [contentHeight, setContentHeight] = useState('0');
     const [contentTransitionDuration, setContentTransitionDuration] = useState('300ms');
     const childrenRef = useRef(null);
 
     const toggleActive = () => {
-        setIsActive((prevActive) => !prevActive);
+        setIsActive(!isActive);
     };
 
     useEffect(() => {
@@ -26,8 +26,6 @@ function Term({ name, expand, children }) {
                     }, 10);
                 }, 10);
             }, 10);
-
-
         }
     }, [isActive]);
 
