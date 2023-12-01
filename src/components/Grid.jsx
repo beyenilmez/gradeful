@@ -5,10 +5,11 @@ import Class from './Class';
 import '../utils/Program';
 
 const sortableOptions = {
-    animation: "300",
-    delay: "115",
+    animation: "150",
+    //delay: "50",
     easing: 'ease-out',
     draggable: ".draggable",
+    handle: ".handle",
     //chosenClass: "sortable-chosen",
     //dragClass: "sortable-drag",
     //ghostClass: "sortable-ghost"
@@ -26,7 +27,10 @@ function Grid({ universityData, setUniversityData }) {
                 {...sortableOptions}
             >
                 {universityData.semesters.map((term, index) => (
-                    <Term key={term.index} name={term.name}>
+                    <Term key={term.index} name={term.name} isActive={term.expanded} setActive={(value) => {
+                        term.expanded = value;
+                        setUniversityData({ ...universityData, semesters: [...universityData.semesters] });
+                    }}>
                         <ReactSortable
                             list={term.lessons}
                             setList={(newList) => {
@@ -36,7 +40,9 @@ function Grid({ universityData, setUniversityData }) {
                             {...sortableOptions}
                         >
                             {term.lessons.map((lesson) => (
-                                <Class name={lesson.name} credit={lesson.credit}/>
+                                <Class name={lesson.name} credit={lesson.credit}>
+                                    {lesson.credit}
+                                </Class>
                             ))}
                         </ReactSortable>
                     </Term>

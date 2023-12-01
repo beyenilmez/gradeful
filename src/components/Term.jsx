@@ -1,16 +1,20 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Button from './Button';
-import { Plus, ChevronRight, Trash } from 'react-feather';
+import { Plus, ChevronRight, Trash, Move } from 'react-feather';
+import { act } from 'react-dom/test-utils';
 
-function Term({ name, children }) {
-    const [isActive, setIsActive] = useState(false);
+function Term({ name, children, isActive, setActive, inactive }) {
     const [contentHeight, setContentHeight] = useState('0');
     const [contentTransitionDuration, setContentTransitionDuration] = useState('300ms');
     const childrenRef = useRef(null);
 
     const toggleActive = () => {
-        setIsActive(!isActive);
+        setActive(!isActive);
     };
+
+    useEffect(() => {
+        isActive = !inactive;
+    }, [inactive])
 
     useEffect(() => {
         if (isActive) {
@@ -37,10 +41,11 @@ function Term({ name, children }) {
     };
 
     return (
-        <div className="draggable hover:cursor-pointer dark:bg-slate-750 bg-slate-250 border dark:border-slate-550 border-slate-350 shadow-lg rounded-md h-fit">
+        <div className="draggable hover:cursor-pointer dark:bg-slate-750 bg-slate-250 border dark:border-slate-550 border-slate-350 shadow-lg rounded-md h-fit overflow-hidden">
 
             <div className="flex items-center justify-between py-1 px-2" onClick={toggleActive}>
                 <div className='flex items-center'>
+                    <Move size="1.5rem" className={`handle mr-1 transform transition-transform duration-300`} />
                     <ChevronRight size="1.5rem" className={`mr-1 transform transition-transform duration-300 ${isActive ? 'rotate-90' : ''}`} />
                     <div className="flex h-full">{name}</div>
                 </div>

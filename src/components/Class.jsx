@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Button from './Button';
-import { ChevronRight, Edit2 } from 'react-feather';
+import { ChevronRight, Edit2, Move } from 'react-feather';
 
 function Class({ name, children }) {
     const [isActive, setIsActive] = useState(false);
@@ -39,10 +39,11 @@ function Class({ name, children }) {
     };
 
     return (
-        <div className="draggable font-light hover:cursor-pointer dark:bg-slate-700 bg-slate-300 shadow rounded-md">
+        <div className="draggable font-light hover:cursor-pointer dark:bg-slate-700 bg-slate-300 shadow border-t dark:border-slate-550 border-slate-350">
 
-            <div className="flex items-center justify-between py-1 px-2" onClick={toggleActive}>
+            <div className="flex items-center justify-between py-1 px-2 group" onClick={toggleActive}>
                 <div className='flex items-center'>
+                    <Move size="1.5rem" className={`handle  mr-1 transform transition-transform duration-300`} />
                     <ChevronRight size="1.5rem" className={`mr-1 transform transition-transform duration-300 ${isActive ? 'rotate-90' : ''}`} />
                     <div className="flex h-full">{name}</div>
                 </div>
