@@ -1,23 +1,23 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Button from './Button';
 import { Plus, ChevronRight, Trash, Move } from 'react-feather';
-import { act } from 'react-dom/test-utils';
+import { useInactive } from './InactiveContext';
 
-function Term({ name, children, isActive, setActive, inactive }) {
+function Term({ name, children, isActive, setActive }) {
     const [contentHeight, setContentHeight] = useState('0');
     const [contentTransitionDuration, setContentTransitionDuration] = useState('300ms');
     const childrenRef = useRef(null);
 
+    const { inactive } = useInactive();
+
     const toggleActive = () => {
-        setActive(!isActive);
+        if(!inactive){
+            setActive(!isActive);
+        }
     };
 
     useEffect(() => {
-        isActive = !inactive;
-    }, [inactive])
-
-    useEffect(() => {
-        if (isActive) {
+        if (isActive && !inactive) {
             setContentTransitionDuration('300ms')
             setContentHeight(`${childrenRef.current.scrollHeight}px`);
         } else {
@@ -31,10 +31,10 @@ function Term({ name, children, isActive, setActive, inactive }) {
                 }, 10);
             }, 10);
         }
-    }, [isActive]);
+    }, [isActive, inactive]);
 
     const handleTransitionEnd = () => {
-        if (isActive) {
+        if (isActive && !inactive) {
             setContentHeight('100%');
             setContentTransitionDuration('0ms')
         }
@@ -46,7 +46,7 @@ function Term({ name, children, isActive, setActive, inactive }) {
             <div className="flex items-center justify-between py-1 px-2" onClick={toggleActive}>
                 <div className='flex items-center'>
                     <Move size="1.5rem" className={`handle mr-1 transform transition-transform duration-300`} />
-                    <ChevronRight size="1.5rem" className={`mr-1 transform transition-transform duration-300 ${isActive ? 'rotate-90' : ''}`} />
+                    <ChevronRight size="1.5rem" className={`mr-1 transform transition-transform duration-300 ${isActive && !inactive ? 'rotate-90' : ''}`} />
                     <div className="flex h-full">{name}</div>
                 </div>
 

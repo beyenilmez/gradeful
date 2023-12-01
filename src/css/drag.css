@@ -2,7 +2,7 @@
 .sortable-chosen {
     --tw-drop-shadow: drop-shadow(0 25px 25px rgb(0 0 0 / 0.15));
     filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
-    scale: 1.01;
+    /*scale: 1.01;*/
 }
 
 /* Class for the dragging item */
@@ -12,12 +12,11 @@
 
 /* Class for the ghost item */
 .sortable-ghost {
-    opacity: 1;
+    opacity: 0.6;
 }
-/*
+
 @media (max-width: 768px) {
     .sortable-ghost {
-        opacity: 0;
+        opacity: 0.3;
     }
 }
-*/
