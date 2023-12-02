@@ -9,7 +9,7 @@ function uniqid(prefix = "") {
 };
 
 // University class definition
-window.University = class University {
+export class University {
     // Default values for university properties
     name = "My University";
     faculty = "My Faculty";
@@ -36,6 +36,9 @@ window.University = class University {
 
     // Method to add a new semester
     addSemester(name) {
+        if (name === null || name === "" || name === undefined) {
+            name = "Term " + (this.semesters.length + 1);
+        }
         this.semesters.push(new Semester(name));
     }
 
@@ -43,8 +46,12 @@ window.University = class University {
         return this.semesters;
     }
 
-    getSemester(key){
-        return this.semesters.find((s) => s.key === key);
+    getSemesterById(id) {
+        return this.semesters.find(term => term.id === id);
+    }
+
+    getSemesterIndex(id) {
+        return this.semesters.findIndex(term => term.id === id);
     }
 
     average() {
@@ -77,12 +84,16 @@ window.University = class University {
     getData() {
         return this;
     }
+
+    clone() {
+        return JSON.parse(JSON.stringify(this));
+    }
 }
 
 // Semester class definition
-class Semester {
+export class Semester {
     name = "New Term";
-    key = uniqid();
+    id = uniqid();
     active = true;
     expanded = false;
 
@@ -96,7 +107,7 @@ class Semester {
 
     // Method to add a new lesson to the semester
     addLesson(name, credit) {
-        if (name === null || name === "") {
+        if (name === null || name === "" || name === undefined) {
             name = "Lesson " + (this.lessons.length + 1);
         }
         if (credit === null || credit === "") {
@@ -116,15 +127,30 @@ class Semester {
         }
     }
 
+    load(JSONData) {
+        const loadedSem = JSONData;
+
+        // Recreate instances of Lesson
+        loadedSem.lessons.forEach((lesson) => {
+            lesson.__proto__ = new Lesson(); // Create a new Lesson instance
+        })
+
+        Object.assign(this, loadedSem);
+    }
+
     totalCredit() {
         return this.lessons.reduce((a, b) => a + b.credit, 0);
+    }
+
+    clone() {
+        return JSON.parse(JSON.stringify(this));
     }
 }
 
 // Lesson class definition
-class Lesson {
+export class Lesson {
     name;
-    key = uniqid();
+    id = uniqid();
     credit;
     grades = [];
 
@@ -167,6 +193,10 @@ class Lesson {
             }
         }
         return multipliers[multipliers.length - 1];
+    }
+
+    clone() {
+        return JSON.parse(JSON.stringify(this));
     }
 }
 

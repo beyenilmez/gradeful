@@ -2,9 +2,10 @@ import React, { useState, useRef, useEffect } from 'react';
 import Button from './Button';
 import { Plus, ChevronRight, Trash, Move } from 'react-feather';
 import { useInactive } from './InactiveContext';
-import { useUni } from './UniContext';
+import { useUni, useUniData } from './UniContext';
+import { Semester, University } from "../utils/Program";
 
-function Term({ key, name, children, isActive, setActive }) {
+function Term({ id, name, children, isActive, setActive }) {
     const [contentHeight, setContentHeight] = useState('0');
     const [contentTransitionDuration, setContentTransitionDuration] = useState('300ms');
     const childrenRef = useRef(null);
@@ -12,9 +13,10 @@ function Term({ key, name, children, isActive, setActive }) {
     const { inactive } = useInactive();
 
     const uni = useUni();
+    const { universityData, setUniversityData } = useUniData();
 
     const toggleActive = () => {
-        if(!inactive){
+        if (!inactive) {
             setActive(!isActive);
         }
     };
@@ -59,9 +61,13 @@ function Term({ key, name, children, isActive, setActive }) {
                             0.00
                         </div>
                     </div>
-                    <Button action={() => { 
-                        toggleActive(); 
-                        console.log(key); }}
+                    <Button action={() => {
+                        let semester = new Semester();
+                        semester.load(uni.getSemesterById(id));
+                        semester.addLesson();
+                        uni.getSemesters()[uni.getSemesterIndex(id)] = semester.clone();
+                        setUniversityData(uni.clone());
+                    }}
                         className={`h-[2rem] flex items-center justify-center dark:hover:bg-slate-700 hover:bg-slate-300 dark:active:bg-slate-650 active:bg-slate-400 ${isActive ? 'w-[2rem]' : 'w-0'}`}
                         padding={"0"}
                         transition={"transition-[width] duration-300"}

@@ -4,6 +4,7 @@ import { ReactSortable } from "react-sortablejs";
 import Class from './Class';
 import '../utils/Program';
 import { useInactive } from "./InactiveContext";
+import { useUniData } from "./UniContext";
 
 import '../css/drag.css';
 
@@ -18,8 +19,9 @@ const sortableOptions = {
     ghostClass: "sortable-ghost"
 }
 
-function Grid({ universityData, setUniversityData }) {
+function Grid() {
     const { inactive, setInactive } = useInactive();
+    const { universityData, setUniversityData } = useUniData();
 
     return (
         <React.Fragment>
@@ -40,7 +42,7 @@ function Grid({ universityData, setUniversityData }) {
                 {...sortableOptions}
             >
                 {universityData.semesters.map((term, index) => (
-                    <Term key={term.key} name={term.name} isActive={term.expanded} setActive={(value) => {
+                    <Term key={term.id} id={term.id} name={term.name} isActive={term.expanded} setActive={(value) => {
                         term.expanded = value;
                         setUniversityData({ ...universityData, semesters: [...universityData.semesters] });
                     }}>
@@ -53,7 +55,7 @@ function Grid({ universityData, setUniversityData }) {
                             {...sortableOptions}
                         >
                             {term.lessons.map((lesson) => (
-                                <Class key={lesson.name} name={lesson.name} credit={lesson.credit}>
+                                <Class key={lesson.id} id={lesson.id} name={lesson.name} credit={lesson.credit}>
                                     {lesson.credit}
                                 </Class>
                             ))}

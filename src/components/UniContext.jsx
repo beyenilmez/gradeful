@@ -1,15 +1,20 @@
-import { createContext, useContext } from 'react';
-import '../utils/Program'; // Import the University class from the appropriate file
+import { createContext, useContext, useState, useMemo, useEffect } from 'react';
+import { University } from '../utils/Program'; // Import the University class from the appropriate file
 
 // Create a context
 const UniContext = createContext();
 
 // Create a provider component to wrap the parts of the app that need access to the University instance
 export const UniProvider = ({ children }) => {
-  const uni = new window.University(); // Create an instance of the University class
+  const uni = useMemo(() => new University(), []);
+  const [universityData, setUniversityData] = useState(uni);
+
+  useEffect(() => {
+    uni.load(universityData);
+  }, [universityData, uni])
 
   return (
-    <UniContext.Provider value={{ uni }}>
+    <UniContext.Provider value={{ uni, universityData, setUniversityData }}>
       {children}
     </UniContext.Provider>
   );
@@ -20,3 +25,7 @@ export const useUni = () => {
   const { uni } = useContext(UniContext);
   return uni;
 };
+
+export const useUniData = () => {
+  return useContext(UniContext);
+}

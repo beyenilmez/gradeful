@@ -98,7 +98,7 @@ function NavBar({ setShowSettings, addTerm }) {
                             } absolute mt-1 right-0 w-44 py-2 dark:bg-slate-750 bg-slate-250 border dark:border-slate-700 rounded-lg shadow-lg z-10 dark:text-slate-150 text-slate-800`}
                         >
 
-                            <button onClick={() => { setSettingsDropdown(false); addTerm("New Term"); }}
+                            <button onClick={() => { setSettingsDropdown(false); addTerm(); }}
                                 className="w-full py-1 dark:hover:bg-slate-700 hover:bg-slate-350 dark:active:bg-slate-650 active:bg-slate-400 transition-all duration-100">
                                 Add Semester
                             </button>
