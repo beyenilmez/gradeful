@@ -4,7 +4,7 @@ import Button from "./Button";
 import OutsideAlerter from "../utils/OutsideAlerter";
 import { themeDark, themeLight, themeSystem } from "../utils/theme";
 
-function NavBar({ setShowSettings }) {
+function NavBar({ setShowSettings, addTerm }) {
     let [settingsDropdown, setSettingsDropdown] = useState(false);
     let [themeDropdown, setThemeDropdown] = useState(false);
     let [activeTheme, setActiveTheme] = useState(localStorage.getItem('theme'));
@@ -98,10 +98,11 @@ function NavBar({ setShowSettings }) {
                             } absolute mt-1 right-0 w-44 py-2 dark:bg-slate-750 bg-slate-250 border dark:border-slate-700 rounded-lg shadow-lg z-10 dark:text-slate-150 text-slate-800`}
                         >
 
-                            <button onClick={() => { setSettingsDropdown(false); }}
+                            <button onClick={() => { setSettingsDropdown(false); addTerm("New Term"); }}
                                 className="w-full py-1 dark:hover:bg-slate-700 hover:bg-slate-350 dark:active:bg-slate-650 active:bg-slate-400 transition-all duration-100">
                                 Add Semester
                             </button>
+
                             <button onClick={() => { setSettingsDropdown(false); }}
                                 className="w-full py-1 dark:hover:bg-slate-700 hover:bg-slate-350 dark:active:bg-slate-650 active:bg-slate-400 transition-all duration-100 border-t dark:border-slate-700 border-slate-400">
                                 Export
@@ -110,7 +111,7 @@ function NavBar({ setShowSettings }) {
                                 className="w-full py-1 dark:hover:bg-slate-700 hover:bg-slate-350 dark:active:bg-slate-650 active:bg-slate-400 transition-all duration-100">
                                 Import
                             </button>
-                            <button onClick={() => { setSettingsDropdown(false); setShowSettings(true) }}
+                            <button onClick={() => { setSettingsDropdown(false); setShowSettings(true); }}
                                 className="w-full py-1 dark:hover:bg-slate-700 hover:bg-slate-350 dark:active:bg-slate-650 active:bg-slate-400 transition-all duration-100 border-t dark:border-slate-700 border-slate-400">
                                 Settings
                             </button>

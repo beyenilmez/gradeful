@@ -40,7 +40,7 @@ function Grid({ universityData, setUniversityData }) {
                 {...sortableOptions}
             >
                 {universityData.semesters.map((term, index) => (
-                    <Term key={term.index} name={term.name} isActive={term.expanded} setActive={(value) => {
+                    <Term key={term.key} name={term.name} isActive={term.expanded} setActive={(value) => {
                         term.expanded = value;
                         setUniversityData({ ...universityData, semesters: [...universityData.semesters] });
                     }}>

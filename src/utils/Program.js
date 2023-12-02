@@ -2,6 +2,12 @@ var letters;
 var grades;
 var multipliers;
 
+function uniqid(prefix = "") {
+    const sec = Date.now() * 1000 + Math.random() * 1000;
+    const id = sec.toString(16).replace(/\./g, "").padEnd(14, "0");
+    return `${prefix}${id}${`.${Math.trunc(Math.random() * 100000000)}`}`;
+};
+
 // University class definition
 window.University = class University {
     // Default values for university properties
@@ -13,13 +19,13 @@ window.University = class University {
     semesters = [];
 
     constructor(name, faculty, department) {
-        if (name !== null && name !== "") {
+        if (name !== null && name !== "" && name !== undefined) {
             this.name = name;
         }
-        if (faculty !== null && faculty !== "") {
+        if (faculty !== null && faculty !== "" && faculty !== undefined) {
             this.faculty = faculty;
         }
-        if (department !== null && department !== "") {
+        if (department !== null && department !== "" && department !== undefined) {
             this.department = department;
         }
 
@@ -29,8 +35,16 @@ window.University = class University {
     }
 
     // Method to add a new semester
-    addSemester() {
-        this.semesters.push(new Semester());
+    addSemester(name) {
+        this.semesters.push(new Semester(name));
+    }
+
+    getSemesters() {
+        return this.semesters;
+    }
+
+    getSemester(key){
+        return this.semesters.find((s) => s.key === key);
     }
 
     average() {
@@ -42,15 +56,43 @@ window.University = class University {
             return (this.semesters.reduce((a, b) => a + (b.average() * (b.active ? b.totalCredit() : 0)), 0) / totalCredit);
         }
     }
+
+    load(JSONData) {
+        const loadedUni = JSONData;
+
+        // Recreate instances of Lesson and Grade
+        loadedUni.semesters.forEach((semester) => {
+            semester.lessons.forEach((lesson) => {
+                lesson.__proto__ = new Lesson(); // Create a new Lesson instance
+                lesson.grades.forEach((grade) => {
+                    grade.__proto__ = new Grade(); // Create a new Grade instance
+                });
+            });
+        });
+
+        // Merge loaded data into the current instance
+        Object.assign(this, loadedUni);
+    }
+
+    getData() {
+        return this;
+    }
 }
 
 // Semester class definition
 class Semester {
     name = "New Term";
+    key = uniqid();
     active = true;
     expanded = false;
 
     lessons = [];
+
+    constructor(name) {
+        if (name !== null && name !== "" && name !== undefined) {
+            this.name = name;
+        }
+    }
 
     // Method to add a new lesson to the semester
     addLesson(name, credit) {
@@ -82,6 +124,7 @@ class Semester {
 // Lesson class definition
 class Lesson {
     name;
+    key = uniqid();
     credit;
     grades = [];
 

@@ -2,13 +2,16 @@ import React, { useState, useRef, useEffect } from 'react';
 import Button from './Button';
 import { Plus, ChevronRight, Trash, Move } from 'react-feather';
 import { useInactive } from './InactiveContext';
+import { useUni } from './UniContext';
 
-function Term({ name, children, isActive, setActive }) {
+function Term({ key, name, children, isActive, setActive }) {
     const [contentHeight, setContentHeight] = useState('0');
     const [contentTransitionDuration, setContentTransitionDuration] = useState('300ms');
     const childrenRef = useRef(null);
 
     const { inactive } = useInactive();
+
+    const uni = useUni();
 
     const toggleActive = () => {
         if(!inactive){
@@ -56,7 +59,9 @@ function Term({ name, children, isActive, setActive }) {
                             0.00
                         </div>
                     </div>
-                    <Button action={toggleActive}
+                    <Button action={() => { 
+                        toggleActive(); 
+                        console.log(key); }}
                         className={`h-[2rem] flex items-center justify-center dark:hover:bg-slate-700 hover:bg-slate-300 dark:active:bg-slate-650 active:bg-slate-400 ${isActive ? 'w-[2rem]' : 'w-0'}`}
                         padding={"0"}
                         transition={"transition-[width] duration-300"}
