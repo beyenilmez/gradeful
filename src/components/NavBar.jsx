@@ -47,7 +47,7 @@ function NavBar({ setShowSettings, addTerm }) {
                         <OutsideAlerter action={() => {
                             setThemeDropdown(false);
                         }}>
-                            <Button action={() => {
+                            <Button onClick={() => {
                                 setThemeDropdown(!themeDropdown);
                             }} ><div>
                                     <Moon size={"1.75rem"} className={"hidden dark:block"} />
@@ -88,7 +88,7 @@ function NavBar({ setShowSettings, addTerm }) {
                     }}>
 
                         {/* Settings button */}
-                        <Button action={() => { setSettingsDropdown(!settingsDropdown); }} >
+                        <Button onClick={() => { setSettingsDropdown(!settingsDropdown); }} >
                             <Settings size={"1.75rem"} />
                         </Button>
                         {/* Settings button */}

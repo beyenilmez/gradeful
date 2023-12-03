@@ -2,8 +2,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import Button from './Button';
 import { Plus, ChevronRight, Trash, Move } from 'react-feather';
 import { useInactive } from './InactiveContext';
-import { useUni, useUniData } from './UniContext';
-import { Semester, University } from "../utils/Program";
+import { useUniData } from './UniContext';
+import { University } from '../utils/Program';
 
 function Term({ id, name, children, isActive, setActive }) {
     const [contentHeight, setContentHeight] = useState('0');
@@ -12,7 +12,6 @@ function Term({ id, name, children, isActive, setActive }) {
 
     const { inactive } = useInactive();
 
-    const uni = useUni();
     const { universityData, setUniversityData } = useUniData();
 
     const toggleActive = () => {
@@ -45,9 +44,15 @@ function Term({ id, name, children, isActive, setActive }) {
         }
     };
 
+    function addClass(className) {
+        const uni = new University();
+        uni.load(universityData);
+        uni.getSemesterById(id).addLesson(className);
+        setUniversityData(uni);
+    }
+
     return (
         <div className="draggable hover:cursor-pointer dark:bg-slate-750 bg-slate-250 border dark:border-slate-550 border-slate-350 shadow-lg rounded-md h-fit overflow-hidden">
-
             <div className="flex items-center justify-between py-1 px-2" onClick={toggleActive}>
                 <div className='flex items-center'>
                     <Move size="1.5rem" className={`handle mr-1 transform transition-transform duration-300`} />
@@ -61,12 +66,11 @@ function Term({ id, name, children, isActive, setActive }) {
                             0.00
                         </div>
                     </div>
-                    <Button action={() => {
-                        let semester = new Semester();
-                        semester.load(uni.getSemesterById(id));
-                        semester.addLesson();
-                        uni.getSemesters()[uni.getSemesterIndex(id)] = semester.clone();
-                        setUniversityData(uni.clone());
+                    <Button onMouseUp={(className) => {
+                        toggleActive();
+                        if (typeof (className) !== 'string')
+                            className = null;
+                        addClass(className);
                     }}
                         className={`h-[2rem] flex items-center justify-center dark:hover:bg-slate-700 hover:bg-slate-300 dark:active:bg-slate-650 active:bg-slate-400 ${isActive ? 'w-[2rem]' : 'w-0'}`}
                         padding={"0"}
@@ -74,7 +78,7 @@ function Term({ id, name, children, isActive, setActive }) {
                     >
                         <Plus size="1.5rem" />
                     </Button>
-                    <Button action={toggleActive}
+                    <Button onMouseUp={toggleActive}
                         className={`h-[2rem] flex items-center justify-center dark:hover:bg-slate-700 hover:bg-slate-300 dark:active:bg-slate-650 active:bg-slate-400 ${isActive ? 'w-[2rem]' : 'w-0'}`}
                         padding={"0"}
                         transition={"transition-[width] duration-300"}

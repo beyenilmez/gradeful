@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useMemo, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
 import { University } from '../utils/Program'; // Import the University class from the appropriate file
 
 // Create a context
@@ -6,24 +6,19 @@ const UniContext = createContext();
 
 // Create a provider component to wrap the parts of the app that need access to the University instance
 export const UniProvider = ({ children }) => {
-  const uni = useMemo(() => new University(), []);
-  const [universityData, setUniversityData] = useState(uni);
+  const jsonData = localStorage.getItem('university');
+  const [universityData, setUniversityData] = useState(jsonData ? JSON.parse(jsonData) : new University());
 
   useEffect(() => {
-    uni.load(universityData);
-  }, [universityData, uni])
+    localStorage.setItem('university', JSON.stringify(universityData));
+    console.log(universityData);
+  }, [universityData])
 
   return (
-    <UniContext.Provider value={{ uni, universityData, setUniversityData }}>
+    <UniContext.Provider value={{ universityData, setUniversityData }}>
       {children}
     </UniContext.Provider>
   );
-};
-
-// A custom hook to access the University instance context easily in any component
-export const useUni = () => {
-  const { uni } = useContext(UniContext);
-  return uni;
 };
 
 export const useUniData = () => {

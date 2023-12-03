@@ -42,10 +42,6 @@ export class University {
         this.semesters.push(new Semester(name));
     }
 
-    getSemesters() {
-        return this.semesters;
-    }
-
     getSemesterById(id) {
         return this.semesters.find(term => term.id === id);
     }
@@ -65,28 +61,30 @@ export class University {
     }
 
     load(JSONData) {
-        const loadedUni = JSONData;
+        const uni = new University(JSONData.name, JSONData.faculty, JSONData.department);
 
         // Recreate instances of Lesson and Grade
-        loadedUni.semesters.forEach((semester) => {
-            semester.lessons.forEach((lesson) => {
-                lesson.__proto__ = new Lesson(); // Create a new Lesson instance
-                lesson.grades.forEach((grade) => {
-                    grade.__proto__ = new Grade(); // Create a new Grade instance
+        JSONData.semesters.forEach((semester, i) => {
+            uni.addSemester(semester.name);
+            uni.semesters[i].active = semester.active;
+            uni.semesters[i].expanded = semester.expanded;
+            uni.semesters[i].name = semester.name;
+            uni.semesters[i].id = semester.id;
+
+            semester.lessons.forEach((lesson, j) => {
+                uni.semesters[i].addLesson(lesson.name, lesson.credit);
+                uni.semesters[i].lessons[j].expanded = lesson.expanded;
+                uni.semesters[i].lessons[j].id = lesson.id;
+
+                lesson.grades.forEach((grade, k) => {
+                    uni.semesters[i].lessons[j].addGrade(grade.name, grade.percentage);
+                    uni.semesters[i].lessons[j].grades[k].value = grade.value;
                 });
             });
         });
 
         // Merge loaded data into the current instance
-        Object.assign(this, loadedUni);
-    }
-
-    getData() {
-        return this;
-    }
-
-    clone() {
-        return JSON.parse(JSON.stringify(this));
+        Object.assign(this, uni);
     }
 }
 
@@ -127,23 +125,8 @@ export class Semester {
         }
     }
 
-    load(JSONData) {
-        const loadedSem = JSONData;
-
-        // Recreate instances of Lesson
-        loadedSem.lessons.forEach((lesson) => {
-            lesson.__proto__ = new Lesson(); // Create a new Lesson instance
-        })
-
-        Object.assign(this, loadedSem);
-    }
-
     totalCredit() {
         return this.lessons.reduce((a, b) => a + b.credit, 0);
-    }
-
-    clone() {
-        return JSON.parse(JSON.stringify(this));
     }
 }
 
@@ -193,10 +176,6 @@ export class Lesson {
             }
         }
         return multipliers[multipliers.length - 1];
-    }
-
-    clone() {
-        return JSON.parse(JSON.stringify(this));
     }
 }
 
