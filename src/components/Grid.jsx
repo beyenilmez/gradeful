@@ -5,6 +5,8 @@ import Class from './Class';
 import '../utils/Program';
 import { useInactive } from "./InactiveContext";
 import { useUniData } from "./UniContext";
+import { University } from "../utils/Program";
+import Button from "./Button";
 
 import '../css/drag.css';
 
@@ -25,7 +27,19 @@ function Grid() {
 
     return (
         <React.Fragment>
-            <button onClick={() => setInactive(!inactive)}>inactive : {inactive ? "true" : "false"}</button>
+            <div className="flex flex-col">
+                <Button onClick={() => setInactive(!inactive)}>inactive : {inactive ? "true" : "false"}</Button>
+                <Button onClick={() => {
+                    localStorage.clear();
+                    setUniversityData(new University());
+                }}>Clear localStorage</Button>
+                <Button onClick={() => {
+                    const addButton = document.getElementById("addTermButton");
+                    addButton.click();
+                }}>Add term</Button>
+                <Button onClick={() => window.location.reload()}>Reload</Button>
+            </div>
+
 
             <ReactSortable
                 className="grid gap-7 grid-cols-1 md:grid-cols-2 m-8 dark:text-slate-200 text-slate-800"

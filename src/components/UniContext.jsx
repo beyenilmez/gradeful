@@ -11,7 +11,6 @@ export const UniProvider = ({ children }) => {
 
   useEffect(() => {
     localStorage.setItem('university', JSON.stringify(universityData));
-    console.log(universityData);
   }, [universityData])
 
   return (

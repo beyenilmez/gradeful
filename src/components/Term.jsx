@@ -67,10 +67,12 @@ function Term({ id, name, children, isActive, setActive }) {
                         </div>
                     </div>
                     <Button onMouseUp={(className) => {
-                        toggleActive();
                         if (typeof (className) !== 'string')
                             className = null;
                         addClass(className);
+                        setContentHeight('100%');
+                    }} onClick={(event) => {
+                        event.stopPropagation();
                     }}
                         className={`h-[2rem] flex items-center justify-center dark:hover:bg-slate-700 hover:bg-slate-300 dark:active:bg-slate-650 active:bg-slate-400 ${isActive ? 'w-[2rem]' : 'w-0'}`}
                         padding={"0"}
@@ -78,7 +80,10 @@ function Term({ id, name, children, isActive, setActive }) {
                     >
                         <Plus size="1.5rem" />
                     </Button>
-                    <Button onMouseUp={toggleActive}
+                    <Button
+                        onClick={(event) => {
+                            event.stopPropagation();
+                        }}
                         className={`h-[2rem] flex items-center justify-center dark:hover:bg-slate-700 hover:bg-slate-300 dark:active:bg-slate-650 active:bg-slate-400 ${isActive ? 'w-[2rem]' : 'w-0'}`}
                         padding={"0"}
                         transition={"transition-[width] duration-300"}
