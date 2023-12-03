@@ -121,14 +121,14 @@ function SettingsPopup({ showSettings, setShowSettings }) {
           <div className="pl-3 text-lg font-semibold">
             Settings
           </div>
-          <Button action={() => setShowSettings(false)} className={"dark:active:bg-slate-650 active:bg-slate-400"}><X size="1.5rem" /></Button>
+          <Button onClick={() => setShowSettings(false)} className={"dark:active:bg-slate-650 active:bg-slate-400"}><X size="1.5rem" /></Button>
         </div>
         <div className="md:flex-row flex flex-col min-h-fit h-80">
           <div
             className="dark:bg-slate-700 md:rounded-bl-lg bg-slate-300 p-2 md:h-full h-fit w-full md:w-fit flex md:flex-col md:border-r md:border-b-0 border-b dark:border-slate-500 border-slate-400">
-            <Button action={() => setSettingsTab("infoSettings")} className={`${settingsTab === "infoSettings" ? "dark:bg-slate-600 bg-slate-400" : ""
+            <Button onClick={() => setSettingsTab("infoSettings")} className={`${settingsTab === "infoSettings" ? "dark:bg-slate-600 bg-slate-400" : ""
               } w-[80%] md:w-auto md:px-6 md:text-base text-sm truncate py-2 dark:hover:bg-slate-650 dark:active:bg-slate-600 hover:bg-slate-350 active:bg-slate-400`}>Information</Button>
-            <Button action={() => setSettingsTab("gradeSettings")} className={`${settingsTab === "gradeSettings" ? "dark:bg-slate-600 bg-slate-400" : ""
+            <Button onClick={() => setSettingsTab("gradeSettings")} className={`${settingsTab === "gradeSettings" ? "dark:bg-slate-600 bg-slate-400" : ""
               } w-[80%] md:w-auto md:px-6 md:text-base text-sm truncate py-2 dark:hover:bg-slate-650 dark:active:bg-slate-600 hover:bg-slate-350 active:bg-slate-400 mt-1`}>Grade Scale</Button>
           </div>
           <div className="w-full h-full p-5">

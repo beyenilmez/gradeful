@@ -1,6 +1,6 @@
 function Button({ onClick, onMouseUp, className, children, padding, transition }) {
     return (
-        <button onClick={onClick} onMouseUp={onMouseUp}
+        <button onClick={onClick} onMouseUp={onMouseUp} 
             className={`dark:stroke-slate-300 stroke-slate-700 ${padding ? `p-${padding}` : 'p-1.5'
                 } ${transition ? `${transition}` : 'transition-colors duration-100'
                 }
