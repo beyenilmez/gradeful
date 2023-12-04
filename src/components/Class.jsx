@@ -2,14 +2,13 @@ import React, { useState, useRef, useEffect } from 'react';
 import Button from './Button';
 import { ChevronRight, Edit2, Move } from 'react-feather';
 
-function Class({ name, children }) {
-    const [isActive, setIsActive] = useState(false);
+function Class({ name, children, isActive, setActive  }) {
     const [contentHeight, setContentHeight] = useState('0');
     const [contentTransitionDuration, setContentTransitionDuration] = useState('300ms');
     const childrenRef = useRef(null);
 
     const toggleActive = () => {
-        setIsActive((prevActive) => !prevActive);
+        setActive(!isActive);
     };
 
     useEffect(() => {

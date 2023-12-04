@@ -69,7 +69,10 @@ function Grid() {
                             {...sortableOptions}
                         >
                             {term.lessons.map((lesson) => (
-                                <Class key={lesson.id} id={lesson.id} name={lesson.name} credit={lesson.credit}>
+                                <Class key={lesson.id} id={lesson.id} name={lesson.name} credit={lesson.credit} isActive={lesson.expanded} setActive={(value) =>{
+                                    lesson.expanded = value;
+                                    setUniversityData({ ...universityData, semesters: [...universityData.semesters] });
+                                }}>
                                     {lesson.credit}
                                 </Class>
                             ))}
