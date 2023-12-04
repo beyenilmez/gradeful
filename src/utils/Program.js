@@ -42,6 +42,13 @@ export class University {
         this.semesters.push(new Semester(name));
     }
 
+    deleteTerm(id) {
+        const index = this.getSemesterIndex(id);
+        if (index !== -1) {
+            this.semesters.splice(index, 1);
+        }
+    }
+
     getSemesterById(id) {
         return this.semesters.find(term => term.id === id);
     }
@@ -75,10 +82,12 @@ export class University {
                 uni.semesters[i].addLesson(lesson.name, lesson.credit);
                 uni.semesters[i].lessons[j].expanded = lesson.expanded;
                 uni.semesters[i].lessons[j].id = lesson.id;
+                uni.semesters[i].lessons[j].termId = lesson.termId;
 
                 lesson.grades.forEach((grade, k) => {
                     uni.semesters[i].lessons[j].addGrade(grade.name, grade.percentage);
                     uni.semesters[i].lessons[j].grades[k].value = grade.value;
+                    uni.semesters[i].lessons[j].grades[k].id = grade.id;
                 });
             });
         });
@@ -93,7 +102,7 @@ export class Semester {
     name = "New Term";
     id = uniqid();
     active = true;
-    expanded = false;
+    expanded = true;
 
     lessons = [];
 
@@ -104,14 +113,14 @@ export class Semester {
     }
 
     // Method to add a new lesson to the semester
-    addLesson(name, credit) {
+    addLesson(termId, name, credit) {
         if (name === null || name === "" || name === undefined) {
             name = "Lesson " + (this.lessons.length + 1);
         }
         if (credit === null || credit === "") {
             credit = 0;
         }
-        this.lessons.push(new Lesson(name, credit));
+        this.lessons.push(new Lesson(termId, name, credit));
     }
 
     // Method to calculate the average grade for the semester
@@ -128,20 +137,26 @@ export class Semester {
     totalCredit() {
         return this.lessons.reduce((a, b) => a + b.credit, 0);
     }
+
+    getClassById(id) {
+        return this.lessons.find(lesson => lesson.id === id);
+    }
 }
 
 // Lesson class definition
 export class Lesson {
     name;
     id = uniqid();
+    termId;
     credit;
     grades = [];
 
-    expanded = false;
+    expanded = true;
 
-    constructor(name, credit) {
+    constructor(termId, name, credit) {
         this.name = name;
         this.credit = credit;
+        this.termId = termId;
     }
 
     // Method to add a new grade to the lesson
@@ -182,6 +197,7 @@ export class Lesson {
 // Grade class definition
 class Grade {
     name;
+    id = uniqid();
     value;
     percentage;
 

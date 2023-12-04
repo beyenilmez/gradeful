@@ -13,7 +13,7 @@ function InfoSettings({ className }) {
         </div>
         <div className="mt-1 w-full h-full flex items-end">
           <div className="w-full flex">
-            <textarea rows="1" inputmode="numeric"
+            <textarea rows="1" inputMode="numeric"
               className="no-scrollbar resize-none w-full h-7 pl-3 pt-[0.15rem] text-sm outline-none rounded-lg border dark:text-slate-300 text-slate-700 dark:border-slate-400 border-slate-500 bg-transparent dark:placeholder-slate-500 placeholder-slate-450"
               placeholder="My university"></textarea>
           </div>
@@ -29,7 +29,7 @@ function InfoSettings({ className }) {
         </div>
         <div className="mt-1 w-full h-full flex items-end">
           <div className="w-full flex">
-            <textarea rows="1" inputmode="numeric"
+            <textarea rows="1" inputMode="numeric"
               className="no-scrollbar resize-none w-full h-7 pl-3 pt-[0.15rem] text-sm outline-none rounded-lg border dark:text-slate-300 text-slate-700 dark:border-slate-400 border-slate-500 bg-transparent dark:placeholder-slate-500 placeholder-slate-450"
               placeholder="My department"></textarea>
           </div>
@@ -51,59 +51,59 @@ function GradeSettings({ className }) {
   return (
     <div className={`${className} h-full flex flex-col`}>
 
-      <div class="w-full mr-2 flex flex-col items-start mb-3">
-        <div class="w-full h-full flex">
-          <div class="w-full h-full mr-0.5 text-xs">
+      <div className="w-full mr-2 flex flex-col items-start mb-3">
+        <div className="w-full h-full flex">
+          <div className="w-full h-full mr-0.5 text-xs">
             GPAs
           </div>
         </div>
-        <div class="mt-1 w-full h-full flex items-end">
-          <div class="w-full flex">
-            <textarea rows="1" inputmode="numeric"
-              class="no-scrollbar resize-none w-full h-7 pl-3 pt-[0.15rem] text-sm outline-none rounded-lg border dark:text-slate-300 text-slate-700 dark:border-slate-400 border-slate-500 bg-transparent dark:placeholder-slate-500 placeholder-slate-450"
+        <div className="mt-1 w-full h-full flex items-end">
+          <div className="w-full flex">
+            <textarea rows="1" inputMode="numeric"
+              className="no-scrollbar resize-none w-full h-7 pl-3 pt-[0.15rem] text-sm outline-none rounded-lg border dark:text-slate-300 text-slate-700 dark:border-slate-400 border-slate-500 bg-transparent dark:placeholder-slate-500 placeholder-slate-450"
               placeholder="4.00, 3.50, 3.00, 2.50, 2.00, 1.50, 1.00, 0.50, 0.00"></textarea>
           </div>
         </div>
 
       </div>
 
-      <div class="w-full mr-2 flex flex-col items-start mb-3">
-        <div class="w-full h-full flex">
-          <div class="w-full h-full mr-0.5 text-xs">
+      <div className="w-full mr-2 flex flex-col items-start mb-3">
+        <div className="w-full h-full flex">
+          <div className="w-full h-full mr-0.5 text-xs">
             Grades
           </div>
         </div>
-        <div class="mt-1 w-full h-full flex items-end">
-          <div class="w-full flex">
-            <textarea rows="1" inputmode="numeric"
-              class="uppercase no-scrollbar resize-none w-full h-7 pl-3 pt-[0.15rem] text-sm outline-none rounded-lg border dark:text-slate-300 text-slate-700 dark:border-slate-400 border-slate-500 bg-transparent dark:placeholder-slate-500 placeholder-slate-450"
+        <div className="mt-1 w-full h-full flex items-end">
+          <div className="w-full flex">
+            <textarea rows="1" inputMode="numeric"
+              className="uppercase no-scrollbar resize-none w-full h-7 pl-3 pt-[0.15rem] text-sm outline-none rounded-lg border dark:text-slate-300 text-slate-700 dark:border-slate-400 border-slate-500 bg-transparent dark:placeholder-slate-500 placeholder-slate-450"
               placeholder="AA, BA, BB, CB, CC, DC, DD, FD, FF"></textarea>
           </div>
         </div>
 
       </div>
 
-      <div class="w-full mr-2 flex flex-col items-start mb-3">
-        <div class="w-full h-full flex">
-          <div class="w-full h-full mr-0.5 text-xs">
+      <div className="w-full mr-2 flex flex-col items-start mb-3">
+        <div className="w-full h-full flex">
+          <div className="w-full h-full mr-0.5 text-xs">
             Scores
           </div>
         </div>
-        <div class="mt-1 w-full h-full flex items-end">
-          <div class="w-full flex">
-            <textarea rows="1" inputmode="numeric"
-              class="no-scrollbar resize-none w-full h-7 pl-3 pt-[0.15rem] text-sm outline-none rounded-lg border dark:text-slate-300 text-slate-700 dark:border-slate-400 border-slate-500 bg-transparent dark:placeholder-slate-500 placeholder-slate-450"
+        <div className="mt-1 w-full h-full flex items-end">
+          <div className="w-full flex">
+            <textarea rows="1" inputMode="numeric"
+              className="no-scrollbar resize-none w-full h-7 pl-3 pt-[0.15rem] text-sm outline-none rounded-lg border dark:text-slate-300 text-slate-700 dark:border-slate-400 border-slate-500 bg-transparent dark:placeholder-slate-500 placeholder-slate-450"
               placeholder="90, 85, 80, 75, 70, 65, 60, 50"></textarea>
           </div>
         </div>
 
       </div>
 
-      <div class="w-full h-full flex items-end justify-end">
+      <div className="w-full h-full flex items-end justify-end">
         <button disabled
-          class="disabled:opacity-70 border p-1 px-2 h-fit rounded-lg dark:bg-rose-700 bg-rose-400 border-rose-500 dark:border-rose-400 enabled:dark:hover:bg-rose-600 enabled:hover:bg-rose-500 enabled:dark:active:bg-rose-500 enabled:active:bg-rose-600 transition-all duration-100 mr-2">Discard</button>
+          className="disabled:opacity-70 border p-1 px-2 h-fit rounded-lg dark:bg-rose-700 bg-rose-400 border-rose-500 dark:border-rose-400 enabled:dark:hover:bg-rose-600 enabled:hover:bg-rose-500 enabled:dark:active:bg-rose-500 enabled:active:bg-rose-600 transition-all duration-100 mr-2">Discard</button>
         <button disabled
-          class="disabled:opacity-70 border p-1 px-2 h-fit rounded-lg dark:bg-emerald-700 bg-emerald-400 border-emerald-500 dark:border-emerald-400 enabled:dark:hover:bg-emerald-600 enabled:hover:bg-emerald-500 enabled:dark:active:bg-emerald-500 enabled:active:bg-emerald-600 transition-all duration-100">Save</button>
+          className="disabled:opacity-70 border p-1 px-2 h-fit rounded-lg dark:bg-emerald-700 bg-emerald-400 border-emerald-500 dark:border-emerald-400 enabled:dark:hover:bg-emerald-600 enabled:hover:bg-emerald-500 enabled:dark:active:bg-emerald-500 enabled:active:bg-emerald-600 transition-all duration-100">Save</button>
       </div>
     </div>
   );

@@ -47,38 +47,41 @@ function NavBar({ setShowSettings, addTerm }) {
                         <OutsideAlerter action={() => {
                             setThemeDropdown(false);
                         }}>
-                            <Button onClick={() => {
-                                setThemeDropdown(!themeDropdown);
-                            }} ><div>
-                                    <Moon size={"1.75rem"} className={"hidden dark:block"} />
-                                    <Sun size={"1.75rem"} className={"dark:hidden block"} />
-                                </div></Button>
+                            <React.Fragment>
+                                <Button onClick={() => {
+                                    setThemeDropdown(!themeDropdown);
+                                }} ><div>
+                                        <Moon size={"1.75rem"} className={"hidden dark:block"} />
+                                        <Sun size={"1.75rem"} className={"dark:hidden block"} />
+                                    </div>
+                                </Button>
 
-                            {/* Theme dropdown */}
-                            <div id="theme-dropdown"
-                                className={`${themeDropdown ? "block" : "hidden"
-                                    } mt-1 absolute w-fit py-2 dark:bg-slate-750 bg-slate-250 border dark:border-slate-700 rounded-lg shadow-lg z-10 dark:text-slate-150 text-slate-800`}>
+                                {/* Theme dropdown */}
+                                <div id="theme-dropdown"
+                                    className={`${themeDropdown ? "block" : "hidden"
+                                        } mt-1 absolute w-fit py-2 dark:bg-slate-750 bg-slate-250 border dark:border-slate-700 rounded-lg shadow-lg z-10 dark:text-slate-150 text-slate-800`}>
 
-                                <button id="theme-light-button"
-                                    className={`px-1.5 items-center flex text-sm w-full py-1 ${activeTheme === "light" ? "dark:bg-slate-650 bg-slate-400" : ""
-                                        } dark:hover:bg-slate-700 hover:bg-slate-350 dark:active:bg-slate-650 active:bg-slate-400 transition-all duration-100`}
-                                    onClick={() => { themeLight(); setActiveTheme("light"); }}>
-                                    <Sun size="1rem" className="mr-1" /> Light
-                                </button>
-                                <button id="theme-dark-button"
-                                    className={`px-1.5 items-center flex text-sm w-full py-1 ${activeTheme === "dark" ? "dark:bg-slate-650 bg-slate-400" : ""
-                                        } dark:hover:bg-slate-700 hover:bg-slate-350 dark:active:bg-slate-650 active:bg-slate-400 transition-all duration-100`}
-                                    onClick={() => { themeDark(); setActiveTheme("dark"); }}>
-                                    <Moon size="1rem" className="mr-1" /> Dark
-                                </button>
-                                <button id="theme-system-button"
-                                    className={`px-1.5 items-center flex text-sm w-full py-1 ${activeTheme === "system" ? "dark:bg-slate-650 bg-slate-400" : ""
-                                        } dark:hover:bg-slate-700 hover:bg-slate-350 dark:active:bg-slate-650 active:bg-slate-400 transition-all duration-100`}
-                                    onClick={() => { themeSystem(); setActiveTheme("system"); }}>
-                                    <Monitor size="1rem" className="mr-1" /> System
-                                </button>
-                            </div>
-                            {/* Theme dropdown */}
+                                    <button id="theme-light-button"
+                                        className={`px-1.5 items-center flex text-sm w-full py-1 ${activeTheme === "light" ? "dark:bg-slate-650 bg-slate-400" : ""
+                                            } dark:hover:bg-slate-700 hover:bg-slate-350 dark:active:bg-slate-650 active:bg-slate-400 transition-all duration-100`}
+                                        onClick={() => { themeLight(); setActiveTheme("light"); }}>
+                                        <Sun size="1rem" className="mr-1" /> Light
+                                    </button>
+                                    <button id="theme-dark-button"
+                                        className={`px-1.5 items-center flex text-sm w-full py-1 ${activeTheme === "dark" ? "dark:bg-slate-650 bg-slate-400" : ""
+                                            } dark:hover:bg-slate-700 hover:bg-slate-350 dark:active:bg-slate-650 active:bg-slate-400 transition-all duration-100`}
+                                        onClick={() => { themeDark(); setActiveTheme("dark"); }}>
+                                        <Moon size="1rem" className="mr-1" /> Dark
+                                    </button>
+                                    <button id="theme-system-button"
+                                        className={`px-1.5 items-center flex text-sm w-full py-1 ${activeTheme === "system" ? "dark:bg-slate-650 bg-slate-400" : ""
+                                            } dark:hover:bg-slate-700 hover:bg-slate-350 dark:active:bg-slate-650 active:bg-slate-400 transition-all duration-100`}
+                                        onClick={() => { themeSystem(); setActiveTheme("system"); }}>
+                                        <Monitor size="1rem" className="mr-1" /> System
+                                    </button>
+                                </div>
+                                {/* Theme dropdown */}
+                            </React.Fragment>
                         </OutsideAlerter>
                     </div>
                     {/* Theme switch */}
@@ -87,36 +90,38 @@ function NavBar({ setShowSettings, addTerm }) {
                         setSettingsDropdown(false);
                     }}>
 
-                        {/* Settings button */}
-                        <Button onClick={() => { setSettingsDropdown(!settingsDropdown); }} >
-                            <Settings size={"1.75rem"} />
-                        </Button>
-                        {/* Settings button */}
+                        <React.Fragment>
+                            {/* Settings button */}
+                            <Button onClick={() => { setSettingsDropdown(!settingsDropdown); }} >
+                                <Settings size={"1.75rem"} />
+                            </Button>
+                            {/* Settings button */}
 
-                        {/* Settings dropdown */}
-                        <div className={`${settingsDropdown ? "block" : "hidden"
-                            } absolute mt-1 right-0 w-44 py-2 dark:bg-slate-750 bg-slate-250 border dark:border-slate-700 rounded-lg shadow-lg z-10 dark:text-slate-150 text-slate-800`}
-                        >
+                            {/* Settings dropdown */}
+                            <div className={`${settingsDropdown ? "block" : "hidden"
+                                } absolute mt-1 right-0 w-44 py-2 dark:bg-slate-750 bg-slate-250 border dark:border-slate-700 rounded-lg shadow-lg z-10 dark:text-slate-150 text-slate-800`}
+                            >
 
-                            <button onClick={() => { setSettingsDropdown(false); addTerm(); }} id="addTermButton"
-                                className="w-full py-1 dark:hover:bg-slate-700 hover:bg-slate-350 dark:active:bg-slate-650 active:bg-slate-400 transition-all duration-100">
-                                Add Semester
-                            </button>
+                                <button onClick={() => { setSettingsDropdown(false); addTerm(); }} id="addTermButton"
+                                    className="w-full py-1 dark:hover:bg-slate-700 hover:bg-slate-350 dark:active:bg-slate-650 active:bg-slate-400 transition-all duration-100">
+                                    Add Semester
+                                </button>
 
-                            <button onClick={() => { setSettingsDropdown(false); }}
-                                className="w-full py-1 dark:hover:bg-slate-700 hover:bg-slate-350 dark:active:bg-slate-650 active:bg-slate-400 transition-all duration-100 border-t dark:border-slate-700 border-slate-400">
-                                Export
-                            </button>
-                            <button onClick={() => { setSettingsDropdown(false); }}
-                                className="w-full py-1 dark:hover:bg-slate-700 hover:bg-slate-350 dark:active:bg-slate-650 active:bg-slate-400 transition-all duration-100">
-                                Import
-                            </button>
-                            <button onClick={() => { setSettingsDropdown(false); setShowSettings(true); }}
-                                className="w-full py-1 dark:hover:bg-slate-700 hover:bg-slate-350 dark:active:bg-slate-650 active:bg-slate-400 transition-all duration-100 border-t dark:border-slate-700 border-slate-400">
-                                Settings
-                            </button>
-                        </div>
-                        {/* Settings dropdown */}
+                                <button onClick={() => { setSettingsDropdown(false); }}
+                                    className="w-full py-1 dark:hover:bg-slate-700 hover:bg-slate-350 dark:active:bg-slate-650 active:bg-slate-400 transition-all duration-100 border-t dark:border-slate-700 border-slate-400">
+                                    Export
+                                </button>
+                                <button onClick={() => { setSettingsDropdown(false); }}
+                                    className="w-full py-1 dark:hover:bg-slate-700 hover:bg-slate-350 dark:active:bg-slate-650 active:bg-slate-400 transition-all duration-100">
+                                    Import
+                                </button>
+                                <button onClick={() => { setSettingsDropdown(false); setShowSettings(true); }}
+                                    className="w-full py-1 dark:hover:bg-slate-700 hover:bg-slate-350 dark:active:bg-slate-650 active:bg-slate-400 transition-all duration-100 border-t dark:border-slate-700 border-slate-400">
+                                    Settings
+                                </button>
+                            </div>
+                            {/* Settings dropdown */}
+                        </React.Fragment>
                     </OutsideAlerter>
                 </div>
             </div >

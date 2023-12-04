@@ -47,13 +47,21 @@ function Term({ id, name, children, isActive, setActive }) {
     function addClass(className) {
         const uni = new University();
         uni.load(universityData);
-        uni.getSemesterById(id).addLesson(className);
+        uni.getSemesterById(id).addLesson(id, className);
+        setUniversityData(uni);
+    }
+
+
+    function deleteTerm() {
+        const uni = new University();
+        uni.load(universityData);
+        uni.deleteTerm(id);
         setUniversityData(uni);
     }
 
     return (
-        <div className="draggable hover:cursor-pointer dark:bg-slate-750 bg-slate-250 border dark:border-slate-550 border-slate-350 shadow-lg rounded-md h-fit overflow-hidden">
-            <div className="flex items-center justify-between py-1 px-2" onClick={toggleActive}>
+        <div className="draggable dark:bg-slate-750 bg-slate-250 border dark:border-slate-550 border-slate-350 shadow-lg rounded-md h-fit overflow-hidden">
+            <div className="flex items-center justify-between py-1 px-2 hover:cursor-pointer" onClick={toggleActive}>
                 <div className='flex items-center'>
                     <Move size="1.5rem" className={`handle mr-1 transform transition-transform duration-300`} />
                     <ChevronRight size="1.5rem" className={`mr-1 transform transition-transform duration-300 ${isActive && !inactive ? 'rotate-90' : ''}`} />
@@ -81,6 +89,9 @@ function Term({ id, name, children, isActive, setActive }) {
                         <Plus size="1.5rem" />
                     </Button>
                     <Button
+                        onMouseUp={() => {
+                            deleteTerm();
+                        }}
                         onClick={(event) => {
                             event.stopPropagation();
                         }}
