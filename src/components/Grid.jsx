@@ -24,12 +24,14 @@ const sortableOptions = {
 
 function Grid() {
     const { inactive, setInactive } = useInactive();
+    const { classInactive, setClassInactive} = useInactive();
     const { universityData, setUniversityData } = useUniData();
 
     return (
         <React.Fragment>
             <div className="flex flex-col">
                 <Button onClick={() => setInactive(!inactive)}>inactive : {inactive ? "true" : "false"}</Button>
+                <Button onClick={() => setClassInactive(!classInactive)}>classInactive : {classInactive ? "true" : "false"}</Button>
                 <Button onClick={() => {
                     localStorage.clear();
                     setUniversityData(new University());
@@ -66,6 +68,12 @@ function Grid() {
                             setList={(newList) => {
                                 term.lessons = newList;
                                 setUniversityData({ ...universityData, semesters: [...universityData.semesters] });
+                            }}
+                            onStart={() => {
+                                setClassInactive(true);
+                            }}
+                            onEnd={() => {
+                                setClassInactive(false);
                             }}
                             {...sortableOptions}
                         >

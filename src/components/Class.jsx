@@ -3,6 +3,7 @@ import Button from './Button';
 import { ChevronRight, Edit2, Move, Plus } from 'react-feather';
 import { useUniData } from './UniContext';
 import { University } from '../utils/Program';
+import { useInactive } from './InactiveContext';
 
 function Class({ id, termId, name, children, isActive, setActive }) {
     const {universityData, setUniversityData} = useUniData();
@@ -10,12 +11,16 @@ function Class({ id, termId, name, children, isActive, setActive }) {
     const [contentTransitionDuration, setContentTransitionDuration] = useState('300ms');
     const childrenRef = useRef(null);
 
+    const {classInactive} = useInactive();
+
     const toggleActive = () => {
-        setActive(!isActive);
+        if (!classInactive) {
+            setActive(!isActive);
+        }
     };
 
     useEffect(() => {
-        if (isActive) {
+        if (isActive && !classInactive) {
             setContentTransitionDuration('300ms')
             setContentHeight(`${childrenRef.current.scrollHeight}px`);
         } else {
@@ -31,10 +36,10 @@ function Class({ id, termId, name, children, isActive, setActive }) {
 
 
         }
-    }, [isActive]);
+    }, [isActive, classInactive]);
 
     const handleTransitionEnd = () => {
-        if (isActive) {
+        if (isActive && !classInactive) {
             setContentHeight('100%');
             setContentTransitionDuration('0ms')
         }
