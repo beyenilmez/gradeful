@@ -48,9 +48,10 @@ function NavBar({ setShowSettings, addTerm }) {
                             setThemeDropdown(false);
                         }}>
                             <React.Fragment>
-                                <Button onClick={() => {
-                                    setThemeDropdown(!themeDropdown);
-                                }} ><div>
+                                <Button onClick={() => {setThemeDropdown(!themeDropdown);}} 
+                                parentBgColorNumber={900}
+                                >
+                                    <div>
                                         <Moon size={"1.75rem"} className={"hidden dark:block"} />
                                         <Sun size={"1.75rem"} className={"dark:hidden block"} />
                                     </div>

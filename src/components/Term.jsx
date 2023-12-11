@@ -83,7 +83,7 @@ function Term({ id, name, children, isActive, setActive }) {
                         event.stopPropagation();
                     }}
                         className={`h-[2rem] flex items-center justify-center dark:hover:bg-slate-700 hover:bg-slate-300 dark:active:bg-slate-650 active:bg-slate-400 ${isActive ? 'w-[2rem]' : 'w-0'}`}
-                        padding={"0"}
+                        padding={"p-0"}
                         transition={"transition-[width] duration-300"}
                     >
                         <Plus size="1.5rem" />
@@ -96,7 +96,7 @@ function Term({ id, name, children, isActive, setActive }) {
                             event.stopPropagation();
                         }}
                         className={`h-[2rem] flex items-center justify-center dark:hover:bg-slate-700 hover:bg-slate-300 dark:active:bg-slate-650 active:bg-slate-400 ${isActive ? 'w-[2rem]' : 'w-0'}`}
-                        padding={"0"}
+                        padding={"p-0"}
                         transition={"transition-[width] duration-300"}
                     >
                         <Trash size="1.2rem" />
