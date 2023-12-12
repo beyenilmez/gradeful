@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import NavBar from "./components/NavBar";
 import SettingsPopup from "./components/SettingsPopup";
 import Grid from "./components/Grid";
@@ -7,7 +7,17 @@ import { useUniData } from "./components/UniContext";
 import { University } from "./utils/Program";
 import ColorSchemeDetector from "./utils/ColorSchemeDetector";
 
-document.body.className = 'bg-slate-250 dark:bg-slate-750 dark:text-slate-200 text-slate-800 slate';
+if(localStorage.getItem('colorScheme') === null) {
+  localStorage.setItem('colorScheme', 'default');
+}
+
+if(localStorage.getItem('oldColorScheme') === null) {
+  localStorage.setItem('oldColorScheme', 'default');
+}
+
+const colorScheme = localStorage.getItem('colorScheme');
+
+document.body.className = 'bg-slate-250 dark:bg-slate-750 dark:text-slate-200 text-slate-800 ' + colorScheme;
 
 function App() {
   const { universityData, setUniversityData } = useUniData();
@@ -27,7 +37,7 @@ function App() {
       <InactiveProvider>
         <Grid />
       </InactiveProvider>
-      <ColorSchemeDetector/>
+      <ColorSchemeDetector />
     </div>
   );
 }

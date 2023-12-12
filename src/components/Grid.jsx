@@ -8,6 +8,7 @@ import { useUniData } from "./UniContext";
 import { University } from "../utils/Program";
 import Button from "./Button";
 import Grade from "./Grade";
+import colorDataJSON from '../color-schemes/colorSchemes.json'
 
 import '../css/drag.css';
 
@@ -23,13 +24,21 @@ const sortableOptions = {
 }
 
 function toggleColorScheme(){
-    if(document.body.classList.contains('slate')) {
-        document.body.classList.remove('slate');
-        document.body.classList.add('mono');
-    } else {
-        document.body.classList.remove('mono');
-        document.body.classList.add('slate');
+    const colorData = colorDataJSON;
+    const colorSchemeList = Object.keys(colorData);
+
+    const currentTheme = localStorage.getItem('colorScheme');
+
+    document.body.classList.remove(currentTheme);
+    let nextIndex = colorSchemeList.indexOf(currentTheme) + 1;
+
+    if(nextIndex >= colorSchemeList.length) {
+        nextIndex = 0;
     }
+
+    document.body.classList.add(colorSchemeList[nextIndex]);
+    localStorage.setItem('oldColorScheme', currentTheme);
+    localStorage.setItem('colorScheme', colorSchemeList[nextIndex]);
 }
 
 function Grid() {

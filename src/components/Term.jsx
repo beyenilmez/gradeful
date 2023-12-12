@@ -60,7 +60,7 @@ function Term({ id, name, children, isActive, setActive }) {
     }
 
     return (
-        <div className="draggable dark:bg-slate-750 bg-slate-250 border dark:border-slate-550 border-slate-350 shadow-lg rounded-md h-fit overflow-hidden">
+        <div className="draggable dark:bg-slate2-750 bg-slate2-250 border dark:border-slate2-550 border-slate2-350 shadow-lg rounded-md h-fit overflow-hidden">
             <div className="flex items-center justify-between py-1 px-2 hover:cursor-pointer" onClick={toggleActive}>
                 <div className='flex items-center'>
                     <Move size="1.5rem" className={`handle mr-1 transform transition-transform duration-300`} />
@@ -69,7 +69,7 @@ function Term({ id, name, children, isActive, setActive }) {
                 </div>
 
                 <div className='flex items-center'>
-                    <div className="flex items-center h-[2rem] px-1 mx-1 rounded-lg dark:bg-slate-700 bg-slate-300">
+                    <div className="flex items-center h-[2rem] px-1 mx-1 rounded-lg dark:bg-slate2-700 bg-slate2-300">
                         <div>
                             0.00
                         </div>
@@ -82,7 +82,7 @@ function Term({ id, name, children, isActive, setActive }) {
                     }} onClick={(event) => {
                         event.stopPropagation();
                     }}
-                        className={`h-[2rem] flex items-center justify-center dark:hover:bg-slate-700 hover:bg-slate-300 dark:active:bg-slate-650 active:bg-slate-400 ${isActive ? 'w-[2rem]' : 'w-0'}`}
+                        className={`h-[2rem] flex items-center justify-center dark:hover:bg-slate2-700 hover:bg-slate2-300 dark:active:bg-slate2-650 active:bg-slate2-400 ${isActive ? 'w-[2rem]' : 'w-0'}`}
                         padding={"p-0"}
                         transition={"transition-[width] duration-300"}
                     >
@@ -95,7 +95,7 @@ function Term({ id, name, children, isActive, setActive }) {
                         onClick={(event) => {
                             event.stopPropagation();
                         }}
-                        className={`h-[2rem] flex items-center justify-center dark:hover:bg-slate-700 hover:bg-slate-300 dark:active:bg-slate-650 active:bg-slate-400 ${isActive ? 'w-[2rem]' : 'w-0'}`}
+                        className={`h-[2rem] flex items-center justify-center dark:hover:bg-slate2-700 hover:bg-slate2-300 dark:active:bg-slate2-650 active:bg-slate2-400 ${isActive ? 'w-[2rem]' : 'w-0'}`}
                         padding={"p-0"}
                         transition={"transition-[width] duration-300"}
                     >

@@ -1,0 +1,14 @@
+{
+    "default": {
+        "primary": "-slate",
+        "secondary": "-slate2"
+    },
+    "custom": {
+        "primary": "-mono",
+        "secondary": "-mono2"
+    },
+    "newScheme": {
+        "primary": "-sky",
+        "secondary": "-indigo"
+    }
+}
