@@ -25,13 +25,15 @@ const sortableOptions = {
 function Grid() {
     const { inactive, setInactive } = useInactive();
     const { classInactive, setClassInactive } = useInactive();
-    const { universityData, setUniversityData } = useUniData();
+    const { editId, universityData, setUniversityData, editOccupied, setEditOccupied } = useUniData();
 
     return (
         <React.Fragment>
             <div className="flex flex-col">
                 <Button onClick={() => setInactive(!inactive)}>inactive : {inactive ? "true" : "false"}</Button>
                 <Button onClick={() => setClassInactive(!classInactive)}>classInactive : {classInactive ? "true" : "false"}</Button>
+                <Button onClick={() => setEditOccupied(!editOccupied)}>editOccupied : {editOccupied ? "true" : "false"}</Button>
+
                 <Button onClick={() => {
                     localStorage.clear();
                     setUniversityData(new University());
@@ -41,6 +43,7 @@ function Grid() {
                     addButton.click();
                 }}>Add term</Button>
                 <Button onClick={() => window.location.reload()}>Reload</Button>
+                <div>{editId}</div>
             </div>
 
 
@@ -92,7 +95,7 @@ function Grid() {
                                         {...sortableOptions}
                                     >
                                         {lesson.grades.map((grade) => (
-                                            <Grade key={grade.id} id={grade.id} name={grade.name} percentage={grade.percentage} value={grade.value} />
+                                            <Grade key={grade.id} id={grade.id} courseId={lesson.id} termId={lesson.termId} name={grade.name} percentage={grade.percentage} value={grade.value} />
                                         ))}
                                     </ReactSortable>
                                 </Class>

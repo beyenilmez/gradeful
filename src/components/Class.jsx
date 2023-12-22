@@ -1,12 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Button from './Button';
-import { ChevronRight, Edit2, Move, Plus } from 'react-feather';
+import { ChevronRight, Edit2, Move, Plus, Trash, Save, X } from 'react-feather';
 import { useUniData } from './UniContext';
 import { University } from '../utils/Program';
 import { useInactive } from './InactiveContext';
 
 function Class({ id, termId, name, children, isActive, setActive }) {
-    const {universityData, setUniversityData} = useUniData();
+    const {editId, setEditId, editOccupied, setEditOccupied, universityData, setUniversityData, pendingUniversityData, setPendingUniversityData} = useUniData();
     const [contentHeight, setContentHeight] = useState('0');
     const [contentTransitionDuration, setContentTransitionDuration] = useState('300ms');
     const childrenRef = useRef(null);
@@ -45,14 +45,21 @@ function Class({ id, termId, name, children, isActive, setActive }) {
         }
     };
 
-    
-
     function addGrade() {
         const uni = new University();
         uni.load(universityData);
         uni.getSemesterById(termId).getClassById(id).addGrade();
         setUniversityData(uni);
-      }
+    }
+
+    function deleteCourse() {
+        const uni = new University();
+        uni.load(universityData);
+        uni.getSemesterById(termId).deleteCourse(id);
+        setUniversityData(uni);
+        setEditId(null);
+        setEditOccupied(false);
+    }
 
     return (
         <div className="draggable font-light dark:bg-slate-700 bg-slate-300 shadow border-t dark:border-slate-550 border-slate-350">
@@ -88,12 +95,63 @@ function Class({ id, termId, name, children, isActive, setActive }) {
                         <Plus size="1.25rem" />
                     </Button>
                     <Button
+                        onMouseUp={() => {
+                            setEditId(id);
+                            setEditOccupied(true);
+                        }}
                         onClick={(event) => event.stopPropagation()}
-                        className={`h-7 mr-0.5 flex items-center justify-center dark:hover:bg-slate-650 hover:bg-slate-350 dark:active:bg-slate-600 active:bg-slate-400 ${isActive ? 'w-7' : 'w-0'}`}
+                        className={`h-7 mr-0.5 flex items-center justify-center dark:hover:bg-slate-650 hover:bg-slate-350 dark:active:bg-slate-600 active:bg-slate-400 ${isActive && !editOccupied && editId !== id ? 'w-7' : 'w-0'}`}
                         padding={"p-0"}
                         transition={"transition-[width] duration-300"}
                     >
                         <Edit2 size="1rem" />
+                    </Button>
+
+                    <Button
+                        onMouseUp={() => {
+                            if(editOccupied && editId === id) {
+                                setUniversityData(pendingUniversityData);
+                                setEditOccupied(false);
+                                setEditId(null);
+                            }
+                        }}
+                        onClick={(event) => event.stopPropagation()}
+                        className={`
+                        ${editOccupied && editId === id ? 'w-7' : 'w-0'}
+                        h-7 mr-0.5 flex items-center justify-center dark:hover:bg-slate-650 hover:bg-slate-350 dark:active:bg-slate-600 active:bg-slate-400`}
+                        padding={"p-0"}
+                        transition={"transition-[width] duration-300"}
+                    >
+                        <Save size="1.2rem" />
+                    </Button>
+
+                    <Button
+                        onMouseUp={() => {
+                            if(editOccupied && editId === id) {
+                                setEditOccupied(false);
+                                setEditId(null);
+                            }
+                        }}
+                        onClick={(event) => event.stopPropagation()}
+                        className={`
+                        ${editOccupied && editId === id ? 'w-7' : 'w-0'}
+                        h-7 mr-0.5 flex items-center justify-center dark:hover:bg-slate-650 hover:bg-slate-350 dark:active:bg-slate-600 active:bg-slate-400`}
+                        padding={"p-0"}
+                        transition={"transition-[width] duration-300"}
+                    >
+                        <X size="1.2rem" />
+                    </Button>
+
+                    <Button
+                        onMouseUp={deleteCourse}
+                        onClick={(event) => event.stopPropagation()}
+                        className={`
+                        ${editOccupied && editId === id ? 'w-7' : 'w-0'}
+                        h-7 mr-0.5 flex items-center justify-center dark:hover:bg-slate-650 hover:bg-slate-350 dark:active:bg-slate-600 active:bg-slate-400`}
+                        padding={"p-0"}
+                        transition={"transition-[width] duration-300"}
+                    >
+                        <Trash size="1rem" />
                     </Button>
                 </div>
             </div>

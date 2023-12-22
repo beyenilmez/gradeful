@@ -83,9 +83,13 @@ export class University {
                 uni.semesters[i].lessons[j].expanded = lesson.expanded;
                 uni.semesters[i].lessons[j].id = lesson.id;
                 uni.semesters[i].lessons[j].termId = lesson.termId;
+                uni.semesters[i].lessons[j].name = lesson.name;
+                uni.semesters[i].lessons[j].credit = lesson.credit;
 
                 lesson.grades.forEach((grade, k) => {
                     uni.semesters[i].lessons[j].addGrade(grade.name, grade.percentage);
+                    uni.semesters[i].lessons[j].grades[k].name = grade.name;
+                    uni.semesters[i].lessons[j].grades[k].percentage = grade.percentage;
                     uni.semesters[i].lessons[j].grades[k].value = grade.value;
                     uni.semesters[i].lessons[j].grades[k].id = grade.id;
                 });
@@ -121,6 +125,13 @@ export class Semester {
             credit = 0;
         }
         this.lessons.push(new Lesson(termId, name, credit));
+    }
+
+    deleteCourse(id) {
+        const index = this.lessons.findIndex(lesson => lesson.id === id);
+        if (index !== -1) {
+            this.lessons.splice(index, 1);
+        }
     }
 
     // Method to calculate the average grade for the semester
@@ -161,7 +172,21 @@ export class Lesson {
 
     // Method to add a new grade to the lesson
     addGrade(name, percentage) {
+        if(name === null || name === "" || name === undefined) {
+            name = "Score " + (this.grades.length + 1);
+        }
         this.grades.push(new Grade(name, percentage));
+    }
+
+    deleteScore(id){
+        const index = this.getScoreIndex(id);
+        if (index !== -1) {
+            this.grades.splice(index, 1);
+        }
+    }
+
+    getScoreIndex(id) {
+        return this.grades.findIndex(grade => grade.id === id);
     }
 
     // Method to calculate the average grade for the lesson
@@ -192,11 +217,15 @@ export class Lesson {
         }
         return multipliers[multipliers.length - 1];
     }
+
+    getScoreById(id) {
+        return this.grades.find(grade => grade.id === id);
+    }
 }
 
 // Grade class definition
 class Grade {
-    name;
+    name = "New Score";
     id = uniqid();
     value;
     percentage;

@@ -44,10 +44,10 @@ function Term({ id, name, children, isActive, setActive }) {
         }
     };
 
-    function addClass(className) {
+    function addClass() {
         const uni = new University();
         uni.load(universityData);
-        uni.getSemesterById(id).addLesson(id, className);
+        uni.getSemesterById(id).addLesson(id, null);
         setUniversityData(uni);
     }
 
@@ -74,10 +74,8 @@ function Term({ id, name, children, isActive, setActive }) {
                             0.00
                         </div>
                     </div>
-                    <Button onMouseUp={(className) => {
-                        if (typeof (className) !== 'string')
-                            className = null;
-                        addClass(className);
+                    <Button onMouseUp={() => {
+                        addClass();
                         setContentHeight('100%');
                     }} onClick={(event) => {
                         event.stopPropagation();
