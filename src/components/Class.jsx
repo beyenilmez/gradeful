@@ -55,7 +55,7 @@ function Class({ id, termId, name, children, isActive, setActive }) {
       }
 
     return (
-        <div className="draggable font-light dark:bg-slate2-700 bg-slate2-300 shadow border-t dark:border-slate2-550 border-slate2-350">
+        <div className="draggable font-light dark:bg-slate-700 bg-slate-300 shadow border-t dark:border-slate-550 border-slate-350">
 
             <div className="flex items-center justify-between py-1 px-2 hover:cursor-pointer" onClick={toggleActive}>
                 <div className='flex items-center'>
@@ -65,12 +65,12 @@ function Class({ id, termId, name, children, isActive, setActive }) {
                 </div>
 
                 <div className='flex items-center'>
-                    <div className="flex items-center h-7 px-1 mx-1 rounded-lg dark:bg-slate2-650 bg-slate2-350">
+                    <div className="flex items-center h-7 px-1 mx-1 rounded-lg dark:bg-slate-650 bg-slate-350">
                         <div>
                             0.00
                         </div>
                     </div>
-                    <div className="flex items-center h-7 px-1 mx-1 rounded-lg dark:bg-slate2-650 bg-slate2-350">
+                    <div className="flex items-center h-7 px-1 mx-1 rounded-lg dark:bg-slate-650 bg-slate-350">
                         <div>
                             XX
                         </div>
@@ -81,7 +81,7 @@ function Class({ id, termId, name, children, isActive, setActive }) {
                             setContentHeight('100%');
                         }}
                         onClick={(event) => event.stopPropagation()}
-                        className={`h-7 mr-0.5 flex items-center justify-center dark:hover:bg-slate2-650 hover:bg-slate2-350 dark:active:bg-slate2-600 active:bg-slate2-400 ${isActive ? 'w-7' : 'w-0'}`}
+                        className={`h-7 mr-0.5 flex items-center justify-center dark:hover:bg-slate-650 hover:bg-slate-350 dark:active:bg-slate-600 active:bg-slate-400 ${isActive ? 'w-7' : 'w-0'}`}
                         padding={"p-0"}
                         transition={"transition-[width] duration-300"}
                     >
@@ -89,7 +89,7 @@ function Class({ id, termId, name, children, isActive, setActive }) {
                     </Button>
                     <Button
                         onClick={(event) => event.stopPropagation()}
-                        className={`h-7 mr-0.5 flex items-center justify-center dark:hover:bg-slate2-650 hover:bg-slate2-350 dark:active:bg-slate2-600 active:bg-slate2-400 ${isActive ? 'w-7' : 'w-0'}`}
+                        className={`h-7 mr-0.5 flex items-center justify-center dark:hover:bg-slate-650 hover:bg-slate-350 dark:active:bg-slate-600 active:bg-slate-400 ${isActive ? 'w-7' : 'w-0'}`}
                         padding={"p-0"}
                         transition={"transition-[width] duration-300"}
                     >
