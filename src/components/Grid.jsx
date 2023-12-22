@@ -22,16 +22,6 @@ const sortableOptions = {
     ghostClass: "sortable-ghost"
 }
 
-function toggleColorScheme(){
-    if(document.body.classList.contains('slate')) {
-        document.body.classList.remove('slate');
-        document.body.classList.add('mono');
-    } else {
-        document.body.classList.remove('mono');
-        document.body.classList.add('slate');
-    }
-}
-
 function Grid() {
     const { inactive, setInactive } = useInactive();
     const { classInactive, setClassInactive } = useInactive();
@@ -51,9 +41,6 @@ function Grid() {
                     addButton.click();
                 }}>Add term</Button>
                 <Button onClick={() => window.location.reload()}>Reload</Button>
-                <Button onClick={() => {
-                    toggleColorScheme();
-                }}>Change Theme</Button>
             </div>
 
 

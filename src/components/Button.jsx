@@ -1,4 +1,4 @@
-function Button({ onClick, onMouseUp, className, children, padding, transition, rounded, hoverColor, activeColor, parentBgColorNumber }) {
+function Button({ onClick, onMouseUp, className, children, padding, transition, rounded, hoverColor, activeColor }) {
     return (
         <button onClick={onClick} onMouseUp={onMouseUp} 
             className={`
