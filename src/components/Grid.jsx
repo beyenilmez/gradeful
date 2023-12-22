@@ -43,7 +43,6 @@ function Grid() {
                     addButton.click();
                 }}>Add term</Button>
                 <Button onClick={() => window.location.reload()}>Reload</Button>
-                <div>{editId}</div>
             </div>
 
 

@@ -6,15 +6,16 @@ import { University } from '../utils/Program';
 import { useInactive } from './InactiveContext';
 
 function Class({ id, termId, name, children, isActive, setActive }) {
-    const {editId, setEditId, editOccupied, setEditOccupied, universityData, setUniversityData, pendingUniversityData, setPendingUniversityData} = useUniData();
+    const { editId, setEditId, editOccupied, setEditOccupied, universityData, setUniversityData, pendingUniversityData, setPendingUniversityData } = useUniData();
     const [contentHeight, setContentHeight] = useState('0');
     const [contentTransitionDuration, setContentTransitionDuration] = useState('300ms');
+    const [deleteConfirmation, setDeleteConfirmation] = useState(false);
     const childrenRef = useRef(null);
 
-    const {classInactive} = useInactive();
+    const { classInactive } = useInactive();
 
     const toggleActive = () => {
-        if (!classInactive) {
+        if (!classInactive && !editOccupied && editId !== id) {
             setActive(!isActive);
         }
     };
@@ -44,6 +45,12 @@ function Class({ id, termId, name, children, isActive, setActive }) {
             setContentTransitionDuration('0ms')
         }
     };
+
+    useEffect(() => {
+        if(!editOccupied){
+            setDeleteConfirmation(false);
+        }
+    }, [editOccupied])
 
     function addGrade() {
         const uni = new University();
@@ -88,7 +95,7 @@ function Class({ id, termId, name, children, isActive, setActive }) {
                             setContentHeight('100%');
                         }}
                         onClick={(event) => event.stopPropagation()}
-                        className={`h-7 mr-0.5 flex items-center justify-center dark:hover:bg-slate-650 hover:bg-slate-350 dark:active:bg-slate-600 active:bg-slate-400 ${isActive ? 'w-7' : 'w-0'}`}
+                        className={`h-7 mr-0.5 flex items-center justify-center dark:hover:bg-slate-650 hover:bg-slate-350 dark:active:bg-slate-600 active:bg-slate-400 ${isActive && editId !== id ? 'w-7' : 'w-0'}`}
                         padding={"p-0"}
                         transition={"transition-[width] duration-300"}
                     >
@@ -100,7 +107,7 @@ function Class({ id, termId, name, children, isActive, setActive }) {
                             setEditOccupied(true);
                         }}
                         onClick={(event) => event.stopPropagation()}
-                        className={`h-7 mr-0.5 flex items-center justify-center dark:hover:bg-slate-650 hover:bg-slate-350 dark:active:bg-slate-600 active:bg-slate-400 ${isActive && !editOccupied && editId !== id ? 'w-7' : 'w-0'}`}
+                        className={`h-7 mr-0.5 flex items-center justify-center dark:hover:bg-slate-650 hover:bg-slate-350 dark:active:bg-slate-600 active:bg-slate-400 ${isActive && !editOccupied ? 'w-7' : 'w-0'}`}
                         padding={"p-0"}
                         transition={"transition-[width] duration-300"}
                     >
@@ -109,7 +116,7 @@ function Class({ id, termId, name, children, isActive, setActive }) {
 
                     <Button
                         onMouseUp={() => {
-                            if(editOccupied && editId === id) {
+                            if (editOccupied && editId === id) {
                                 setUniversityData(pendingUniversityData);
                                 setEditOccupied(false);
                                 setEditId(null);
@@ -127,7 +134,7 @@ function Class({ id, termId, name, children, isActive, setActive }) {
 
                     <Button
                         onMouseUp={() => {
-                            if(editOccupied && editId === id) {
+                            if (editOccupied && editId === id) {
                                 setEditOccupied(false);
                                 setEditId(null);
                             }
@@ -139,19 +146,48 @@ function Class({ id, termId, name, children, isActive, setActive }) {
                         padding={"p-0"}
                         transition={"transition-[width] duration-300"}
                     >
-                        <X size="1.2rem" />
+                        <X size="1.35rem" />
                     </Button>
 
                     <Button
-                        onMouseUp={deleteCourse}
+                        onMouseUp={() => {
+                            setDeleteConfirmation(true);
+                        }}
                         onClick={(event) => event.stopPropagation()}
                         className={`
-                        ${editOccupied && editId === id ? 'w-7' : 'w-0'}
+                        ${editOccupied && editId === id && !deleteConfirmation ? 'w-7' : 'w-0'}
                         h-7 mr-0.5 flex items-center justify-center dark:hover:bg-slate-650 hover:bg-slate-350 dark:active:bg-slate-600 active:bg-slate-400`}
                         padding={"p-0"}
                         transition={"transition-[width] duration-300"}
                     >
-                        <Trash size="1rem" />
+                        <Trash size="1.2rem" />
+                    </Button>
+
+                    <Button
+                        onMouseUp={() => {
+                            deleteCourse();
+                        }}
+                        onClick={(event) => event.stopPropagation()}
+                        className={`
+                        ${deleteConfirmation ? 'w-16' : 'w-0'}
+                        h-7 mr-0.5 flex items-center justify-center dark:hover:bg-slate-650 hover:bg-slate-350 dark:active:bg-slate-600 active:bg-slate-400 overflow-hidden`}
+                        padding={"p-0"}
+                        transition={"transition-[width] duration-300"}
+                    >
+                        <div>Confirm</div>
+                    </Button>
+                    <Button
+                        onMouseUp={() => {
+                            setDeleteConfirmation(false);
+                        }}
+                        onClick={(event) => event.stopPropagation()}
+                        className={`
+                        ${deleteConfirmation ? 'w-16' : 'w-0'}
+                        h-7 mr-0.5 flex items-center justify-center dark:hover:bg-slate-650 hover:bg-slate-350 dark:active:bg-slate-600 active:bg-slate-400 overflow-hidden`}
+                        padding={"p-0"}
+                        transition={"transition-[width] duration-300"}
+                    >
+                        <div>Cancel</div>
                     </Button>
                 </div>
             </div>

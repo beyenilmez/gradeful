@@ -12,6 +12,7 @@ function Grade({ termId, courseId, id, name }) {
     const [scoreValue, setScoreValue] = useState(uni.getSemesterById(termId).getClassById(courseId).getScoreById(id).value);
     const [typeValue, setTypeValue] = useState(uni.getSemesterById(termId).getClassById(courseId).getScoreById(id).name);
     const [percentageValue, setPercentageValue] = useState(uni.getSemesterById(termId).getClassById(courseId).getScoreById(id).percentage);
+    const [visible, setVisible] = useState(true);
 
 
     useEffect(() => {
@@ -30,23 +31,26 @@ function Grade({ termId, courseId, id, name }) {
             setTypeValue(uni.getSemesterById(termId).getClassById(courseId).getScoreById(id).name);
             setPercentageValue(uni.getSemesterById(termId).getClassById(courseId).getScoreById(id).percentage);
         }
+        setVisible(true);
     }, [editId])
 
     useEffect(() => {
-        const uni = new University();
-        uni.load(universityData);
-        uni.getSemesterById(termId).getClassById(courseId).getScoreById(id).name = typeValue;
-        uni.getSemesterById(termId).getClassById(courseId).getScoreById(id).percentage = percentageValue;
-        setPendingUniversityData(uni);
+        if (editId === courseId) {
+            const uni = new University();
+            uni.load(pendingUniversityData);
+            uni.getSemesterById(termId).getClassById(courseId).getScoreById(id).name = typeValue;
+            uni.getSemesterById(termId).getClassById(courseId).getScoreById(id).percentage = percentageValue;
+            setPendingUniversityData(uni);
+        }
     }, [typeValue, percentageValue])
 
-    function getScoreName(){
+    function getScoreName() {
         const uni = new University();
         uni.load(universityData);
         return uni.getSemesterById(termId).getClassById(courseId).getScoreById(id).name;
     }
 
-    function getScorePercentage(){
+    function getScorePercentage() {
         const uni = new University();
         uni.load(universityData);
         return uni.getSemesterById(termId).getClassById(courseId).getScoreById(id).percentage;
@@ -54,13 +58,15 @@ function Grade({ termId, courseId, id, name }) {
 
     function deleteGrade() {
         const uni = new University();
-        uni.load(universityData);
+        uni.load(pendingUniversityData);
         uni.getSemesterById(termId).getClassById(courseId).deleteScore(id);
-        setUniversityData(uni);
+        setPendingUniversityData(uni);
+        setVisible(false);
     }
 
     return (
-        <div className="max-w-[4.25rem] w-[1000%] mr-2 flex flex-col items-start">
+        <div className={`max-w-[4.25rem] w-[1000%] mr-2 flex flex-col items-start
+        ${visible ? 'block' : 'hidden'}`}>
             <div className={`w-full h-full
             ${editId === courseId ? 'hidden' : 'flex'}
             `}>
@@ -97,15 +103,18 @@ function Grade({ termId, courseId, id, name }) {
                         onChange={(e) => setPercentageValue(e.target.value.replace(/[^0-9]/g, '').substring(0, 3))}
                         maxLength={3}
                     ></textarea>
-                    <Button 
-                    onClick={deleteGrade}
-                    hoverColor={"hover:dark:bg-slate-650 hover:bg-slate-350"} 
-                    activeColor={"active:dark:bg-slate-600 active:bg-slate-400"}
-                    className={`w-full flex justify-center overflow-hidden`}
-                    padding={'p-0'}
+                    <Button
+                        onClick={() => {
+                            deleteGrade();
+
+                        }}
+                        hoverColor={"hover:dark:bg-slate-650 hover:bg-slate-350"}
+                        activeColor={"active:dark:bg-slate-600 active:bg-slate-400"}
+                        className={`w-full flex justify-center overflow-hidden`}
+                        padding={'p-0'}
                     >
                         <Trash size={"1.25rem"}
-                        className={`${editId === courseId ? 'h-[1.75rem]' : 'h-0'} transition-[height] duration-300`}/></Button>
+                            className={`${editId === courseId ? 'h-[1.75rem]' : 'h-0'} transition-[height] duration-300`} /></Button>
                 </div>
             </div>
         </div>
