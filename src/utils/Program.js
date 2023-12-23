@@ -152,6 +152,14 @@ export class Semester {
     getClassById(id) {
         return this.lessons.find(lesson => lesson.id === id);
     }
+
+    getClassIndexById(id) {
+        return this.lessons.findIndex(lesson => lesson.id === id);
+    }
+
+    replaceClassAtIndex(index, newClass) {
+        this.lessons[index] = newClass;
+    }
 }
 
 // Lesson class definition
@@ -172,13 +180,13 @@ export class Lesson {
 
     // Method to add a new grade to the lesson
     addGrade(name, percentage) {
-        if(name === null || name === "" || name === undefined) {
+        if (name === null || name === "" || name === undefined) {
             name = "Score " + (this.grades.length + 1);
         }
         this.grades.push(new Grade(name, percentage));
     }
 
-    deleteScore(id){
+    deleteScore(id) {
         const index = this.getScoreIndex(id);
         if (index !== -1) {
             this.grades.splice(index, 1);
@@ -220,6 +228,26 @@ export class Lesson {
 
     getScoreById(id) {
         return this.grades.find(grade => grade.id === id);
+    }
+
+    load(JSONData) {
+        const assignLesson = new Lesson();
+
+        assignLesson.expanded = JSONData.expanded;
+        assignLesson.id = JSONData.id;
+        assignLesson.termId = JSONData.termId;
+        assignLesson.name = JSONData.name;
+        assignLesson.credit = JSONData.credit;
+
+        JSONData.grades.forEach((grade, k) => {
+            assignLesson.addGrade(grade.name, grade.percentage);
+            assignLesson.grades[k].name = grade.name;
+            assignLesson.grades[k].percentage = grade.percentage;
+            assignLesson.grades[k].value = grade.value;
+            assignLesson.grades[k].id = grade.id;
+        });
+
+        Object.assign(this, assignLesson);
     }
 }
 

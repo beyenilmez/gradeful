@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useUniData } from './UniContext';
-import { University } from "../utils/Program";
+import { University, Lesson } from "../utils/Program";
 import Button from './Button';
 import { Trash } from 'react-feather';
+import ArrayContains from '../utils/ArrayContains';
 
 function Grade({ termId, courseId, id, name }) {
-    const { editId, universityData, setUniversityData, pendingUniversityData, setPendingUniversityData } = useUniData();
+    const { editArray, setEditArray, universityData, setUniversityData} = useUniData();
     const uni = new University();
     uni.load(universityData);
 
@@ -13,6 +14,7 @@ function Grade({ termId, courseId, id, name }) {
     const [typeValue, setTypeValue] = useState(uni.getSemesterById(termId).getClassById(courseId).getScoreById(id).name);
     const [percentageValue, setPercentageValue] = useState(uni.getSemesterById(termId).getClassById(courseId).getScoreById(id).percentage);
     const [visible, setVisible] = useState(true);
+    const [editing, setEditing] = useState(false);
 
 
     useEffect(() => {
@@ -23,26 +25,34 @@ function Grade({ termId, courseId, id, name }) {
     }, [scoreValue, id])
 
     useEffect(() => {
-        if (editId === courseId) {
-            const uni = new University();
-            uni.load(universityData);
+        if (ArrayContains.arrayContains(editArray, courseId) && !editing) {
+            const course = new Lesson();
+            course.load(JSON.parse(editArray[courseId]));
 
-            setPendingUniversityData(uni);
-            setTypeValue(uni.getSemesterById(termId).getClassById(courseId).getScoreById(id).name);
-            setPercentageValue(uni.getSemesterById(termId).getClassById(courseId).getScoreById(id).percentage);
+            setTypeValue(course.getScoreById(id).name);
+            setPercentageValue(course.getScoreById(id).percentage);
+
+            setEditing(true);
+        }else if(!ArrayContains.arrayContains(editArray, courseId)){
+            setEditing(false);
+            setVisible(true);
         }
-        setVisible(true);
-    }, [editId])
+        console.log("editArray");
+
+    }, [editArray[courseId]])
 
     useEffect(() => {
-        if (editId === courseId) {
-            const uni = new University();
-            uni.load(pendingUniversityData);
-            uni.getSemesterById(termId).getClassById(courseId).getScoreById(id).name = typeValue;
-            uni.getSemesterById(termId).getClassById(courseId).getScoreById(id).percentage = percentageValue;
-            setPendingUniversityData(uni);
+        if (ArrayContains.arrayContains(editArray, courseId)) {
+            const course = new Lesson();
+            course.load(JSON.parse(editArray[courseId]));
+
+            course.getScoreById(id).name = typeValue;
+            course.getScoreById(id).percentage = percentageValue;
+
+            editArray[courseId] = JSON.stringify(course);
+            setEditArray(editArray);
         }
-    }, [typeValue, percentageValue])
+    }, [typeValue, percentageValue, editArray, setEditArray, courseId, id])
 
     function getScoreName() {
         const uni = new University();
@@ -57,10 +67,13 @@ function Grade({ termId, courseId, id, name }) {
     }
 
     function deleteGrade() {
-        const uni = new University();
-        uni.load(pendingUniversityData);
-        uni.getSemesterById(termId).getClassById(courseId).deleteScore(id);
-        setPendingUniversityData(uni);
+        const course = new Lesson();
+        course.load(JSON.parse(editArray[courseId]));
+
+        course.deleteScore(id);
+        editArray[courseId] = JSON.stringify(course);
+        setEditArray(editArray);
+        
         setVisible(false);
     }
 
@@ -68,7 +81,7 @@ function Grade({ termId, courseId, id, name }) {
         <div className={`max-w-[4.25rem] w-[1000%] mr-2 flex flex-col items-start
         ${visible ? 'block' : 'hidden'}`}>
             <div className={`w-full h-full
-            ${editId === courseId ? 'hidden' : 'flex'}
+            ${ArrayContains.arrayContains(editArray, courseId) ? 'hidden' : 'flex'}
             `}>
                 <div className="w-full h-full mr-0.5 text-center text-xs font-light">
                     {getScoreName()} ({getScorePercentage()}%)
@@ -78,7 +91,7 @@ function Grade({ termId, courseId, id, name }) {
                 <div className="w-full flex-row">
                     <textarea rows="1" inputMode="numeric"
                         className={`
-                        ${editId === courseId ? 'hidden' : 'block'}
+                        ${ArrayContains.arrayContains(editArray, courseId) ? 'hidden' : 'block'}
                         no-scrollbar resize-none w-full h-7 text-center pt-[0.15rem] text-sm outline-none rounded-lg border dark:text-slate-300 text-slate-700 dark:border-slate-400 border-slate-500 bg-transparent dark:placeholder-slate-500 placeholder-slate-450`}
                         placeholder="Score"
                         value={scoreValue}
@@ -88,7 +101,7 @@ function Grade({ termId, courseId, id, name }) {
 
                     <textarea rows="1"
                         className={`
-                    ${editId === courseId ? 'block' : 'hidden'}
+                    ${ArrayContains.arrayContains(editArray, courseId) ? 'block' : 'hidden'}
                     no-scrollbar resize-none w-full h-7 text-center pt-[0.15rem] text-sm outline-none rounded-lg border dark:text-slate-300 text-slate-700 dark:border-slate-400 border-slate-500 bg-transparent dark:placeholder-slate-500 placeholder-slate-450`}
                         placeholder="Type"
                         value={typeValue}
@@ -96,7 +109,7 @@ function Grade({ termId, courseId, id, name }) {
                     ></textarea>
                     <textarea rows="1" inputMode="numeric"
                         className={`
-                    ${editId === courseId ? 'block' : 'hidden'}
+                    ${ArrayContains.arrayContains(editArray, courseId) ? 'block' : 'hidden'}
                     no-scrollbar resize-none w-full h-7 text-center pt-[0.15rem] text-sm outline-none rounded-lg border dark:text-slate-300 text-slate-700 dark:border-slate-400 border-slate-500 bg-transparent dark:placeholder-slate-500 placeholder-slate-450`}
                         placeholder="%"
                         value={percentageValue}
@@ -114,7 +127,7 @@ function Grade({ termId, courseId, id, name }) {
                         padding={'p-0'}
                     >
                         <Trash size={"1.25rem"}
-                            className={`${editId === courseId ? 'h-[1.75rem]' : 'h-0'} transition-[height] duration-300`} /></Button>
+                            className={`${ArrayContains.arrayContains(editArray, courseId) ? 'h-[1.75rem]' : 'h-0'} transition-[height] duration-300`} /></Button>
                 </div>
             </div>
         </div>

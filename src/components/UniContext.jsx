@@ -8,10 +8,13 @@ const UniContext = createContext();
 export const UniProvider = ({ children }) => {
   const jsonData = localStorage.getItem('university');
   const [universityData, setUniversityData] = useState(jsonData ? JSON.parse(jsonData) : new University());
-  const [pendingUniversityData, setPendingUniversityData] = useState(universityData);
 
   const [editId, setEditId] = useState();
   const [editOccupied, setEditOccupied] = useState(false);
+
+  const [editArray, setEditArray] = useState([]);
+  const [editJSON, setEditJSON] = useState({});
+
 
   useEffect(() => {
     localStorage.setItem('university', JSON.stringify(universityData));
@@ -19,7 +22,7 @@ export const UniProvider = ({ children }) => {
   }, [universityData])
 
   return (
-    <UniContext.Provider value={{ universityData, setUniversityData, editId, setEditId, pendingUniversityData, setPendingUniversityData, editOccupied, setEditOccupied }}>
+    <UniContext.Provider value={{ universityData, setUniversityData, editId, setEditId, editOccupied, setEditOccupied, editArray, setEditArray, editJSON,setEditJSON }}>
       {children}
     </UniContext.Provider>
   );

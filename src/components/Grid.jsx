@@ -8,6 +8,7 @@ import { useUniData } from "./UniContext";
 import { University } from "../utils/Program";
 import Button from "./Button";
 import Grade from "./Grade";
+import ArrayContains from '../utils/ArrayContains';
 
 import '../css/drag.css';
 
@@ -25,7 +26,7 @@ const sortableOptions = {
 function Grid() {
     const { inactive, setInactive } = useInactive();
     const { classInactive, setClassInactive } = useInactive();
-    const { editId, universityData, setUniversityData, editOccupied, setEditOccupied } = useUniData();
+    const { universityData, setUniversityData, editOccupied, setEditOccupied, editArray } = useUniData();
 
     return (
         <React.Fragment>
@@ -43,6 +44,8 @@ function Grid() {
                     addButton.click();
                 }}>Add term</Button>
                 <Button onClick={() => window.location.reload()}>Reload</Button>
+                <Button>{editArray['60d2e82cf6eae8.72599178']}</Button>
+                <Button>{ArrayContains.arrayContains(editArray, '60d2e82cf6eae8.72599178') ? "true" : "false"}</Button>
             </div>
 
 
