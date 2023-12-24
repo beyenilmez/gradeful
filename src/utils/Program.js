@@ -57,6 +57,13 @@ export class University {
         return this.semesters.findIndex(term => term.id === id);
     }
 
+    setTermById(id, newTerm) {
+        const index = this.getSemesterIndex(id);
+        if (index !== -1) {
+            this.semesters[index] = newTerm;
+        }
+    }
+
     average() {
         const totalCredit = this.semesters.reduce((a, b) => a + (b.active ? b.totalCredit() : 0), 0);
 
@@ -157,8 +164,23 @@ export class Semester {
         return this.lessons.findIndex(lesson => lesson.id === id);
     }
 
+    getLastCourseId() {
+        return this.lessons[this.lessons.length - 1].id;
+    }
+
+    setCourseById(id, newCourse) {
+        const index = this.getClassIndexById(id);
+        if (index !== -1) {
+            this.lessons[index] = newCourse;
+        }
+    }
+
     replaceClassAtIndex(index, newClass) {
         this.lessons[index] = newClass;
+    }
+
+    reorderCourses(orderArray) {
+        this.lessons = this.lessons.sort((a, b) => orderArray.indexOf(a.id) - orderArray.indexOf(b.id));
     }
 }
 

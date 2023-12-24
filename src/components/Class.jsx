@@ -1,27 +1,36 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Button from './Button';
-import { ChevronRight, Edit2, Move, Plus, Trash, Save, X } from 'react-feather';
+import { ChevronRight, Edit2, Menu, Plus, Trash, Save, X } from 'react-feather';
 import { useUniData } from './UniContext';
 import { University, Course } from '../utils/Program';
 import { useInactive } from './InactiveContext';
 
 function Class({ id, termId, name, children, isActive, setActive }) {
-    const {universityData, setUniversityData, editJSON, setEditJSON, save } = useUniData();
+    const { universityData, setUniversityData, editJSON, setEditJSON, save } = useUniData();
+    const uni = new University();
+    uni.load(universityData);
+
     const [contentHeight, setContentHeight] = useState('0');
     const [contentTransitionDuration, setContentTransitionDuration] = useState('300ms');
     const [deleteConfirmation, setDeleteConfirmation] = useState(false);
+
+    const [nameValue, setNameValue] = useState(uni.getSemesterById(termId).getClassById(id).name);
+    const [creditValue, setCreditValue] = useState(uni.getSemesterById(termId).getClassById(id).credit);
+    const [editing, setEditing] = useState(false);
+    const [initialData, setInitialData] = useState({ ...uni.getSemesterById(termId).getClassById(id) });
+
     const childrenRef = useRef(null);
 
     const { classInactive } = useInactive();
 
     const toggleActive = () => {
-        if (!classInactive && editJSON[id] === undefined) {
+        if (classInactive !== termId && editJSON[id] === undefined) {
             setActive(!isActive);
         }
     };
 
     useEffect(() => {
-        if (isActive && !classInactive) {
+        if (isActive && classInactive !== termId) {
             setContentTransitionDuration('300ms')
             setContentHeight(`${childrenRef.current.scrollHeight}px`);
         } else {
@@ -34,17 +43,42 @@ function Class({ id, termId, name, children, isActive, setActive }) {
                     }, 10);
                 }, 10);
             }, 10);
-
-
         }
     }, [isActive, classInactive]);
 
     const handleTransitionEnd = () => {
-        if (isActive && !classInactive) {
+        if (isActive && classInactive !== termId) {
             setContentHeight('100%');
             setContentTransitionDuration('0ms')
         }
     };
+
+    useEffect(() => {
+        if (editJSON[id] !== undefined && !editing) {
+            const course = new Course();
+            course.load(editJSON[id]);
+
+            setNameValue(course.name);
+            setCreditValue(course.credit);
+            setInitialData(course);
+
+            setEditing(true);
+        } else if (editJSON[id] === undefined) {
+            setEditing(false);
+        }
+    }, [editJSON])
+
+    useEffect(() => {
+        if (editJSON[id] !== undefined) {
+            const course = new Course();
+            course.load(editJSON[id]);
+
+            course.name = nameValue;
+            course.credit = creditValue;
+
+            setEditJSON({ ...editJSON, [id]: course });
+        }
+    }, [nameValue, creditValue]);
 
     function addGrade() {
         const uni = new University();
@@ -71,15 +105,41 @@ function Class({ id, termId, name, children, isActive, setActive }) {
 
             <div className="flex items-center justify-between py-1 px-2 hover:cursor-pointer" onClick={toggleActive}>
                 <div className='flex items-center'>
-                    <Move size="1.5rem" className={`handle mr-1 transform transition-transform duration-300`} />
-                    <ChevronRight size="1.5rem" className={`mr-1 transform transition-transform duration-300 ${isActive ? 'rotate-90' : ''}`} />
-                    <div className="flex h-full">{name}</div>
+                    <Menu size="1.5rem" className={`shrink-0 handle mr-1 transform transition-transform duration-300 ${editJSON[termId] === undefined ? 'hidden' : ''}`} />
+                    <ChevronRight size="1.5rem" className={`mr-1 transform transition-transform duration-300 ${isActive ? 'rotate-90' : ''} ${editJSON[termId] !== undefined || editJSON[id] !== undefined ? 'hidden' : ''}`} />
+                    <div className={`
+                            ${editJSON[id] !== undefined ? 'hidden' : ''}
+                            flex h-full`
+                    }>{name}</div>
+
+                    <textarea rows="1"
+                        className={`
+                            ${editJSON[id] !== undefined ? 'block' : 'hidden'}
+                            whitespace-nowrap mr-2
+                            no-scrollbar resize-none w-full h-7 pl-2 outline-none rounded-lg border dark:text-slate-300 text-slate-700 dark:border-slate-400 border-slate-500 bg-transparent dark:placeholder-slate-500 placeholder-slate-450
+                        `}
+                        placeholder="%"
+                        value={nameValue}
+                        onChange={(e) => setNameValue(e.target.value)}
+                    ></textarea>
+
+                    <textarea rows="1" inputMode="numeric"
+                        className={`
+                            ${editJSON[id] !== undefined ? 'block' : 'hidden'}
+                            whitespace-nowrap
+                            no-scrollbar resize-none min-w-[4rem] max-w-[4rem] w-full h-7 text-center outline-none rounded-lg border dark:text-slate-300 text-slate-700 dark:border-slate-400 border-slate-500 bg-transparent dark:placeholder-slate-500 placeholder-slate-450
+                        `}
+                        placeholder="Credit"
+                        value={creditValue}
+                        onChange={(e) => setCreditValue(e.target.value.replace(/[^0-9]/g, ''))}
+                        maxLength={3}
+                    ></textarea>
                 </div>
 
                 <div className='flex items-center'>
                     <div className="flex items-center h-7 px-1 mx-1 rounded-lg dark:bg-slate-650 bg-slate-350">
                         <div>
-                            0.00
+                            00.0
                         </div>
                     </div>
                     <div className="flex items-center h-7 px-1 mx-1 rounded-lg dark:bg-slate-650 bg-slate-350">
@@ -100,11 +160,12 @@ function Class({ id, termId, name, children, isActive, setActive }) {
                         <Plus size="1.25rem" />
                     </Button>
                     <Button
+                        id = {"edit-" + id}
                         onMouseUp={() => {
                             const uni = new University();
                             uni.load(universityData);
 
-                            setEditJSON({...editJSON, [id]: uni.getSemesterById(termId).getClassById(id)});
+                            setEditJSON({ ...editJSON, [id]: uni.getSemesterById(termId).getClassById(id) });
                         }}
                         onClick={(event) => event.stopPropagation()}
                         className={`h-7 mr-0.5 flex items-center justify-center dark:hover:bg-slate-650 hover:bg-slate-350 dark:active:bg-slate-600 active:bg-slate-400 ${isActive && editJSON[id] === undefined ? 'w-7' : 'w-0'}`}
@@ -144,6 +205,14 @@ function Class({ id, termId, name, children, isActive, setActive }) {
                         onMouseUp={() => {
                             if (editJSON[id] !== undefined) {
                                 setEditJSON({ ...editJSON, [id]: undefined });
+
+                                const uni = new University();
+                                uni.load(universityData);
+
+                                uni.getSemesterById(termId).setCourseById(id, initialData);
+
+                                setUniversityData(uni);
+                                save();
 
                                 setDeleteConfirmation(false);
                             }

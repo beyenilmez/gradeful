@@ -99,6 +99,7 @@ function Grade({ termId, courseId, id, name }) {
                     <textarea rows="1"
                         className={`
                     ${editJSON[courseId] !== undefined ? 'block' : 'hidden'}
+                    whitespace-nowrap
                     no-scrollbar resize-none w-full h-7 text-center pt-[0.15rem] text-sm outline-none rounded-lg border dark:text-slate-300 text-slate-700 dark:border-slate-400 border-slate-500 bg-transparent dark:placeholder-slate-500 placeholder-slate-450`}
                         placeholder="Type"
                         value={typeValue}
@@ -107,6 +108,7 @@ function Grade({ termId, courseId, id, name }) {
                     <textarea rows="1" inputMode="numeric"
                         className={`
                     ${editJSON[courseId] !== undefined ? 'block' : 'hidden'}
+                    whitespace-nowrap
                     no-scrollbar resize-none w-full h-7 text-center pt-[0.15rem] text-sm outline-none rounded-lg border dark:text-slate-300 text-slate-700 dark:border-slate-400 border-slate-500 bg-transparent dark:placeholder-slate-500 placeholder-slate-450`}
                         placeholder="%"
                         value={percentageValue}

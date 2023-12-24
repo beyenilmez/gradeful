@@ -1,18 +1,26 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Button from './Button';
-import { Plus, ChevronRight, Trash, Move } from 'react-feather';
+import { Plus, ChevronRight, Trash, Move, Edit2, Save, X } from 'react-feather';
 import { useInactive } from './InactiveContext';
 import { useUniData } from './UniContext';
 import { University } from '../utils/Program';
 
 function Term({ id, name, children, isActive, setActive }) {
+    const { universityData, setUniversityData, editJSON, setEditJSON, save } = useUniData();
+    const uni = new University();
+    uni.load(universityData);
+
     const [contentHeight, setContentHeight] = useState('0');
     const [contentTransitionDuration, setContentTransitionDuration] = useState('300ms');
+    const [deleteConfirmation, setDeleteConfirmation] = useState(false);
+    const [editing, setEditing] = useState(false);
+    const [initialData, setInitialData] = useState({});
+    const [addedCourses, setAddedCourses] = useState([]);
     const childrenRef = useRef(null);
 
-    const { inactive } = useInactive();
+    const [nameValue, setNameValue] = useState(uni.getSemesterById(id).name);
 
-    const { universityData, setUniversityData, save } = useUniData();
+    const { inactive } = useInactive();
 
     const toggleActive = () => {
         if (!inactive) {
@@ -44,14 +52,45 @@ function Term({ id, name, children, isActive, setActive }) {
         }
     };
 
+    useEffect(() => {
+        if (editJSON[id] !== undefined && !editing) {
+            setNameValue(uni.getSemesterById(id).name);
+
+            setEditing(true);
+        } else if (editJSON[id] === undefined) {
+            setDeleteConfirmation(false);
+            setEditing(false);
+        }
+    }, [editJSON])
+
+    function getTermName() {
+        const uni = new University();
+        uni.load(universityData);
+        return uni.getSemesterById(id).name;
+    }
+
     function addClass() {
         const uni = new University();
         uni.load(universityData);
         uni.getSemesterById(id).addLesson(id, null);
         setUniversityData(uni);
         save();
+
+        setAddedCourses([...addedCourses, uni.getSemesterById(id).getLastCourseId()]);
+
+        setEditJSON({ ...editJSON, [uni.getSemesterById(id).getLastCourseId()]: uni.getSemesterById(id).getClassById(uni.getSemesterById(id).getLastCourseId()) });
     }
 
+    function removeAddedCourses() {
+        const uni = new University();
+        uni.load(universityData);
+        addedCourses.forEach(course => {
+            uni.getSemesterById(id).deleteCourse(course);
+        });
+        setUniversityData(uni);
+        save();
+        setAddedCourses([]);
+    }
 
     function deleteTerm() {
         const uni = new University();
@@ -59,6 +98,8 @@ function Term({ id, name, children, isActive, setActive }) {
         uni.deleteTerm(id);
         setUniversityData(uni);
         save();
+
+        setEditJSON({ ...editJSON, [id]: undefined })
     }
 
     return (
@@ -76,30 +117,125 @@ function Term({ id, name, children, isActive, setActive }) {
                             0.00
                         </div>
                     </div>
+
+                    <Button onMouseUp={() => {
+                        const uni = new University();
+                        uni.load(universityData);
+                        setEditJSON({ ...editJSON, [id]: uni.getSemesterById(id) });
+                        setInitialData(uni.getSemesterById(id));
+                    }} onClick={(event) => {
+                        event.stopPropagation();
+                    }}
+                        className={`h-[2rem] flex items-center justify-center dark:hover:bg-slate-700 hover:bg-slate-300 dark:active:bg-slate-650 active:bg-slate-400 ${isActive && editJSON[id] === undefined ? 'w-[2rem]' : 'w-0'}`}
+                        padding={"p-0"}
+                        transition={"transition-[width] duration-300"}
+                    >
+                        <Edit2 size="1rem" />
+                    </Button>
+
                     <Button onMouseUp={() => {
                         addClass();
                         setContentHeight('100%');
                     }} onClick={(event) => {
                         event.stopPropagation();
                     }}
-                        className={`h-[2rem] flex items-center justify-center dark:hover:bg-slate-700 hover:bg-slate-300 dark:active:bg-slate-650 active:bg-slate-400 ${isActive ? 'w-[2rem]' : 'w-0'}`}
+                        className={`h-[2rem] flex items-center justify-center dark:hover:bg-slate-700 hover:bg-slate-300 dark:active:bg-slate-650 active:bg-slate-400 ${isActive && editJSON[id] !== undefined ? 'w-[2rem]' : 'w-0'}`}
                         padding={"p-0"}
                         transition={"transition-[width] duration-300"}
                     >
                         <Plus size="1.5rem" />
                     </Button>
+
+                    <Button onMouseUp={() => {
+                        const uni = new University();
+                        uni.load(universityData);
+
+                        uni.getSemesterById(id).name = nameValue;
+
+                        setUniversityData(uni);
+                        save();
+
+                        setAddedCourses([]);
+
+                        setEditJSON({ ...editJSON, [id]: undefined });
+                    }} onClick={(event) => {
+                        event.stopPropagation();
+                    }}
+                        className={`h-[2rem] flex items-center justify-center dark:hover:bg-slate-700 hover:bg-slate-300 dark:active:bg-slate-650 active:bg-slate-400 ${isActive && editJSON[id] !== undefined ? 'w-[2rem]' : 'w-0'}`}
+                        padding={"p-0"}
+                        transition={"transition-[width] duration-300"}
+                    >
+                        <Save size="1.25rem" />
+                    </Button>
+
+                    <Button onMouseUp={() => {
+                        if (editJSON[id] !== undefined) {
+                            setEditJSON({ ...editJSON, [id]: undefined });
+
+                            const uni = new University();
+                            uni.load(universityData);
+
+                            const initialOrder = [];
+                            (initialData.lessons).forEach(lesson => {
+                                initialOrder.push(lesson['id']);
+                            });
+
+                            uni.getSemesterById(id).reorderCourses(initialOrder);
+
+                            setUniversityData(uni);
+                            save();
+
+                            removeAddedCourses();
+                        }
+                    }} onClick={(event) => {
+                        event.stopPropagation();
+                    }}
+                        className={`h-[2rem] flex items-center justify-center dark:hover:bg-slate-700 hover:bg-slate-300 dark:active:bg-slate-650 active:bg-slate-400 ${isActive && editJSON[id] !== undefined ? 'w-[2rem]' : 'w-0'}`}
+                        padding={"p-0"}
+                        transition={"transition-[width] duration-300"}
+                    >
+                        <X size="1.5rem" />
+                    </Button>
+
                     <Button
                         onMouseUp={() => {
-                            deleteTerm();
+                            setDeleteConfirmation(true);
                         }}
                         onClick={(event) => {
                             event.stopPropagation();
                         }}
-                        className={`h-[2rem] flex items-center justify-center dark:hover:bg-slate-700 hover:bg-slate-300 dark:active:bg-slate-650 active:bg-slate-400 ${isActive ? 'w-[2rem]' : 'w-0'}`}
+                        className={`h-[2rem] flex items-center justify-center dark:hover:bg-slate-700 hover:bg-slate-300 dark:active:bg-slate-650 active:bg-slate-400 ${isActive && !deleteConfirmation && editJSON[id] !== undefined ? 'w-[2rem]' : 'w-0'}`}
                         padding={"p-0"}
                         transition={"transition-[width] duration-300"}
                     >
                         <Trash size="1.2rem" />
+                    </Button>
+
+                    <Button
+                        onMouseUp={() => {
+                            deleteTerm();
+                        }}
+                        onClick={(event) => event.stopPropagation()}
+                        className={`
+                        ${deleteConfirmation ? 'w-16' : 'w-0'}
+                        h-[2rem] flex items-center justify-center dark:hover:bg-slate-700 hover:bg-slate-300 dark:active:bg-slate-650 active:bg-slate-400 overflow-hidden`}
+                        padding={"p-0"}
+                        transition={"transition-[width] duration-300"}
+                    >
+                        <div>Confirm</div>
+                    </Button>
+                    <Button
+                        onMouseUp={() => {
+                            setDeleteConfirmation(false);
+                        }}
+                        onClick={(event) => event.stopPropagation()}
+                        className={`
+                        ${deleteConfirmation ? 'w-16' : 'w-0'}
+                        h-[2rem] flex items-center justify-center dark:hover:bg-slate-700 hover:bg-slate-300 dark:active:bg-slate-650 active:bg-slate-400 overflow-hidden`}
+                        padding={"p-0"}
+                        transition={"transition-[width] duration-300"}
+                    >
+                        <div>Cancel</div>
                     </Button>
                 </div>
             </div>

@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+const plugin = require('tailwindcss/plugin')
 
 const colors = {
   slate: {
@@ -57,7 +58,19 @@ module.exports = {
       colors,
     },
   },
-  plugins: [],
+  plugins: [
+    plugin(function({ addUtilities }) {
+      addUtilities({
+        '.no-scrollbar::-webkit-scrollbar': {
+          'display': 'none',
+        },
+        '.no-scrollbar': {
+          '-ms-overflow-style': 'none',
+          'scrollbar-width': 'none'
+        },
+      })
+    })
+  ],
   safelist: [
     {
       pattern: /^(bg|text|border|ring)-.+-(50|100|150|200|250|300|350|400|450|500|550|600|650|700|750|800|850|900|950|1000)$/,

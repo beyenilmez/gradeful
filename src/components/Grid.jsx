@@ -31,7 +31,7 @@ function Grid() {
         <React.Fragment>
             <div className="flex flex-col">
                 <Button onClick={() => setInactive(!inactive)}>inactive : {inactive ? "true" : "false"}</Button>
-                <Button onClick={() => setClassInactive(!classInactive)}>classInactive : {classInactive ? "true" : "false"}</Button>
+                <Button>classInactive : {classInactive}</Button>
                 <Button onClick={() => setEditOccupied(!editOccupied)}>editOccupied : {editOccupied ? "true" : "false"}</Button>
 
                 <Button onClick={() => {
@@ -44,7 +44,7 @@ function Grid() {
                     addButton.click();
                 }}>Add term</Button>
                 <Button onClick={() => window.location.reload()}>Reload</Button>
-                <Button>{JSON.stringify(editJSON)}</Button>
+                {/**<Button>{JSON.stringify(editJSON)}</Button> */}
             </div>
 
 
@@ -77,10 +77,10 @@ function Grid() {
                                 save();
                             }}
                             onStart={() => {
-                                setClassInactive(true);
+                                setClassInactive(term.id);
                             }}
                             onEnd={() => {
-                                setClassInactive(false);
+                                setClassInactive('');
                             }}
                             {...sortableOptions}
                         >
