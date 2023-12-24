@@ -1,13 +1,12 @@
-import React, { useState, useRef, useEffect, useReducer } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Button from './Button';
 import { ChevronRight, Edit2, Move, Plus, Trash, Save, X } from 'react-feather';
 import { useUniData } from './UniContext';
-import { University, Lesson } from '../utils/Program';
+import { University, Course } from '../utils/Program';
 import { useInactive } from './InactiveContext';
-import ArrayContains from '../utils/ArrayContains';
 
 function Class({ id, termId, name, children, isActive, setActive }) {
-    const {universityData, setUniversityData, editArray, setEditArray, editJSON, setEditJSON } = useUniData();
+    const {universityData, setUniversityData, editJSON, setEditJSON } = useUniData();
     const [contentHeight, setContentHeight] = useState('0');
     const [contentTransitionDuration, setContentTransitionDuration] = useState('300ms');
     const [deleteConfirmation, setDeleteConfirmation] = useState(false);
@@ -16,7 +15,7 @@ function Class({ id, termId, name, children, isActive, setActive }) {
     const { classInactive } = useInactive();
 
     const toggleActive = () => {
-        if (!classInactive && !ArrayContains.arrayContains(editArray, id)) {
+        if (!classInactive && editJSON[id] === undefined) {
             setActive(!isActive);
         }
     };
@@ -60,9 +59,7 @@ function Class({ id, termId, name, children, isActive, setActive }) {
         uni.getSemesterById(termId).deleteCourse(id);
         setUniversityData(uni);
 
-        editArray[id] = undefined;
-        editArray.splice(editArray.indexOf(id), 1);
-        setEditArray(editArray);
+        setEditJSON({ ...editJSON, [id]: undefined });
     }
 
     return (
@@ -92,7 +89,7 @@ function Class({ id, termId, name, children, isActive, setActive }) {
                             setContentHeight('100%');
                         }}
                         onClick={(event) => event.stopPropagation()}
-                        className={`h-7 mr-0.5 flex items-center justify-center dark:hover:bg-slate-650 hover:bg-slate-350 dark:active:bg-slate-600 active:bg-slate-400 ${isActive && !ArrayContains.arrayContains(editArray, id) ? 'w-7' : 'w-0'}`}
+                        className={`h-7 mr-0.5 flex items-center justify-center dark:hover:bg-slate-650 hover:bg-slate-350 dark:active:bg-slate-600 active:bg-slate-400 ${isActive && editJSON[id] === undefined ? 'w-7' : 'w-0'}`}
                         padding={"p-0"}
                         transition={"transition-[width] duration-300"}
                     >
@@ -103,13 +100,10 @@ function Class({ id, termId, name, children, isActive, setActive }) {
                             const uni = new University();
                             uni.load(universityData);
 
-                            editArray[id] = JSON.stringify(uni.getSemesterById(termId).getClassById(id));
-                            editArray.push(id);
-                            setEditArray(editArray);
                             setEditJSON({...editJSON, [id]: uni.getSemesterById(termId).getClassById(id)});
                         }}
                         onClick={(event) => event.stopPropagation()}
-                        className={`h-7 mr-0.5 flex items-center justify-center dark:hover:bg-slate-650 hover:bg-slate-350 dark:active:bg-slate-600 active:bg-slate-400 ${isActive ? 'w-7' : 'w-0'}`}
+                        className={`h-7 mr-0.5 flex items-center justify-center dark:hover:bg-slate-650 hover:bg-slate-350 dark:active:bg-slate-600 active:bg-slate-400 ${isActive && editJSON[id] === undefined ? 'w-7' : 'w-0'}`}
                         padding={"p-0"}
                         transition={"transition-[width] duration-300"}
                     >
@@ -118,9 +112,9 @@ function Class({ id, termId, name, children, isActive, setActive }) {
 
                     <Button
                         onMouseUp={() => {
-                            if (ArrayContains.arrayContains(editArray, id)) {
-                                const course = new Lesson();
-                                course.load(JSON.parse(editArray[id]));
+                            if (editJSON[id] !== undefined) {
+                                const course = new Course();
+                                course.load(editJSON[id]);
 
                                 const uni = new University();
                                 uni.load(universityData);
@@ -128,15 +122,12 @@ function Class({ id, termId, name, children, isActive, setActive }) {
 
                                 setUniversityData(uni);
 
-                                editArray[id] = undefined;
-                                editArray.splice(editArray.indexOf(id), 1);
-                                setEditArray(editArray);
-
+                                setEditJSON({ ...editJSON, [id]: undefined });
                             }
                         }}
                         onClick={(event) => event.stopPropagation()}
                         className={`
-                        ${ArrayContains.arrayContains(editArray, id) ? 'w-7' : 'w-0'}
+                        ${editJSON[id] !== undefined ? 'w-7' : 'w-0'}
                         h-7 mr-0.5 flex items-center justify-center dark:hover:bg-slate-650 hover:bg-slate-350 dark:active:bg-slate-600 active:bg-slate-400`}
                         padding={"p-0"}
                         transition={"transition-[width] duration-300"}
@@ -146,19 +137,15 @@ function Class({ id, termId, name, children, isActive, setActive }) {
 
                     <Button
                         onMouseUp={() => {
-                            if (ArrayContains.arrayContains(editArray, id)) {
-                                editArray.splice(editArray.indexOf(id), 1);
-                                editArray[id] = undefined;
-                                setEditArray(editArray);
+                            if (editJSON[id] !== undefined) {
+                                setEditJSON({ ...editJSON, [id]: undefined });
 
                                 setDeleteConfirmation(false);
-                                setEditJSON({...editJSON, [id]: undefined});
-
                             }
                         }}
                         onClick={(event) => event.stopPropagation()}
                         className={`
-                        ${ArrayContains.arrayContains(editArray, id) ? 'w-7' : 'w-0'}
+                        ${editJSON[id] !== undefined ? 'w-7' : 'w-0'}
                         h-7 mr-0.5 flex items-center justify-center dark:hover:bg-slate-650 hover:bg-slate-350 dark:active:bg-slate-600 active:bg-slate-400`}
                         padding={"p-0"}
                         transition={"transition-[width] duration-300"}
@@ -172,7 +159,7 @@ function Class({ id, termId, name, children, isActive, setActive }) {
                         }}
                         onClick={(event) => event.stopPropagation()}
                         className={`
-                        ${ArrayContains.arrayContains(editArray, id) && !deleteConfirmation ? 'w-7' : 'w-0'}
+                        ${editJSON[id] !== undefined && !deleteConfirmation ? 'w-7' : 'w-0'}
                         h-7 mr-0.5 flex items-center justify-center dark:hover:bg-slate-650 hover:bg-slate-350 dark:active:bg-slate-600 active:bg-slate-400`}
                         padding={"p-0"}
                         transition={"transition-[width] duration-300"}

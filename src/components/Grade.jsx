@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useUniData } from './UniContext';
-import { University, Lesson } from "../utils/Program";
+import { University, Course } from "../utils/Program";
 import Button from './Button';
 import { Trash } from 'react-feather';
-import ArrayContains from '../utils/ArrayContains';
 
 function Grade({ termId, courseId, id, name }) {
-    const { editArray, setEditArray, universityData, setUniversityData} = useUniData();
+    const { universityData, setUniversityData, editJSON, setEditJSON} = useUniData();
     const uni = new University();
     uni.load(universityData);
 
@@ -22,37 +21,35 @@ function Grade({ termId, courseId, id, name }) {
         uni.load(universityData);
         uni.getSemesterById(termId).getClassById(courseId).getScoreById(id).value = scoreValue;
         setUniversityData(uni);
-    }, [scoreValue, id])
+    }, [scoreValue])
 
     useEffect(() => {
-        if (ArrayContains.arrayContains(editArray, courseId) && !editing) {
-            const course = new Lesson();
-            course.load(JSON.parse(editArray[courseId]));
+        if (editJSON[courseId] !== undefined && !editing) {
+            const course = new Course();
+            course.load(editJSON[courseId]);
 
             setTypeValue(course.getScoreById(id).name);
             setPercentageValue(course.getScoreById(id).percentage);
 
             setEditing(true);
-        }else if(!ArrayContains.arrayContains(editArray, courseId)){
+        }else if(editJSON[courseId] === undefined){
             setEditing(false);
             setVisible(true);
         }
-        console.log("editArray");
-
-    }, [editArray[courseId]])
+    }, [editJSON])
 
     useEffect(() => {
-        if (ArrayContains.arrayContains(editArray, courseId)) {
-            const course = new Lesson();
-            course.load(JSON.parse(editArray[courseId]));
+        if (editJSON[courseId] !== undefined) {
+            const course = new Course();
+            course.load(editJSON[courseId]);
+            console.log(course.getScoreById(id));
 
             course.getScoreById(id).name = typeValue;
             course.getScoreById(id).percentage = percentageValue;
 
-            editArray[courseId] = JSON.stringify(course);
-            setEditArray(editArray);
+            setEditJSON({ ...editJSON, [courseId]: course });
         }
-    }, [typeValue, percentageValue, editArray, setEditArray, courseId, id])
+    }, [typeValue, percentageValue])
 
     function getScoreName() {
         const uni = new University();
@@ -66,13 +63,12 @@ function Grade({ termId, courseId, id, name }) {
         return uni.getSemesterById(termId).getClassById(courseId).getScoreById(id).percentage;
     }
 
-    function deleteGrade() {
-        const course = new Lesson();
-        course.load(JSON.parse(editArray[courseId]));
+    function deleteScore() {
+        const course = new Course();
+        course.load(editJSON[courseId]);
 
         course.deleteScore(id);
-        editArray[courseId] = JSON.stringify(course);
-        setEditArray(editArray);
+        setEditJSON({ ...editJSON, [courseId]: course });
         
         setVisible(false);
     }
@@ -81,7 +77,7 @@ function Grade({ termId, courseId, id, name }) {
         <div className={`max-w-[4.25rem] w-[1000%] mr-2 flex flex-col items-start
         ${visible ? 'block' : 'hidden'}`}>
             <div className={`w-full h-full
-            ${ArrayContains.arrayContains(editArray, courseId) ? 'hidden' : 'flex'}
+            ${editJSON[courseId] !== undefined ? 'hidden' : 'flex'}
             `}>
                 <div className="w-full h-full mr-0.5 text-center text-xs font-light">
                     {getScoreName()} ({getScorePercentage()}%)
@@ -91,7 +87,7 @@ function Grade({ termId, courseId, id, name }) {
                 <div className="w-full flex-row">
                     <textarea rows="1" inputMode="numeric"
                         className={`
-                        ${ArrayContains.arrayContains(editArray, courseId) ? 'hidden' : 'block'}
+                        ${editJSON[courseId] !== undefined ? 'hidden' : 'block'}
                         no-scrollbar resize-none w-full h-7 text-center pt-[0.15rem] text-sm outline-none rounded-lg border dark:text-slate-300 text-slate-700 dark:border-slate-400 border-slate-500 bg-transparent dark:placeholder-slate-500 placeholder-slate-450`}
                         placeholder="Score"
                         value={scoreValue}
@@ -101,7 +97,7 @@ function Grade({ termId, courseId, id, name }) {
 
                     <textarea rows="1"
                         className={`
-                    ${ArrayContains.arrayContains(editArray, courseId) ? 'block' : 'hidden'}
+                    ${editJSON[courseId] !== undefined ? 'block' : 'hidden'}
                     no-scrollbar resize-none w-full h-7 text-center pt-[0.15rem] text-sm outline-none rounded-lg border dark:text-slate-300 text-slate-700 dark:border-slate-400 border-slate-500 bg-transparent dark:placeholder-slate-500 placeholder-slate-450`}
                         placeholder="Type"
                         value={typeValue}
@@ -109,7 +105,7 @@ function Grade({ termId, courseId, id, name }) {
                     ></textarea>
                     <textarea rows="1" inputMode="numeric"
                         className={`
-                    ${ArrayContains.arrayContains(editArray, courseId) ? 'block' : 'hidden'}
+                    ${editJSON[courseId] !== undefined ? 'block' : 'hidden'}
                     no-scrollbar resize-none w-full h-7 text-center pt-[0.15rem] text-sm outline-none rounded-lg border dark:text-slate-300 text-slate-700 dark:border-slate-400 border-slate-500 bg-transparent dark:placeholder-slate-500 placeholder-slate-450`}
                         placeholder="%"
                         value={percentageValue}
@@ -118,7 +114,7 @@ function Grade({ termId, courseId, id, name }) {
                     ></textarea>
                     <Button
                         onClick={() => {
-                            deleteGrade();
+                            deleteScore();
 
                         }}
                         hoverColor={"hover:dark:bg-slate-650 hover:bg-slate-350"}
@@ -127,7 +123,7 @@ function Grade({ termId, courseId, id, name }) {
                         padding={'p-0'}
                     >
                         <Trash size={"1.25rem"}
-                            className={`${ArrayContains.arrayContains(editArray, courseId) ? 'h-[1.75rem]' : 'h-0'} transition-[height] duration-300`} /></Button>
+                            className={`${editJSON[courseId] !== undefined ? 'h-[1.75rem]' : 'h-0'} transition-[height] duration-300`} /></Button>
                 </div>
             </div>
         </div>

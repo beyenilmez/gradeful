@@ -124,7 +124,7 @@ export class Semester {
         if (credit === null || credit === "") {
             credit = 0;
         }
-        this.lessons.push(new Lesson(termId, name, credit));
+        this.lessons.push(new Course(termId, name, credit));
     }
 
     deleteCourse(id) {
@@ -163,7 +163,7 @@ export class Semester {
 }
 
 // Lesson class definition
-export class Lesson {
+export class Course {
     name;
     id = uniqid();
     termId;
@@ -231,7 +231,7 @@ export class Lesson {
     }
 
     load(JSONData) {
-        const assignLesson = new Lesson();
+        const assignLesson = new Course();
 
         assignLesson.expanded = JSONData.expanded;
         assignLesson.id = JSONData.id;
