@@ -15,14 +15,22 @@ export const UniProvider = ({ children }) => {
   const [editArray, setEditArray] = useState([]);
   const [editJSON, setEditJSON] = useState({});
 
+  const [saveNextChange, setSaveNextChange] = useState(false);
 
   useEffect(() => {
-    localStorage.setItem('university', JSON.stringify(universityData));
-    console.log(universityData);
-  }, [universityData])
+    if (saveNextChange) {
+      localStorage.setItem('university', JSON.stringify(universityData));
+      console.log(universityData);
+      setSaveNextChange(false);
+    }
+  }, [universityData]);
+
+  function save() {
+    setSaveNextChange(true);
+  }
 
   return (
-    <UniContext.Provider value={{ universityData, setUniversityData, editId, setEditId, editOccupied, setEditOccupied, editArray, setEditArray, editJSON,setEditJSON }}>
+    <UniContext.Provider value={{ universityData, setUniversityData, editId, setEditId, editOccupied, setEditOccupied, editArray, setEditArray, editJSON, setEditJSON, save }}>
       {children}
     </UniContext.Provider>
   );

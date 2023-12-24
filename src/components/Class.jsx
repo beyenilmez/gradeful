@@ -6,7 +6,7 @@ import { University, Course } from '../utils/Program';
 import { useInactive } from './InactiveContext';
 
 function Class({ id, termId, name, children, isActive, setActive }) {
-    const {universityData, setUniversityData, editJSON, setEditJSON } = useUniData();
+    const {universityData, setUniversityData, editJSON, setEditJSON, save } = useUniData();
     const [contentHeight, setContentHeight] = useState('0');
     const [contentTransitionDuration, setContentTransitionDuration] = useState('300ms');
     const [deleteConfirmation, setDeleteConfirmation] = useState(false);
@@ -50,6 +50,9 @@ function Class({ id, termId, name, children, isActive, setActive }) {
         const uni = new University();
         uni.load(universityData);
         uni.getSemesterById(termId).getClassById(id).addGrade();
+
+        setEditJSON({ ...editJSON, [id]: uni.getSemesterById(termId).getClassById(id) });
+
         setUniversityData(uni);
     }
 
@@ -58,6 +61,7 @@ function Class({ id, termId, name, children, isActive, setActive }) {
         uni.load(universityData);
         uni.getSemesterById(termId).deleteCourse(id);
         setUniversityData(uni);
+        save();
 
         setEditJSON({ ...editJSON, [id]: undefined });
     }
@@ -89,7 +93,7 @@ function Class({ id, termId, name, children, isActive, setActive }) {
                             setContentHeight('100%');
                         }}
                         onClick={(event) => event.stopPropagation()}
-                        className={`h-7 mr-0.5 flex items-center justify-center dark:hover:bg-slate-650 hover:bg-slate-350 dark:active:bg-slate-600 active:bg-slate-400 ${isActive && editJSON[id] === undefined ? 'w-7' : 'w-0'}`}
+                        className={`h-7 mr-0.5 flex items-center justify-center dark:hover:bg-slate-650 hover:bg-slate-350 dark:active:bg-slate-600 active:bg-slate-400 ${isActive && editJSON[id] !== undefined ? 'w-7' : 'w-0'}`}
                         padding={"p-0"}
                         transition={"transition-[width] duration-300"}
                     >
@@ -121,6 +125,7 @@ function Class({ id, termId, name, children, isActive, setActive }) {
                                 uni.getSemesterById(termId).getClassById(id).load(course);
 
                                 setUniversityData(uni);
+                                save();
 
                                 setEditJSON({ ...editJSON, [id]: undefined });
                             }

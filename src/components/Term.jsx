@@ -12,7 +12,7 @@ function Term({ id, name, children, isActive, setActive }) {
 
     const { inactive } = useInactive();
 
-    const { universityData, setUniversityData } = useUniData();
+    const { universityData, setUniversityData, save } = useUniData();
 
     const toggleActive = () => {
         if (!inactive) {
@@ -49,6 +49,7 @@ function Term({ id, name, children, isActive, setActive }) {
         uni.load(universityData);
         uni.getSemesterById(id).addLesson(id, null);
         setUniversityData(uni);
+        save();
     }
 
 
@@ -57,6 +58,7 @@ function Term({ id, name, children, isActive, setActive }) {
         uni.load(universityData);
         uni.deleteTerm(id);
         setUniversityData(uni);
+        save();
     }
 
     return (

@@ -5,7 +5,7 @@ import Button from './Button';
 import { Trash } from 'react-feather';
 
 function Grade({ termId, courseId, id, name }) {
-    const { universityData, setUniversityData, editJSON, setEditJSON} = useUniData();
+    const { universityData, setUniversityData, editJSON, setEditJSON, save} = useUniData();
     const uni = new University();
     uni.load(universityData);
 
@@ -21,6 +21,7 @@ function Grade({ termId, courseId, id, name }) {
         uni.load(universityData);
         uni.getSemesterById(termId).getClassById(courseId).getScoreById(id).value = scoreValue;
         setUniversityData(uni);
+        save();
     }, [scoreValue])
 
     useEffect(() => {

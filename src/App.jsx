@@ -9,7 +9,7 @@ import { University } from "./utils/Program";
 document.body.className = 'bg-slate-250 dark:bg-slate-750 dark:text-slate-200 text-slate-800 slate';
 
 function App() {
-  const { universityData, setUniversityData } = useUniData();
+  const { universityData, setUniversityData, save } = useUniData();
   const [showSettings, setShowSettings] = useState(false);
 
   function addTerm(termName) {
@@ -17,6 +17,7 @@ function App() {
     uni.load(universityData);
     uni.addSemester(termName);
     setUniversityData(uni);
+    save();
   }
 
   return (

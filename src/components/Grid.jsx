@@ -25,7 +25,7 @@ const sortableOptions = {
 function Grid() {
     const { inactive, setInactive } = useInactive();
     const { classInactive, setClassInactive } = useInactive();
-    const { universityData, setUniversityData, editOccupied, setEditOccupied ,editJSON } = useUniData();
+    const { universityData, setUniversityData, editOccupied, setEditOccupied ,editJSON, save } = useUniData();
 
     return (
         <React.Fragment>
@@ -37,6 +37,7 @@ function Grid() {
                 <Button onClick={() => {
                     localStorage.clear();
                     setUniversityData(new University());
+                    save();
                 }}>Clear localStorage</Button>
                 <Button onClick={() => {
                     const addButton = document.getElementById("addTermButton");
@@ -52,6 +53,7 @@ function Grid() {
                 list={universityData.semesters}
                 setList={(newList) => {
                     setUniversityData({ ...universityData, semesters: newList });
+                    save();
                 }}
                 onStart={() => {
                     setInactive(true);
@@ -65,12 +67,14 @@ function Grid() {
                     <Term key={term.id} id={term.id} name={term.name} isActive={term.expanded} setActive={(value) => {
                         term.expanded = value;
                         setUniversityData({ ...universityData, semesters: [...universityData.semesters] });
+                        save();
                     }}>
                         <ReactSortable
                             list={term.lessons}
                             setList={(newList) => {
                                 term.lessons = newList;
                                 setUniversityData({ ...universityData, semesters: [...universityData.semesters] });
+                                save();
                             }}
                             onStart={() => {
                                 setClassInactive(true);
@@ -84,6 +88,7 @@ function Grid() {
                                 <Class key={lesson.id} id={lesson.id} termId={lesson.termId} name={lesson.name} credit={lesson.credit} isActive={lesson.expanded} setActive={(value) => {
                                     lesson.expanded = value;
                                     setUniversityData({ ...universityData, semesters: [...universityData.semesters] });
+                                    save();
                                 }}>
                                     <ReactSortable
                                         className="flex"
@@ -91,6 +96,7 @@ function Grid() {
                                         setList={(newList) => {
                                             lesson.grades = newList;
                                             setUniversityData({ ...universityData, semesters: [...universityData.semesters] });
+                                            save();
                                         }}
                                         {...sortableOptions}
                                     >
