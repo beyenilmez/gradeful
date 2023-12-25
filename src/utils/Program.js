@@ -80,7 +80,7 @@ export class University {
         // Recreate instances of Lesson and Grade
         JSONData.semesters.forEach((semester, i) => {
             uni.addSemester(semester.name);
-            uni.semesters[i].active = semester.active;
+            uni.semesters[i].includeCalc = semester.includeCalc;
             uni.semesters[i].expanded = semester.expanded;
             uni.semesters[i].name = semester.name;
             uni.semesters[i].id = semester.id;
@@ -92,6 +92,11 @@ export class University {
                 uni.semesters[i].lessons[j].termId = lesson.termId;
                 uni.semesters[i].lessons[j].name = lesson.name;
                 uni.semesters[i].lessons[j].credit = lesson.credit;
+                uni.semesters[i].lessons[j].autoCalcScore = lesson.autoCalcScore;
+                uni.semesters[i].lessons[j].autoCalcGrade = lesson.autoCalcGrade;
+                uni.semesters[i].lessons[j].score = lesson.score;
+                uni.semesters[i].lessons[j].grade = lesson.grade;
+                uni.semesters[i].lessons[j].includeCalc = lesson.includeCalc;
 
                 lesson.grades.forEach((grade, k) => {
                     uni.semesters[i].lessons[j].addGrade(grade.name, grade.percentage);
@@ -112,7 +117,7 @@ export class University {
 export class Semester {
     name = "New Term";
     id = uniqid();
-    active = true;
+    includeCalc = true;
     expanded = true;
 
     lessons = [];
@@ -191,6 +196,13 @@ export class Course {
     termId;
     credit;
     grades = [];
+    autoCalcScore = true;
+    autoCalcGrade = true;
+
+    score;
+    grade;
+
+    includeCalc = true;
 
     expanded = true;
 
@@ -260,6 +272,12 @@ export class Course {
         assignLesson.termId = JSONData.termId;
         assignLesson.name = JSONData.name;
         assignLesson.credit = JSONData.credit;
+        assignLesson.autoCalcScore = JSONData.autoCalcScore;
+        assignLesson.autoCalcGrade = JSONData.autoCalcGrade;
+        assignLesson.grade = JSONData.grade;
+        assignLesson.score = JSONData.score;
+        assignLesson.includeCalc = JSONData.includeCalc;
+
 
         JSONData.grades.forEach((grade, k) => {
             assignLesson.addGrade(grade.name, grade.percentage);

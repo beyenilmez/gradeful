@@ -20,7 +20,6 @@ export const UniProvider = ({ children }) => {
   useEffect(() => {
     if (saveNextChange) {
       localStorage.setItem('university', JSON.stringify(universityData));
-      console.log(universityData);
       setSaveNextChange(false);
     }
   }, [universityData]);

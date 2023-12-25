@@ -81,15 +81,14 @@ function Term({ id, name, children, isActive, setActive }) {
         setEditJSON({ ...editJSON, [uni.getSemesterById(id).getLastCourseId()]: uni.getSemesterById(id).getClassById(uni.getSemesterById(id).getLastCourseId()) });
     }
 
-    function removeAddedCourses() {
+    function removeAddedCourses(universityData) {
         const uni = new University();
         uni.load(universityData);
         addedCourses.forEach(course => {
             uni.getSemesterById(id).deleteCourse(course);
         });
-        setUniversityData(uni);
-        save();
         setAddedCourses([]);
+        return uni;
     }
 
     function deleteTerm() {
@@ -182,10 +181,8 @@ function Term({ id, name, children, isActive, setActive }) {
 
                             uni.getSemesterById(id).reorderCourses(initialOrder);
 
-                            setUniversityData(uni);
                             save();
-
-                            removeAddedCourses();
+                            setUniversityData(removeAddedCourses(uni));
                         }
                     }} onClick={(event) => {
                         event.stopPropagation();
