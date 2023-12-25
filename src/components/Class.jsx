@@ -29,7 +29,7 @@ function Class({ id, termId, name, children, isActive, setActive }) {
     const { classInactive } = useInactive();
 
     const toggleActive = () => {
-        if (classInactive !== termId) {
+        if (classInactive !== termId && !editing) {
             setActive(!isActive);
         }
     };
