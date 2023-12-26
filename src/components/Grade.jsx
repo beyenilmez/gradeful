@@ -9,7 +9,7 @@ function Grade({ termId, courseId, id, name }) {
     const uni = new University();
     uni.load(universityData);
 
-    const [scoreValue, setScoreValue] = useState(uni.getTermById(termId).getCourseById(courseId).getScoreById(id).value);
+    const [scoreValue, setScoreValue] = useState(uni.getTermById(termId).getCourseById(courseId).getScoreById(id).score);
     const [typeValue, setTypeValue] = useState(uni.getTermById(termId).getCourseById(courseId).getScoreById(id).name);
     const [percentageValue, setPercentageValue] = useState(uni.getTermById(termId).getCourseById(courseId).getScoreById(id).percentage);
     const [visible, setVisible] = useState(true);
@@ -19,7 +19,7 @@ function Grade({ termId, courseId, id, name }) {
     useEffect(() => {
         const uni = new University();
         uni.load(universityData);
-        uni.getTermById(termId).getCourseById(courseId).getScoreById(id).value = scoreValue;
+        uni.getTermById(termId).getCourseById(courseId).getScoreById(id).score = scoreValue;
         setUniversityData(uni);
         save();
     }, [scoreValue])

@@ -295,7 +295,6 @@ export class Course {
 
     calcTotalPercentage() {
         this.totalPercentage = this.scores.reduce((a, b) => a + Number((b.score === null || b.score === "" || b.score === undefined ? 0 : b.percentage)), 0);
-        console.log(this.scores);
     }
 
     calcScore() {
@@ -310,6 +309,7 @@ export class Course {
         for (let i = 0; i < this.gradeTable.length; i++) {
             if (this.score >= this.scoreTable[i]) {
                 this.grade = this.gradeTable[i];
+                return;
             }
         }
         this.grade = this.gradeTable[this.gradeTable.length - 1];
@@ -318,10 +318,11 @@ export class Course {
     calcMultiplier() {
         for (let i = 0; i < this.gradeTable.length; i++) {
             if (this.score >= this.scoreTable[i]) {
-                return this.multiplierTable[i];
+                this.multiplier = this.multiplierTable[i];
+                return;
             }
         }
-        return this.multiplierTable[this.multiplierTable.length - 1];
+        this.multiplier = this.multiplierTable[this.multiplierTable.length - 1];
     }
 
     load(JSONData) {

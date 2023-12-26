@@ -106,7 +106,7 @@ function Grid() {
                                         {...sortableOptions}
                                     >
                                         {course.scores.map((score) => (
-                                            <Grade key={score.id} id={score.id} courseId={course.id} termId={course.termId} name={score.name} percentage={score.percentage} value={score.value} />
+                                            <Grade key={score.id} id={score.id} courseId={course.id} termId={course.termId} name={score.name} percentage={score.percentage} value={score.score} />
                                         ))}
                                     </ReactSortable>
                                 </Class>
