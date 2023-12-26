@@ -6,7 +6,7 @@ const InactiveContext = createContext();
 // Create a provider component to wrap the parts of the app that need access to the theme
 export const InactiveProvider = ({ children }) => {
   const [inactive, setInactive] = useState(false);
-  const [classInactive, setClassInactive] = useState(false);
+  const [classInactive, setClassInactive] = useState('');
 
   return (
     <InactiveContext.Provider value={{ inactive, setInactive, classInactive, setClassInactive }}>

@@ -1,6 +1,6 @@
-function Button({ onClick, onMouseUp, className, children, padding, transition, rounded, hoverColor, activeColor }) {
+function Button({ onClick, onMouseUp, className, children, padding, transition, rounded, hoverColor, activeColor, id }) {
     return (
-        <button onClick={onClick} onMouseUp={onMouseUp} 
+        <button onClick={onClick} onMouseUp={onMouseUp} id={id}
             className={`
             ${hoverColor ? `${hoverColor}` : `dark:hover:bg-slate-600 hover:bg-slate-350`}
             ${activeColor ? `${activeColor}` : `dark:active:bg-slate-550 active:bg-slate-400`}
