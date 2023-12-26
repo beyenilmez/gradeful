@@ -3,7 +3,7 @@ import Button from './Button';
 import { Plus, ChevronRight, Trash, Move, Edit2, Save, X } from 'react-feather';
 import { useInactive } from './InactiveContext';
 import { useUniData } from './UniContext';
-import { University } from '../utils/Program';
+import { University, Course } from '../utils/Program';
 
 function Term({ id, name, children, isActive, setActive }) {
     const { universityData, setUniversityData, editJSON, setEditJSON, save } = useUniData();
@@ -18,7 +18,7 @@ function Term({ id, name, children, isActive, setActive }) {
     const [addedCourses, setAddedCourses] = useState([]);
     const childrenRef = useRef(null);
 
-    const [nameValue, setNameValue] = useState(uni.getSemesterById(id).name);
+    const [nameValue, setNameValue] = useState(uni.getTermById(id).name);
 
     const { inactive } = useInactive();
 
@@ -54,7 +54,7 @@ function Term({ id, name, children, isActive, setActive }) {
 
     useEffect(() => {
         if (editJSON[id] !== undefined && !editing) {
-            setNameValue(uni.getSemesterById(id).name);
+            setNameValue(uni.getTermById(id).name);
 
             setEditing(true);
         } else if (editJSON[id] === undefined) {
@@ -66,26 +66,30 @@ function Term({ id, name, children, isActive, setActive }) {
     function getTermName() {
         const uni = new University();
         uni.load(universityData);
-        return uni.getSemesterById(id).name;
+        return uni.getTermById(id).name;
     }
 
     function addClass() {
         const uni = new University();
         uni.load(universityData);
-        uni.getSemesterById(id).addLesson(id, null);
+
+        const newCourse = new Course();
+        newCourse.setTermId(id);
+
+        uni.getTermById(id).addCourse(newCourse);
         setUniversityData(uni);
         save();
 
-        setAddedCourses([...addedCourses, uni.getSemesterById(id).getLastCourseId()]);
+        setAddedCourses([...addedCourses, uni.getTermById(id).getLastCourse().id]);
 
-        setEditJSON({ ...editJSON, [uni.getSemesterById(id).getLastCourseId()]: uni.getSemesterById(id).getClassById(uni.getSemesterById(id).getLastCourseId()) });
+        setEditJSON({ ...editJSON, [uni.getTermById(id).getLastCourse().id]: uni.getTermById(id).getCourseById(uni.getTermById(id).getLastCourse().id) });
     }
 
     function removeAddedCourses(universityData) {
         const uni = new University();
         uni.load(universityData);
         addedCourses.forEach(course => {
-            uni.getSemesterById(id).deleteCourse(course);
+            uni.getTermById(id).deleteCourseById(course);
         });
         setAddedCourses([]);
         return uni;
@@ -94,7 +98,7 @@ function Term({ id, name, children, isActive, setActive }) {
     function deleteTerm() {
         const uni = new University();
         uni.load(universityData);
-        uni.deleteTerm(id);
+        uni.deleteTermById(id);
         setUniversityData(uni);
         save();
 
@@ -107,7 +111,7 @@ function Term({ id, name, children, isActive, setActive }) {
                 <div className='flex items-center'>
                     <Move size="1.5rem" className={`handle mr-1 transform transition-transform duration-300 shrink-0`} />
                     <ChevronRight size="1.5rem" className={`mr-1 transform transition-transform duration-300 ${isActive && !inactive ? 'rotate-90' : ''}`} />
-                    <div className={`flex h-full ${editing ? 'hidden' : 'block'}`}>{name}</div>
+                    <div className={`flex h-full ${editing ? 'hidden' : 'block'}`}>{getTermName()}</div>
 
                     <textarea rows="1" onClick={(e) => e.stopPropagation()}
                         className={`
@@ -131,8 +135,8 @@ function Term({ id, name, children, isActive, setActive }) {
                     <Button onMouseUp={() => {
                         const uni = new University();
                         uni.load(universityData);
-                        setEditJSON({ ...editJSON, [id]: uni.getSemesterById(id) });
-                        setInitialData(uni.getSemesterById(id));
+                        setEditJSON({ ...editJSON, [id]: uni.getTermById(id) });
+                        setInitialData(uni.getTermById(id));
                     }} onClick={(event) => {
                         event.stopPropagation();
                     }}
@@ -160,7 +164,7 @@ function Term({ id, name, children, isActive, setActive }) {
                         const uni = new University();
                         uni.load(universityData);
 
-                        uni.getSemesterById(id).name = nameValue;
+                        uni.getTermById(id).name = nameValue;
 
                         setUniversityData(uni);
                         save();
@@ -186,11 +190,11 @@ function Term({ id, name, children, isActive, setActive }) {
                             uni.load(universityData);
 
                             const initialOrder = [];
-                            (initialData.lessons).forEach(lesson => {
+                            (initialData.courses).forEach(lesson => {
                                 initialOrder.push(lesson['id']);
                             });
 
-                            uni.getSemesterById(id).reorderCourses(initialOrder);
+                            uni.getTermById(id).reorderCourses(initialOrder);
 
                             save();
                             setUniversityData(removeAddedCourses(uni));

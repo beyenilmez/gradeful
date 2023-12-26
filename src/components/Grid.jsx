@@ -36,8 +36,8 @@ function Grid() {
 
                 <Button onClick={() => {
                     localStorage.clear();
-                    setUniversityData(new University());
                     save();
+                    setUniversityData(new University());
                 }}>Clear localStorage</Button>
                 <Button onClick={() => {
                     const addButton = document.getElementById("addTermButton");
@@ -45,15 +45,20 @@ function Grid() {
                 }}>Add term</Button>
                 <Button onClick={() => window.location.reload()}>Reload</Button>
                 {/**<Button>{JSON.stringify(editJSON)}</Button> */}
+                <Button onClick={()=>{
+                    const uni = new University(universityData);
+                    uni.calc();
+                    console.log(uni);
+                }}>Calc</Button>
             </div>
 
 
             <ReactSortable
                 className="grid gap-7 grid-cols-1 md:grid-cols-2 m-8 dark:text-slate-200 text-slate-800"
-                list={universityData.semesters}
+                list={universityData.terms}
                 setList={(newList) => {
-                    setUniversityData({ ...universityData, semesters: newList });
                     save();
+                    setUniversityData({ ...universityData, terms: newList });
                 }}
                 onStart={() => {
                     setInactive(true);
@@ -63,18 +68,18 @@ function Grid() {
                 }}
                 {...sortableOptions}
             >
-                {universityData.semesters.map((term, index) => (
+                {universityData.terms.map((term, index) => (
                     <Term key={term.id} id={term.id} name={term.name} isActive={term.expanded} setActive={(value) => {
                         term.expanded = value;
-                        setUniversityData({ ...universityData, semesters: [...universityData.semesters] });
                         save();
+                        setUniversityData({ ...universityData, terms: [...universityData.terms] });
                     }}>
                         <ReactSortable
-                            list={term.lessons}
+                            list={term.courses}
                             setList={(newList) => {
-                                term.lessons = newList;
-                                setUniversityData({ ...universityData, semesters: [...universityData.semesters] });
+                                term.courses = newList;
                                 save();
+                                setUniversityData({ ...universityData, terms: [...universityData.terms] });
                             }}
                             onStart={() => {
                                 setClassInactive(term.id);
@@ -84,24 +89,24 @@ function Grid() {
                             }}
                             {...sortableOptions}
                         >
-                            {term.lessons.map((lesson) => (
-                                <Class key={lesson.id} id={lesson.id} termId={lesson.termId} name={lesson.name} credit={lesson.credit} isActive={lesson.expanded} setActive={(value) => {
-                                    lesson.expanded = value;
-                                    setUniversityData({ ...universityData, semesters: [...universityData.semesters] });
+                            {term.courses.map((course) => (
+                                <Class key={course.id} id={course.id} termId={course.termId} name={course.name} credit={course.credit} isActive={course.expanded} setActive={(value) => {
+                                    course.expanded = value;
                                     save();
+                                    setUniversityData({ ...universityData, terms: [...universityData.terms] });
                                 }}>
                                     <ReactSortable
                                         className="flex"
-                                        list={lesson.grades}
+                                        list={course.scores}
                                         setList={(newList) => {
-                                            lesson.grades = newList;
-                                            setUniversityData({ ...universityData, semesters: [...universityData.semesters] });
+                                            course.scores = newList;
                                             save();
+                                            setUniversityData({ ...universityData, terms: [...universityData.terms] });
                                         }}
                                         {...sortableOptions}
                                     >
-                                        {lesson.grades.map((grade) => (
-                                            <Grade key={grade.id} id={grade.id} courseId={lesson.id} termId={lesson.termId} name={grade.name} percentage={grade.percentage} value={grade.value} />
+                                        {course.scores.map((score) => (
+                                            <Grade key={score.id} id={score.id} courseId={course.id} termId={course.termId} name={score.name} percentage={score.percentage} value={score.value} />
                                         ))}
                                     </ReactSortable>
                                 </Class>

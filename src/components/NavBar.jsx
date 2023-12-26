@@ -103,7 +103,7 @@ function NavBar({ setShowSettings, addTerm }) {
 
                                 <button onClick={() => { setSettingsDropdown(false); addTerm(); }} id="addTermButton"
                                     className="w-full py-1 dark:hover:bg-slate-700 hover:bg-slate-350 dark:active:bg-slate-650 active:bg-slate-400 transition-all duration-100">
-                                    Add Semester
+                                    Add Term
                                 </button>
 
                                 <button onClick={() => { setSettingsDropdown(false); }}

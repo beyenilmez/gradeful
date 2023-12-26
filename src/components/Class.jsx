@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import Button from './Button';
 import { ChevronRight, Edit2, Menu, Plus, Trash, Save, X, CheckSquare, Square } from 'react-feather';
 import { useUniData } from './UniContext';
-import { University, Course } from '../utils/Program';
+import { University, Course, Score } from '../utils/Program';
 import { useInactive } from './InactiveContext';
 
 function Class({ id, termId, name, children, isActive, setActive }) {
@@ -14,15 +14,15 @@ function Class({ id, termId, name, children, isActive, setActive }) {
     const [contentTransitionDuration, setContentTransitionDuration] = useState('300ms');
     const [deleteConfirmation, setDeleteConfirmation] = useState(false);
 
-    const [nameValue, setNameValue] = useState(uni.getSemesterById(termId).getClassById(id).name);
-    const [creditValue, setCreditValue] = useState(uni.getSemesterById(termId).getClassById(id).credit);
+    const [nameValue, setNameValue] = useState(uni.getTermById(termId).getCourseById(id).name);
+    const [creditValue, setCreditValue] = useState(uni.getTermById(termId).getCourseById(id).credit);
     const [editing, setEditing] = useState(false);
-    const [initialData, setInitialData] = useState({ ...uni.getSemesterById(termId).getClassById(id) });
+    const [initialData, setInitialData] = useState({ ...uni.getTermById(termId).getCourseById(id) });
 
-    const [autoCalcScore, setAutoCalcScore] = useState(uni.getSemesterById(termId).getClassById(id).autoCalcScore);
-    const [autoCalcGrade, setAutoCalcGrade] = useState(uni.getSemesterById(termId).getClassById(id).autoCalcGrade);
-    const [scoreValue, setScoreValue] = useState(uni.getSemesterById(termId).getClassById(id).score);
-    const [gradeValue, setGradeValue] = useState(uni.getSemesterById(termId).getClassById(id).grade);
+    const [autoCalcScore, setAutoCalcScore] = useState(uni.getTermById(termId).getCourseById(id).autoCalcScore);
+    const [autoCalcGrade, setAutoCalcGrade] = useState(uni.getTermById(termId).getCourseById(id).autoCalcGrade);
+    const [scoreValue, setScoreValue] = useState(uni.getTermById(termId).getCourseById(id).score);
+    const [gradeValue, setGradeValue] = useState(uni.getTermById(termId).getCourseById(id).grade);
 
     const childrenRef = useRef(null);
 
@@ -97,8 +97,8 @@ function Class({ id, termId, name, children, isActive, setActive }) {
     function getScore(){
         const uni = new University();
         uni.load(universityData);
-        if(uni.getSemesterById(termId).getClassById(id).score){
-            return uni.getSemesterById(termId).getClassById(id).score;
+        if(uni.getTermById(termId).getCourseById(id).score){
+            return uni.getTermById(termId).getCourseById(id).score;
         }else{
             return '-';
         }
@@ -107,8 +107,8 @@ function Class({ id, termId, name, children, isActive, setActive }) {
     function getGrade() {
         const uni = new University();
         uni.load(universityData);
-        if (uni.getSemesterById(termId).getClassById(id).grade) {
-            return uni.getSemesterById(termId).getClassById(id).grade;
+        if (uni.getTermById(termId).getCourseById(id).grade) {
+            return uni.getTermById(termId).getCourseById(id).grade;
         } else {
             return '-';
         }
@@ -117,9 +117,9 @@ function Class({ id, termId, name, children, isActive, setActive }) {
     function addGrade() {
         const uni = new University();
         uni.load(universityData);
-        uni.getSemesterById(termId).getClassById(id).addGrade();
+        uni.getTermById(termId).getCourseById(id).addScore(new Score());
 
-        setEditJSON({ ...editJSON, [id]: uni.getSemesterById(termId).getClassById(id) });
+        setEditJSON({ ...editJSON, [id]: uni.getTermById(termId).getCourseById(id) });
 
         setUniversityData(uni);
     }
@@ -127,7 +127,7 @@ function Class({ id, termId, name, children, isActive, setActive }) {
     function deleteCourse() {
         const uni = new University();
         uni.load(universityData);
-        uni.getSemesterById(termId).deleteCourse(id);
+        uni.getTermById(termId).deleteCourseById(id);
         setUniversityData(uni);
         save();
 
@@ -223,7 +223,7 @@ function Class({ id, termId, name, children, isActive, setActive }) {
                             const uni = new University();
                             uni.load(universityData);
 
-                            setEditJSON({ ...editJSON, [id]: uni.getSemesterById(termId).getClassById(id) });
+                            setEditJSON({ ...editJSON, [id]: uni.getTermById(termId).getCourseById(id) });
 
                             setActive(true);
                             setTimeout(() => {
@@ -246,7 +246,7 @@ function Class({ id, termId, name, children, isActive, setActive }) {
 
                                 const uni = new University();
                                 uni.load(universityData);
-                                uni.getSemesterById(termId).getClassById(id).load(course);
+                                uni.getTermById(termId).getCourseById(id).load(course);
 
                                 setUniversityData(uni);
                                 save();
@@ -272,14 +272,14 @@ function Class({ id, termId, name, children, isActive, setActive }) {
                                 const uni = new University();
                                 uni.load(universityData);
 
-                                uni.getSemesterById(termId).setCourseById(id, initialData);
+                                uni.getTermById(termId).setCourseById(id, initialData);
 
                                 setUniversityData(uni);
                                 save();
 
                                 setDeleteConfirmation(false);
 
-                                if(!uni.getSemesterById(termId).getClassById(id).expanded){
+                                if(!uni.getTermById(termId).getCourseById(id).expanded){
                                     setActive(false);
                                 }
                             }

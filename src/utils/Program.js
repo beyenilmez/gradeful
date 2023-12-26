@@ -1,6 +1,6 @@
-var letters;
-var grades;
-var multipliers;
+const gradeTableDefault = ["AA", "BA", "BB", "CB", "CC", "DC", "DD", "FD", "FF"];
+const scoreTableDefault = [90, 85, 80, 75, 70, 65, 60, 50];
+const multiplierTableDefault = [4.00, 3.50, 3.00, 2.50, 2.00, 1.50, 1.00, 0.50, 0.00];
 
 function uniqid(prefix = "") {
     const sec = Date.now() * 1000 + Math.random() * 1000;
@@ -11,344 +11,349 @@ function uniqid(prefix = "") {
 // University class definition
 export class University {
     // Default values for university properties
-    name = "My University";
-    faculty = "My Faculty";
-    department = "My Department";
+    name;
+    faculty;
+    department;
 
-    // Array to store semesters
-    semesters = [];
+    gpa;
+    totalCredit = 0;
 
-    constructor(name, faculty, department) {
-        if (name !== null && name !== "" && name !== undefined) {
-            this.name = name;
-        }
-        if (faculty !== null && faculty !== "" && faculty !== undefined) {
-            this.faculty = faculty;
-        }
-        if (department !== null && department !== "" && department !== undefined) {
-            this.department = department;
-        }
+    // Array to store terms
+    terms = [];
 
-        letters = ["AA", "BA", "BB", "CB", "CC", "DC", "DD", "FD", "FF"];
-        grades = [90, 85, 80, 75, 70, 65, 60, 50];
-        multipliers = [4.00, 3.50, 3.00, 2.50, 2.00, 1.50, 1.00, 0.50, 0.00];
-    }
+    // For calculations
+    gradeTable = gradeTableDefault;
+    scoreTable = scoreTableDefault;
+    multiplierTable = multiplierTableDefault;
 
-    // Method to add a new semester
-    addSemester(name) {
-        if (name === null || name === "" || name === undefined) {
-            name = "Term " + (this.semesters.length + 1);
-        }
-        this.semesters.push(new Semester(name));
-    }
-
-    deleteTerm(id) {
-        const index = this.getSemesterIndex(id);
-        if (index !== -1) {
-            this.semesters.splice(index, 1);
+    constructor(JSONData) {
+        if (JSONData) {
+            this.load(JSONData);
         }
     }
 
-    getSemesterById(id) {
-        return this.semesters.find(term => term.id === id);
+    setGradeTable(gradesArray) { this.gradeTable = gradesArray; this.terms.forEach(term => term.setGradeTable(gradesArray)); }
+    setScoreTable(scoresArray) { this.scoreTable = scoresArray; this.terms.forEach(term => term.setScoreTable(scoresArray)); }
+    setMultiplierTable(multipliersArray) { this.multiplierTable = multipliersArray; this.terms.forEach(term => term.setMultiplierTable(multipliersArray)); }
+    getGradeTable() { return this.gradeTable; }
+    getScoreTable() { return this.scoreTable; }
+    getMultiplierTable() { return this.multiplierTable; }
+
+    addTerm(term) {
+        if (term.name === undefined || term.name === null || term.name === "") {
+            term.name = "Term " + (this.terms.length + 1);
+        }
+        term.setGradeTable(this.getGradeTable());
+        term.setScoreTable(this.getScoreTable());
+        term.setMultiplierTable(this.getMultiplierTable());
+        this.terms.push(term);
     }
 
-    getSemesterIndex(id) {
-        return this.semesters.findIndex(term => term.id === id);
+    getTermById(id) {
+        return this.terms.find(term => term.id === id);
     }
 
     setTermById(id, newTerm) {
-        const index = this.getSemesterIndex(id);
+        const index = this.terms.findIndex(term => term.id === id);
         if (index !== -1) {
-            this.semesters[index] = newTerm;
+            this.terms[index] = newTerm;
         }
     }
 
-    average() {
-        const totalCredit = this.semesters.reduce((a, b) => a + (b.active ? b.totalCredit() : 0), 0);
+    deleteTermById(id) {
+        const index = this.terms.findIndex(term => term.id === id);
+        if (index !== -1) {
+            this.terms.splice(index, 1);
+        }
+    }
 
-        if (totalCredit === 0) {
-            return 0;
+    getTerms() {
+        return this.terms;
+    }
+
+    calc() {
+        // calc for each child in each term
+        this.terms.forEach(term => {
+            term.courses.forEach(course => {
+                course.calc();
+            })
+        })
+        this.terms.forEach(term => { term.calc() });
+        this.calcTotalCredit();
+        this.calcGpa();
+    }
+
+    calcTotalCredit() {
+        this.totalCredit = this.terms.reduce((a, b) => a + Number((b.includeCalc ? b.totalCredit : 0)), 0);
+    }
+
+    calcGpa() {
+        if (this.totalCredit === 0) {
+            this.gpa = 0;
         } else {
-            return (this.semesters.reduce((a, b) => a + (b.average() * (b.active ? b.totalCredit() : 0)), 0) / totalCredit);
+            this.gpa = (this.terms.reduce((a, b) => a + (b.gpa * (b.includeCalc ? b.totalCredit : 0)), 0) / this.totalCredit);
         }
     }
 
     load(JSONData) {
-        const uni = new University(JSONData.name, JSONData.faculty, JSONData.department);
+        Object.keys(JSONData).forEach(key => {
+            if (key !== "terms") {
+                this[key] = JSONData[key];
+            }
+        })
 
-        // Recreate instances of Lesson and Grade
-        JSONData.semesters.forEach((semester, i) => {
-            uni.addSemester(semester.name);
-            uni.semesters[i].includeCalc = semester.includeCalc;
-            uni.semesters[i].expanded = semester.expanded;
-            uni.semesters[i].name = semester.name;
-            uni.semesters[i].id = semester.id;
+        this.terms = [];
 
-            semester.lessons.forEach((lesson, j) => {
-                uni.semesters[i].addLesson(lesson.name, lesson.credit);
-                uni.semesters[i].lessons[j].expanded = lesson.expanded;
-                uni.semesters[i].lessons[j].id = lesson.id;
-                uni.semesters[i].lessons[j].termId = lesson.termId;
-                uni.semesters[i].lessons[j].name = lesson.name;
-                uni.semesters[i].lessons[j].credit = lesson.credit;
-                uni.semesters[i].lessons[j].autoCalcScore = lesson.autoCalcScore;
-                uni.semesters[i].lessons[j].autoCalcGrade = lesson.autoCalcGrade;
-                uni.semesters[i].lessons[j].score = lesson.score;
-                uni.semesters[i].lessons[j].grade = lesson.grade;
-                uni.semesters[i].lessons[j].includeCalc = lesson.includeCalc;
-
-                lesson.grades.forEach((grade, k) => {
-                    uni.semesters[i].lessons[j].addGrade(grade.name, grade.percentage);
-                    uni.semesters[i].lessons[j].grades[k].name = grade.name;
-                    uni.semesters[i].lessons[j].grades[k].percentage = grade.percentage;
-                    uni.semesters[i].lessons[j].grades[k].value = grade.value;
-                    uni.semesters[i].lessons[j].grades[k].id = grade.id;
-                });
-            });
-        });
-
-        // Merge loaded data into the current instance
-        Object.assign(this, uni);
+        JSONData.terms.forEach(term => {
+            const newTerm = new Term();
+            newTerm.load(term);
+            newTerm.setGradeTable(this.getGradeTable());
+            newTerm.setMultiplierTable(this.getMultiplierTable());
+            newTerm.setScoreTable(this.getScoreTable());
+            this.addTerm(newTerm);
+        })
     }
 }
 
-// Semester class definition
-export class Semester {
-    name = "New Term";
+// Term class definition
+export class Term {
+    name;
     id = uniqid();
+
+    courses = [];
+
+    totalCredit;
+    gpa;
+
     includeCalc = true;
     expanded = true;
 
-    lessons = [];
+    gradeTable = gradeTableDefault;
+    scoreTable = scoreTableDefault;
+    multiplierTable = multiplierTableDefault;
 
-    constructor(name) {
-        if (name !== null && name !== "" && name !== undefined) {
-            this.name = name;
+    constructor(JSONData) {
+        if (JSONData) {
+            this.load(JSONData);
         }
     }
 
-    // Method to add a new lesson to the semester
-    addLesson(termId, name, credit) {
-        if (name === null || name === "" || name === undefined) {
-            name = "Lesson " + (this.lessons.length + 1);
+    setGradeTable(gradesArray) { this.gradeTable = gradesArray; this.courses.forEach(lesson => lesson.setGradeTable(gradesArray)); }
+    setScoreTable(scoresArray) { this.scoreTable = scoresArray; this.courses.forEach(lesson => lesson.setScoreTable(scoresArray)); }
+    setMultiplierTable(multipliersArray) { this.multiplierTable = multipliersArray; this.courses.forEach(lesson => lesson.setMultiplierTable(multipliersArray)); }
+    getGradeTable() { return this.gradeTable; }
+    getScoreTable() { return this.scoreTable; }
+    getMultiplierTable() { return this.multiplierTable; }
+
+    addCourse(course) {
+        if (course.name === null || course.name === "" || course.name === undefined) {
+            course.name = "Lesson " + (this.courses.length + 1);
         }
-        if (credit === null || credit === "") {
-            credit = 0;
-        }
-        this.lessons.push(new Course(termId, name, credit));
+        course.setGradeTable(this.getGradeTable());
+        course.setScoreTable(this.getScoreTable());
+        course.setMultiplierTable(this.getMultiplierTable());
+        this.courses.push(course);
     }
 
-    deleteCourse(id) {
-        const index = this.lessons.findIndex(lesson => lesson.id === id);
-        if (index !== -1) {
-            this.lessons.splice(index, 1);
-        }
-    }
-
-    // Method to calculate the average grade for the semester
-    average() {
-        const totalCredit = this.lessons.reduce((a, b) => a + b.credit, 0);
-
-        if (totalCredit === 0) {
-            return 0;
-        } else {
-            return (this.lessons.reduce((a, b) => a + (b.multiplier() * b.credit), 0) / totalCredit);
-        }
-    }
-
-    totalCredit() {
-        return this.lessons.reduce((a, b) => a + b.credit, 0);
-    }
-
-    getClassById(id) {
-        return this.lessons.find(lesson => lesson.id === id);
-    }
-
-    getClassIndexById(id) {
-        return this.lessons.findIndex(lesson => lesson.id === id);
-    }
-
-    getLastCourseId() {
-        return this.lessons[this.lessons.length - 1].id;
+    getCourseById(id) {
+        return this.courses.find(lesson => lesson.id === id);
     }
 
     setCourseById(id, newCourse) {
-        const index = this.getClassIndexById(id);
+        const index = this.courses.findIndex(lesson => lesson.id === id);
         if (index !== -1) {
-            this.lessons[index] = newCourse;
+            this.courses[index] = newCourse;
         }
     }
 
-    replaceClassAtIndex(index, newClass) {
-        this.lessons[index] = newClass;
+    deleteCourseById(id) {
+        const index = this.courses.findIndex(lesson => lesson.id === id);
+        if (index !== -1) {
+            this.courses.splice(index, 1);
+        }
+    }
+
+    getCourses() {
+        return this.courses;
+    }
+
+    getLastCourse() {
+        return this.courses[this.courses.length - 1];
     }
 
     reorderCourses(orderArray) {
-        this.lessons = this.lessons.sort((a, b) => orderArray.indexOf(a.id) - orderArray.indexOf(b.id));
+        this.courses = this.courses.sort((a, b) => orderArray.indexOf(a.id) - orderArray.indexOf(b.id));
+    }
+
+    calc() {
+        this.calcTotalCredit();
+        this.calcGpa();
+    }
+
+    calcTotalCredit() {
+        this.totalCredit = this.courses.reduce((a, b) => a + Number((b.includeCalc ? b.credit : 0)), 0);
+    }
+
+    calcGpa() {
+        if (this.totalCredit === 0) {
+            this.gpa = 0;
+        } else {
+            this.gpa = (this.courses.reduce((a, b) => a + Number((b.multiplier * b.credit)), 0) / this.totalCredit);
+        }
+    }
+
+    load(JSONData) {
+        Object.keys(JSONData).forEach(key => {
+            if (key !== "courses") {
+                this[key] = JSONData[key];
+            }
+        })
+
+        this.courses = [];
+
+        JSONData.courses.forEach(course => {
+            const newCourse = new Course();
+            newCourse.load(course);
+            this.addCourse(newCourse);
+        })
     }
 }
 
 // Lesson class definition
 export class Course {
     name;
+    credit;
     id = uniqid();
     termId;
-    credit;
-    grades = [];
-    autoCalcScore = true;
-    autoCalcGrade = true;
+
+    scores = [];
 
     score;
     grade;
+    multiplier;
+    totalPercentage;
 
+    autoCalcScore = true;
+    autoCalcGrade = true;
     includeCalc = true;
-
     expanded = true;
 
-    constructor(termId, name, credit) {
-        this.name = name;
-        this.credit = credit;
-        this.termId = termId;
-    }
+    gradeTable = gradeTableDefault;
+    scoreTable = scoreTableDefault;
+    multiplierTable = multiplierTableDefault;
 
-    // Method to add a new grade to the lesson
-    addGrade(name, percentage) {
-        if (name === null || name === "" || name === undefined) {
-            name = "Score " + (this.grades.length + 1);
-        }
-        this.grades.push(new Grade(name, percentage));
-    }
-
-    deleteScore(id) {
-        const index = this.getScoreIndex(id);
-        if (index !== -1) {
-            this.grades.splice(index, 1);
+    constructor(JSONData) {
+        if (JSONData) {
+            this.load(JSONData);
         }
     }
 
-    getScoreIndex(id) {
-        return this.grades.findIndex(grade => grade.id === id);
-    }
+    setGradeTable(gradesArray) { this.gradeTable = gradesArray; }
+    setScoreTable(scoresArray) { this.scoreTable = scoresArray; }
+    setMultiplierTable(multipliersArray) { this.multiplierTable = multipliersArray; }
+    getGradeTable() { return this.gradeTable; }
+    getScoreTable() { return this.scoreTable; }
+    getMultiplierTable() { return this.multiplierTable; }
 
-    // Method to calculate the average grade for the lesson
-    average() {
-        const totalPercentage = this.grades.reduce((a, b) => a + (isNaN(b.value) ? 0 : b.percentage), 0);
+    setTermId(termId) { this.termId = termId; }
 
-        if (totalPercentage === 0) {
-            return 0;
-        } else {
-            return (this.grades.reduce((a, b) => a + (isNaN(b.value) ? 0 : b.value * b.percentage), 0) / totalPercentage);
+    addScore(score) {
+        if (score.name === null || score.name === "" || score.name === undefined) {
+            score.name = "Score " + (this.scores.length + 1);
         }
-    }
-
-    letterNote() {
-        for (let i = 0; i < letters.length; i++) {
-            if (this.average() >= grades[i]) {
-                return letters[i];
-            }
-        }
-        return letters[letters.length - 1];
-    }
-
-    multiplier() {
-        for (let i = 0; i < letters.length; i++) {
-            if (this.average() >= grades[i]) {
-                return multipliers[i];
-            }
-        }
-        return multipliers[multipliers.length - 1];
+        this.scores.push(score);
     }
 
     getScoreById(id) {
-        return this.grades.find(grade => grade.id === id);
+        return this.scores.find(score => score.id === id);
+    }
+
+    setScoreById(id, newScore) {
+        const index = this.getScoreIndexById(id);
+        if (index !== -1) {
+            this.scores[index] = newScore;
+        }
+    }
+
+    deleteScoreById(id) {
+        const index = this.scores.findIndex(grade => grade.id === id);
+        if (index !== -1) {
+            this.scores.splice(index, 1);
+        }
+    }
+
+    getScores() {
+        return this.scores;
+    }
+
+    calc() {
+        this.calcTotalPercentage();
+        this.calcScore();
+        this.calcGrade();
+        this.calcMultiplier();
+    }
+
+    calcTotalPercentage() {
+        this.totalPercentage = this.scores.reduce((a, b) => a + Number((b.score === null || b.score === "" || b.score === undefined ? 0 : b.percentage)), 0);
+        console.log(this.scores);
+    }
+
+    calcScore() {
+        if (this.totalPercentage === 0) {
+            this.score = 0;
+        } else {
+            this.score = (this.scores.reduce((a, b) => a + Number((b.score === null || b.score === "" || b.score === undefined ? 0 : Number(b.score) * Number(b.percentage))), 0) / this.totalPercentage);
+        }
+    }
+
+    calcGrade() {
+        for (let i = 0; i < this.gradeTable.length; i++) {
+            if (this.score >= this.scoreTable[i]) {
+                this.grade = this.gradeTable[i];
+            }
+        }
+        this.grade = this.gradeTable[this.gradeTable.length - 1];
+    }
+
+    calcMultiplier() {
+        for (let i = 0; i < this.gradeTable.length; i++) {
+            if (this.score >= this.scoreTable[i]) {
+                return this.multiplierTable[i];
+            }
+        }
+        return this.multiplierTable[this.multiplierTable.length - 1];
     }
 
     load(JSONData) {
-        const assignLesson = new Course();
+        Object.keys(JSONData).forEach(key => {
+            if (key !== "scores") {
+                this[key] = JSONData[key];
+            }
+        })
 
-        assignLesson.expanded = JSONData.expanded;
-        assignLesson.id = JSONData.id;
-        assignLesson.termId = JSONData.termId;
-        assignLesson.name = JSONData.name;
-        assignLesson.credit = JSONData.credit;
-        assignLesson.autoCalcScore = JSONData.autoCalcScore;
-        assignLesson.autoCalcGrade = JSONData.autoCalcGrade;
-        assignLesson.grade = JSONData.grade;
-        assignLesson.score = JSONData.score;
-        assignLesson.includeCalc = JSONData.includeCalc;
-
-
-        JSONData.grades.forEach((grade, k) => {
-            assignLesson.addGrade(grade.name, grade.percentage);
-            assignLesson.grades[k].name = grade.name;
-            assignLesson.grades[k].percentage = grade.percentage;
-            assignLesson.grades[k].value = grade.value;
-            assignLesson.grades[k].id = grade.id;
-        });
-
-        Object.assign(this, assignLesson);
+        this.scores = [];
+        JSONData.scores.forEach(score => {
+            this.addScore(new Score(score));
+        })
     }
 }
 
-// Grade class definition
-class Grade {
-    name = "New Score";
+// Score class definition
+export class Score {
+    name;
     id = uniqid();
-    value;
+    score;
     percentage;
 
-    constructor(name, percentage) {
-        this.name = name;
-        this.percentage = percentage;
+    constructor(JSONData) {
+        if (JSONData) {
+            this.load(JSONData);
+        }
+    }
+
+    load(JSONData) {
+        Object.keys(JSONData).forEach(key => {
+            this[key] = JSONData[key];
+        })
     }
 }
-
-/*
-
-let uni = new University();
-
-uni.addSemester();
-uni.addSemester();
-
-uni.semesters[0].addLesson("Math", 2);
-uni.semesters[1].addLesson("Turkish", 1);
-
-
-console.log(uni.semesters[0].lessons[0].name);
-
-uni.semesters[0].lessons[0].addGrade("final", 50);
-uni.semesters[0].lessons[0].addGrade("vize1", 25);
-uni.semesters[0].lessons[0].addGrade("vize2", 25);
-
-uni.semesters[0].lessons[0].grades[0].value = 100;
-uni.semesters[0].lessons[0].grades[1].value = 80;
-uni.semesters[0].lessons[0].grades[2].value = 80;
-
-uni.semesters[1].lessons[0].addGrade("final", 50);
-uni.semesters[1].lessons[0].addGrade("vize1", 25);
-uni.semesters[1].lessons[0].addGrade("vize2", 25);
-
-uni.semesters[1].lessons[0].grades[0].value = 80;
-uni.semesters[1].lessons[0].grades[1].value = 40;
-uni.semesters[1].lessons[0].grades[2].value = 40;
-
-console.log(uni.semesters[0].lessons[0].average());
-console.log(uni.semesters[0].lessons[0].letterNote());
-console.log(uni.semesters[0].lessons[0].multiplier());
-console.log(uni.semesters[0].average());
-console.log(uni.average());
-
-uni.save();
-
-/*
-(async () => {
-    let uni = new University();
-
-    // Call the load method without a callback using async/await
-    await uni.load("My University");
-
-    // Use the loaded uni object or perform other operations...
-    console.log(uni.semesters[0].lessons[0].average());
-})();
-*/

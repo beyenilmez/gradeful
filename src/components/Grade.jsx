@@ -9,9 +9,9 @@ function Grade({ termId, courseId, id, name }) {
     const uni = new University();
     uni.load(universityData);
 
-    const [scoreValue, setScoreValue] = useState(uni.getSemesterById(termId).getClassById(courseId).getScoreById(id).value);
-    const [typeValue, setTypeValue] = useState(uni.getSemesterById(termId).getClassById(courseId).getScoreById(id).name);
-    const [percentageValue, setPercentageValue] = useState(uni.getSemesterById(termId).getClassById(courseId).getScoreById(id).percentage);
+    const [scoreValue, setScoreValue] = useState(uni.getTermById(termId).getCourseById(courseId).getScoreById(id).value);
+    const [typeValue, setTypeValue] = useState(uni.getTermById(termId).getCourseById(courseId).getScoreById(id).name);
+    const [percentageValue, setPercentageValue] = useState(uni.getTermById(termId).getCourseById(courseId).getScoreById(id).percentage);
     const [visible, setVisible] = useState(true);
     const [editing, setEditing] = useState(false);
 
@@ -19,7 +19,7 @@ function Grade({ termId, courseId, id, name }) {
     useEffect(() => {
         const uni = new University();
         uni.load(universityData);
-        uni.getSemesterById(termId).getClassById(courseId).getScoreById(id).value = scoreValue;
+        uni.getTermById(termId).getCourseById(courseId).getScoreById(id).value = scoreValue;
         setUniversityData(uni);
         save();
     }, [scoreValue])
@@ -43,7 +43,6 @@ function Grade({ termId, courseId, id, name }) {
         if (editJSON[courseId] !== undefined) {
             const course = new Course();
             course.load(editJSON[courseId]);
-            console.log(course.getScoreById(id));
 
             course.getScoreById(id).name = typeValue;
             course.getScoreById(id).percentage = percentageValue;
@@ -55,13 +54,13 @@ function Grade({ termId, courseId, id, name }) {
     function getScoreName() {
         const uni = new University();
         uni.load(universityData);
-        return uni.getSemesterById(termId).getClassById(courseId).getScoreById(id).name;
+        return uni.getTermById(termId).getCourseById(courseId).getScoreById(id).name;
     }
 
     function getScorePercentage() {
         const uni = new University();
         uni.load(universityData);
-        return uni.getSemesterById(termId).getClassById(courseId).getScoreById(id).percentage;
+        return uni.getTermById(termId).getCourseById(courseId).getScoreById(id).percentage;
     }
 
     function deleteScore() {
