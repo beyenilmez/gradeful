@@ -105,9 +105,20 @@ function Term({ id, name, children, isActive, setActive }) {
         <div className="draggable dark:bg-slate-750 bg-slate-250 border dark:border-slate-550 border-slate-350 shadow-lg rounded-md h-fit overflow-hidden">
             <div className="flex items-center justify-between py-1 px-2 hover:cursor-pointer" onClick={toggleActive}>
                 <div className='flex items-center'>
-                    <Move size="1.5rem" className={`handle mr-1 transform transition-transform duration-300`} />
+                    <Move size="1.5rem" className={`handle mr-1 transform transition-transform duration-300 shrink-0`} />
                     <ChevronRight size="1.5rem" className={`mr-1 transform transition-transform duration-300 ${isActive && !inactive ? 'rotate-90' : ''}`} />
-                    <div className="flex h-full">{name}</div>
+                    <div className={`flex h-full ${editing ? 'hidden' : 'block'}`}>{name}</div>
+
+                    <textarea rows="1" onClick={(e) => e.stopPropagation()}
+                        className={`
+                            ${editing ? 'block' : 'hidden'}
+                            whitespace-nowrap mr-2
+                            no-scrollbar resize-none w-full h-full pl-2 outline-none rounded-lg border dark:text-slate-250 text-slate-750 dark:border-slate-450 border-slate-450 dark:bg-slate-700 bg-slate-300 dark:placeholder-slate-550 placeholder-slate-400
+                        `}
+                        placeholder="Name"
+                        value={nameValue}
+                        onChange={(e) => setNameValue(e.target.value)}
+                    ></textarea>
                 </div>
 
                 <div className='flex items-center'>

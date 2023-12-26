@@ -171,7 +171,7 @@ function Class({ id, termId, name, children, isActive, setActive }) {
                 </div>
 
                 <div className='flex items-center'>
-                    <div className={`flex items-center h-7 px-3 mx-1 rounded-lg dark:bg-slate-650 bg-slate-350 ${editJSON[id] !== undefined && !autoCalcScore ? 'hidden' : 'block'}`}>
+                    <div className={`w-10 flex items-center justify-center mx-1 h-7 px-3 rounded-lg dark:bg-slate-650 bg-slate-350 ${editJSON[id] !== undefined && !autoCalcScore ? 'hidden' : 'block'}`}>
                         <div>
                             {getScore()}
                         </div>
@@ -189,7 +189,7 @@ function Class({ id, termId, name, children, isActive, setActive }) {
                         ></textarea>
                     </div>
 
-                    <div className={`flex items-center h-7 px-3 mx-1 rounded-lg dark:bg-slate-650 bg-slate-350 ${editJSON[id] !== undefined && !autoCalcGrade ? 'hidden' : 'block'}`}>
+                    <div className={`w-10 flex items-center justify-center mx-1 h-7 px-3 rounded-lg dark:bg-slate-650 bg-slate-350 ${editJSON[id] !== undefined && !autoCalcGrade ? 'hidden' : 'block'}`}>
                         <div>
                             {getGrade()}
                         </div>
