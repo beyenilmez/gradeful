@@ -9,10 +9,6 @@ export const UniProvider = ({ children }) => {
   const jsonData = localStorage.getItem('university');
   const [universityData, setUniversityData] = useState(jsonData ? JSON.parse(jsonData) : new University());
 
-  const [editId, setEditId] = useState();
-  const [editOccupied, setEditOccupied] = useState(false);
-
-  const [editArray, setEditArray] = useState([]);
   const [editJSON, setEditJSON] = useState({});
 
   const [saveNextChange, setSaveNextChange] = useState(false);
@@ -22,14 +18,14 @@ export const UniProvider = ({ children }) => {
       localStorage.setItem('university', JSON.stringify(universityData));
       setSaveNextChange(false);
     }
-  }, [universityData]);
+  }, [universityData, saveNextChange]);
 
   function save() {
     setSaveNextChange(true);
   }
 
   return (
-    <UniContext.Provider value={{ universityData, setUniversityData, editId, setEditId, editOccupied, setEditOccupied, editArray, setEditArray, editJSON, setEditJSON, save }}>
+    <UniContext.Provider value={{ universityData, setUniversityData, editJSON, setEditJSON, save }}>
       {children}
     </UniContext.Provider>
   );

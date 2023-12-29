@@ -343,6 +343,9 @@ export class Course {
 export class Score {
     name;
     id = uniqid();
+    courseId;
+    termId;
+    
     score;
     percentage;
 

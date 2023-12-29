@@ -7,7 +7,7 @@ import { useInactive } from "./InactiveContext";
 import { useUniData } from "./UniContext";
 import { University } from "../utils/Program";
 import Button from "./Button";
-import Grade from "./Grade";
+import Score from "./Score";
 
 import '../css/drag.css';
 
@@ -25,14 +25,13 @@ const sortableOptions = {
 function Grid() {
     const { inactive, setInactive } = useInactive();
     const { classInactive, setClassInactive } = useInactive();
-    const { universityData, setUniversityData, editOccupied, setEditOccupied ,editJSON, save } = useUniData();
+    const { universityData, setUniversityData, save } = useUniData();
 
     return (
         <React.Fragment>
             <div className="flex flex-col">
                 <Button onClick={() => setInactive(!inactive)}>inactive : {inactive ? "true" : "false"}</Button>
                 <Button>classInactive : {classInactive}</Button>
-                <Button onClick={() => setEditOccupied(!editOccupied)}>editOccupied : {editOccupied ? "true" : "false"}</Button>
 
                 <Button onClick={() => {
                     localStorage.clear();
@@ -44,10 +43,12 @@ function Grid() {
                     addButton.click();
                 }}>Add term</Button>
                 <Button onClick={() => window.location.reload()}>Reload</Button>
-                {/**<Button>{JSON.stringify(editJSON)}</Button> */}
+
                 <Button onClick={()=>{
                     const uni = new University(universityData);
                     uni.calc();
+                    save();
+                    setUniversityData(uni);
                     console.log(uni);
                 }}>Calc</Button>
             </div>
@@ -106,7 +107,7 @@ function Grid() {
                                         {...sortableOptions}
                                     >
                                         {course.scores.map((score) => (
-                                            <Grade key={score.id} id={score.id} courseId={course.id} termId={course.termId} name={score.name} percentage={score.percentage} value={score.score} />
+                                            <Score key={score.id} id={score.id} courseId={course.id} termId={course.termId} name={score.name} percentage={score.percentage} score={score.score} />
                                         ))}
                                     </ReactSortable>
                                 </Class>
