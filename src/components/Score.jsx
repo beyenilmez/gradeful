@@ -4,7 +4,7 @@ import { University, Course } from "../utils/Program";
 import Button from './Button';
 import { Trash } from 'react-feather';
 
-function Grade({ id, courseId, termId, name, percentage, score }) {
+function ScoreExport({ id, courseId, termId, name, percentage, score }) {
     // Context
     const { universityData, setUniversityData, editJSON, setEditJSON, save } = useUniData();
 
@@ -21,42 +21,10 @@ function Grade({ id, courseId, termId, name, percentage, score }) {
     const courseIdRef = useRef(courseId);
     const termIdRef = useRef(termId);
 
-    const editData = editJSON[courseIdRef.current];
     const editingRef = useRef(editing);
 
-    // Effects
-    useEffect(() => {
-        if (editData !== undefined && !editingRef.current) {
-            setEditing(true);
-        } else if (editData === undefined) {
-            setEditing(false);
-            setVisible(true);
-        }
-    }, [editData])
-
-    useEffect(() => {
-        console.log("scoreValue");
-        updateScore();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [scoreValue])
-
-    useEffect(() => {
-        if (editData !== undefined) {
-            const course = new Course();
-            course.load(editData);
-
-            course.getScoreById(idRef.current).name = nameValue;
-            course.getScoreById(idRef.current).percentage = percentageValue;
-
-            setEditJSON({ ...editJSON, [courseIdRef.current]: course });
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [nameValue, percentageValue])
-
-    useEffect(() => {
-        setNameValue(name);
-        setPercentageValue(percentage);
-    }, [editing, name, percentage])
+    // Data
+    const editData = editJSON[courseIdRef.current];
 
     // Functions
     function deleteScore() {
@@ -76,9 +44,41 @@ function Grade({ id, courseId, termId, name, percentage, score }) {
         setUniversityData(uni);
     }
 
+    // Effects
+    useEffect(() => {
+        if (editData !== undefined && !editingRef.current) {
+            setEditing(true);
+        } else if (editData === undefined) {
+            setEditing(false);
+            setVisible(true);
+        }
+    }, [editData])
+
+    useEffect(() => {
+        updateScore();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [scoreValue])
+
+    useEffect(() => {
+        if (editData !== undefined) {
+            const course = new Course(editData);
+
+            course.getScoreById(idRef.current).name = nameValue;
+            course.getScoreById(idRef.current).percentage = percentageValue;
+
+            setEditJSON({ ...editJSON, [courseIdRef.current]: course });
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [nameValue, percentageValue])
+
+    useEffect(() => {
+        setNameValue(name);
+        setPercentageValue(percentage);
+    }, [editing, name, percentage])
+
     // Render
     return (
-        <div className={`max-w-[4.25rem] w-[1000%] mr-2 flex flex-col items-start
+        <div className={`max-w-[4.25rem] w-[1000%] mr-2 flex flex-col items-start p-1
         ${visible ? '' : 'hidden'}`}>
             <div className={`w-full h-full
             ${editData !== undefined ? 'hidden' : 'flex'}
@@ -122,10 +122,10 @@ function Grade({ id, courseId, termId, name, percentage, score }) {
                         onClick={deleteScore}
                         hoverColor={"hover:dark:bg-slate-650 hover:bg-slate-350"}
                         activeColor={"active:dark:bg-slate-600 active:bg-slate-400"}
-                        className={`w-full flex justify-center overflow-hidden`}
                         padding={'p-0'}
+                        className={`w-full flex justify-center items-center overflow-hidden ${editData !== undefined ? 'h-[1.75rem]' : 'h-0'} transition-[height] duration-300`}
                     >
-                        <Trash size={"1.25rem"} className={`${editData !== undefined ? 'h-[1.75rem]' : 'h-0'} transition-[height] duration-300`} />
+                        <Trash size={"1.25rem"} />
                     </Button>
                 </div>
             </div>
@@ -133,4 +133,4 @@ function Grade({ id, courseId, termId, name, percentage, score }) {
     );
 }
 
-export default Grade;
+export default ScoreExport;

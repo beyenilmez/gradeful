@@ -1,7 +1,7 @@
 import React from "react";
 import Term from "./Term";
 import { ReactSortable } from "react-sortablejs";
-import Class from './Class';
+import Course from './Course';
 import '../utils/Program';
 import { useInactive } from "./InactiveContext";
 import { useUniData } from "./UniContext";
@@ -44,13 +44,14 @@ function Grid() {
                 }}>Add term</Button>
                 <Button onClick={() => window.location.reload()}>Reload</Button>
 
-                <Button onClick={()=>{
+                <Button onClick={() => {
                     const uni = new University(universityData);
                     uni.calc();
                     save();
                     setUniversityData(uni);
                     console.log(uni);
                 }}>Calc</Button>
+
             </div>
 
 
@@ -91,11 +92,11 @@ function Grid() {
                             {...sortableOptions}
                         >
                             {term.courses.map((course) => (
-                                <Class key={course.id} id={course.id} termId={course.termId} name={course.name} credit={course.credit} isActive={course.expanded} setActive={(value) => {
-                                    course.expanded = value;
-                                    save();
-                                    setUniversityData({ ...universityData, terms: [...universityData.terms] });
-                                }}>
+                                <Course key={course.id}
+                                    id={course.id} termId={course.termId} name={course.name} credit={course.credit}
+                                    score={course.score} grade={course.grade}
+                                    autoCalcScore={course.autoCalcScore} autoCalcGrade={course.autoCalcGrade} includeCalc={course.includeCalc}
+                                    expanded={course.expanded}>
                                     <ReactSortable
                                         className="flex"
                                         list={course.scores}
@@ -110,7 +111,7 @@ function Grid() {
                                             <Score key={score.id} id={score.id} courseId={course.id} termId={course.termId} name={score.name} percentage={score.percentage} score={score.score} />
                                         ))}
                                     </ReactSortable>
-                                </Class>
+                                </Course>
                             ))}
                         </ReactSortable>
                     </Term>
