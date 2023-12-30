@@ -4,6 +4,7 @@ import { ChevronRight, Edit2, Menu, Plus, Trash, Save, X, CheckSquare, Square } 
 import { useUniData } from './UniContext';
 import { University, Course, Score } from '../utils/Program';
 import { useInactive } from './InactiveContext';
+import Checkbox from './Checkbox';
 
 function CourseExport({ id, termId, name, credit, score, grade, autoCalcScore, autoCalcGrade, includeCalc, expanded, children }) {
     // Context
@@ -324,37 +325,13 @@ function CourseExport({ id, termId, name, credit, score, grade, autoCalcScore, a
                     <div className='flex justify-between w-full'>
                         {children}
                         <div className={`flex-row text-xs whitespace-nowrap ${editData === undefined ? 'hidden' : ''}`}>
-                            <div className='flex'>
-                                <Square size="1rem"
-                                    className={`cursor-pointer
-                                ${autoCalcScoreValue ? 'hidden' : ''}
-                                `}
-                                    onClick={() => setAutoCalcScoreValue(true)}
-                                />
-                                <CheckSquare size="1rem"
-                                    className={`cursor-pointer
-                                    ${autoCalcScoreValue ? '' : 'hidden'}
-                                    `}
-                                    onClick={() => setAutoCalcScoreValue(false)}
-                                />
+                            <Checkbox className={'flex'} size={'1rem'} value={autoCalcScoreValue} setValue={setAutoCalcScoreValue}>
                                 Auto calculate score
-                            </div>
+                            </Checkbox>
 
-                            <div className='flex'>
-                                <Square size="1rem"
-                                    className={`cursor-pointer
-                                ${autoCalcGradeValue ? 'hidden' : ''}
-                                `}
-                                    onClick={() => setAutoCalcGradeValue(true)}
-                                />
-                                <CheckSquare size="1rem"
-                                    className={`cursor-pointer
-                                    ${autoCalcGradeValue ? '' : 'hidden'}
-                                    `}
-                                    onClick={() => setAutoCalcGradeValue(false)}
-                                />
+                            <Checkbox className={'flex'} size={'1rem'} value={autoCalcGradeValue} setValue={setAutoCalcGradeValue}>
                                 Auto calculate grade
-                            </div>
+                            </Checkbox>
                         </div>
                     </div>
                 </div>
