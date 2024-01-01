@@ -21,6 +21,7 @@ function CourseExport({ id, termId, name, credit, score, grade, autoCalcScore, a
     const [gradeValue, setGradeValue] = useState(grade);
     const [autoCalcScoreValue, setAutoCalcScoreValue] = useState(autoCalcScore);
     const [autoCalcGradeValue, setAutoCalcGradeValue] = useState(autoCalcGrade);
+    // eslint-disable-next-line no-unused-vars
     const [includeCalcValue, setIncludeCalcValue] = useState(includeCalc);
 
     const [expandedValue, setExpandedValue] = useState(expanded);

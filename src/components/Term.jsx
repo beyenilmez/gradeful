@@ -17,6 +17,7 @@ function TermExport({ id, name, includeCalc, children, expanded }) {
     const [contentTransitionDuration, setContentTransitionDuration] = useState('150');
 
     const [nameValue, setNameValue] = useState(name);
+    // eslint-disable-next-line no-unused-vars
     const [includeCalcValue, setIncludeCalcValue] = useState(includeCalc);
 
     const [expandedValue, setExpandedValue] = useState(expanded);
