@@ -1,18 +1,18 @@
-function themeDark() {
+export function themeDark() {
     const htmlTag = document.querySelector('html');
 
     htmlTag.classList.add('dark');
     localStorage.setItem('theme', 'dark');
 }
 
-function themeLight() {
+export function themeLight() {
     const htmlTag = document.querySelector('html');
 
     htmlTag.classList.remove('dark');
     localStorage.setItem('theme', 'light');
 }
 
-function themeSystem() {
+export function themeSystem() {
     const htmlTag = document.querySelector('html');
 
     if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
