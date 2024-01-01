@@ -71,11 +71,7 @@ function Grid() {
                 {...sortableOptions}
             >
                 {universityData.terms.map((term, index) => (
-                    <Term key={term.id} id={term.id} name={term.name} isActive={term.expanded} setActive={(value) => {
-                        term.expanded = value;
-                        save();
-                        setUniversityData({ ...universityData, terms: [...universityData.terms] });
-                    }}>
+                    <Term key={term.id} id={term.id} name={term.name} expanded={term.expanded} includeCalc={term.includeCalc}>
                         <ReactSortable
                             list={term.courses}
                             setList={(newList) => {
@@ -93,8 +89,8 @@ function Grid() {
                         >
                             {term.courses.map((course) => (
                                 <Course key={course.id}
-                                    id={course.id} termId={course.termId} name={course.name} credit={course.credit}
-                                    score={course.score} grade={course.grade}
+                                    id={course.id} termId={course.termId} name={course.name} 
+                                    credit={course.credit} score={course.score} grade={course.grade}
                                     autoCalcScore={course.autoCalcScore} autoCalcGrade={course.autoCalcGrade} includeCalc={course.includeCalc}
                                     expanded={course.expanded}>
                                     <ReactSortable

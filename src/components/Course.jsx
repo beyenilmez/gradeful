@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Button from './Button';
-import { ChevronRight, Edit2, Menu, Plus, Trash, Save, X, CheckSquare, Square } from 'react-feather';
+import { ChevronRight, Edit2, Menu, Plus, Trash, Save, X } from 'react-feather';
 import { useUniData } from './UniContext';
 import { University, Course, Score } from '../utils/Program';
 import { useInactive } from './InactiveContext';
@@ -27,7 +27,7 @@ function CourseExport({ id, termId, name, credit, score, grade, autoCalcScore, a
 
     const [editing, setEditing] = useState(false);
     const [deleteConfirmation, setDeleteConfirmation] = useState(false);
-    const [initialData, setInitialData] = useState();
+    const [initialData, setInitialData] = useState({});
 
     // <--- States end --->
 
@@ -67,25 +67,8 @@ function CourseExport({ id, termId, name, credit, score, grade, autoCalcScore, a
         setEditJSON({ ...editJSON, [idRef.current]: undefined });
     }
 
-    function setExpanded(value) {
-        setExpandedValue(value);
-
-        const uni = new University(universityData);
-        uni.getTermById(termIdRef.current).getCourseById(idRef.current).expanded = value;
-
-        save();
-        setUniversityData(uni);
-    }
-
-    function toggleExpanded() {
-        if (classInactive !== termIdRef.current && editData === undefined) {
-            setExpanded(!expandedValue);
-        }
-    }
-
     function startEdit() {
-        const uni = new University();
-        uni.load(universityData);
+        const uni = new University(universityData);
 
         setEditJSON({ ...editJSON, [idRef.current]: uni.getTermById(termIdRef.current).getCourseById(idRef.current) });
     }
@@ -112,6 +95,22 @@ function CourseExport({ id, termId, name, credit, score, grade, autoCalcScore, a
         setUniversityData(uni);
     }
 
+    function setExpanded(value) {
+        setExpandedValue(value);
+
+        const uni = new University(universityData);
+        uni.getTermById(termIdRef.current).getCourseById(idRef.current).expanded = value;
+
+        save();
+        setUniversityData(uni);
+    }
+
+    function toggleExpanded() {
+        if (classInactive !== termIdRef.current && editData === undefined) {
+            setExpanded(!expandedValue);
+        }
+    }
+
     // <--- Functions end --->
 
     // <--- Effects start --->
@@ -134,7 +133,6 @@ function CourseExport({ id, termId, name, credit, score, grade, autoCalcScore, a
             setDeleteConfirmation(false);
             setInitialData(undefined);
             setEditing(false);
-            setDeleteConfirmation(false);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [editData])
