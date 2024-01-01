@@ -1,10 +1,8 @@
 import { createContext, useContext, useState, useEffect } from 'react';
-import { University } from '../utils/Program'; // Import the University class from the appropriate file
+import { University } from '../utils/Program';
 
-// Create a context
 const UniContext = createContext();
 
-// Create a provider component to wrap the parts of the app that need access to the University instance
 export const UniProvider = ({ children }) => {
   const jsonData = localStorage.getItem('university');
   const [universityData, setUniversityData] = useState(jsonData ? JSON.parse(jsonData) : new University());

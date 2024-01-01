@@ -1,9 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
-import Button from './Button';
+import { University, Course, Score } from '../utils/Program';
 import { ChevronRight, Edit2, Menu, Plus, Trash, Save, X } from 'react-feather';
 import { useUniData } from './UniContext';
-import { University, Course, Score } from '../utils/Program';
 import { useInactive } from './InactiveContext';
+import Button from './Button';
 import Checkbox from './Checkbox';
 
 function CourseExport({ id, termId, name, credit, score, grade, autoCalcScore, autoCalcGrade, includeCalc, expanded, children }) {

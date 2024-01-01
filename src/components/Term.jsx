@@ -1,9 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
-import Button from './Button';
-import { Plus, ChevronRight, Trash, Move, Edit2, Save, X } from 'react-feather';
-import { useInactive } from './InactiveContext';
-import { useUniData } from './UniContext';
 import { University, Term, Course } from '../utils/Program';
+import { Plus, ChevronRight, Trash, Move, Edit2, Save, X } from 'react-feather';
+import { useUniData } from './UniContext';
+import { useInactive } from './InactiveContext';
+import Button from './Button';
 
 function TermExport({ id, name, includeCalc, children, expanded }) {
     const { universityData, setUniversityData, editJSON, setEditJSON, save } = useUniData();

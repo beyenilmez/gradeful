@@ -1,13 +1,12 @@
 import React from "react";
-import Term from "./Term";
-import { ReactSortable } from "react-sortablejs";
-import Course from './Course';
-import '../utils/Program';
-import { useInactive } from "./InactiveContext";
-import { useUniData } from "./UniContext";
 import { University } from "../utils/Program";
-import Button from "./Button";
+import Term from "./Term";
+import Course from './Course';
 import Score from "./Score";
+import { useUniData } from "./UniContext";
+import { useInactive } from "./InactiveContext";
+import { ReactSortable } from "react-sortablejs";
+import Button from "./Button";
 
 import '../css/drag.css';
 
@@ -89,7 +88,7 @@ function Grid() {
                         >
                             {term.courses.map((course) => (
                                 <Course key={course.id}
-                                    id={course.id} termId={course.termId} name={course.name} 
+                                    id={course.id} termId={course.termId} name={course.name}
                                     credit={course.credit} score={course.score} grade={course.grade}
                                     autoCalcScore={course.autoCalcScore} autoCalcGrade={course.autoCalcGrade} includeCalc={course.includeCalc}
                                     expanded={course.expanded}>

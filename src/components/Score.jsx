@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useUniData } from './UniContext';
 import { University, Course } from "../utils/Program";
-import Button from './Button';
 import { Trash } from 'react-feather';
+import { useUniData } from './UniContext';
+import Button from './Button';
 
 function ScoreExport({ id, courseId, termId, name, percentage, score }) {
     // Context
