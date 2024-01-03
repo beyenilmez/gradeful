@@ -1,21 +1,24 @@
 import { createContext, useState, useContext } from 'react';
+import PropTypes from 'prop-types';
 
-// Create a context
 const InactiveContext = createContext();
 
-// Create a provider component to wrap the parts of the app that need access to the theme
-export const InactiveProvider = ({ children }) => {
+export const InactiveProvider = (props) => {
   const [inactive, setInactive] = useState(false);
   const [classInactive, setClassInactive] = useState('');
 
   return (
     <InactiveContext.Provider value={{ inactive, setInactive, classInactive, setClassInactive }}>
-      {children}
+      {props.children}
     </InactiveContext.Provider>
   );
 };
 
-// A custom hook to access the theme context easily in any component
+
+InactiveProvider.propTypes = {
+  children: PropTypes.node
+}
+
 export const useInactive = () => {
   return useContext(InactiveContext);
 };

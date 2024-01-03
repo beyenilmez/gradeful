@@ -1,25 +1,26 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, {  useState, useEffect, useRef } from 'react';
+import PropTypes from 'prop-types';
 import { University, Course } from "../utils/Program";
 import { Trash } from 'react-feather';
 import { useUniData } from './UniContext';
 import Button from './Button';
 
-function ScoreExport({ id, courseId, termId, name, percentage, score }) {
+function ScoreExport(props) {
     // Context
     const { universityData, setUniversityData, editJSON, setEditJSON, save } = useUniData();
 
     // States
-    const [scoreValue, setScoreValue] = useState(score);
-    const [nameValue, setNameValue] = useState(name);
-    const [percentageValue, setPercentageValue] = useState(percentage);
+    const [scoreValue, setScoreValue] = useState(props.score);
+    const [nameValue, setNameValue] = useState(props.name);
+    const [percentageValue, setPercentageValue] = useState(props.percentage);
 
     const [visible, setVisible] = useState(true);
     const [editing, setEditing] = useState(false);
 
     // References
-    const idRef = useRef(id);
-    const courseIdRef = useRef(courseId);
-    const termIdRef = useRef(termId);
+    const idRef = useRef(props.id);
+    const courseIdRef = useRef(props.courseId);
+    const termIdRef = useRef(props.termId);
 
     const editingRef = useRef(editing);
 
@@ -72,9 +73,9 @@ function ScoreExport({ id, courseId, termId, name, percentage, score }) {
     }, [nameValue, percentageValue])
 
     useEffect(() => {
-        setNameValue(name);
-        setPercentageValue(percentage);
-    }, [editing, name, percentage])
+        setNameValue(props.name);
+        setPercentageValue(props.percentage);
+    }, [editing, props.name, props.percentage])
 
     // Render
     return (
@@ -84,7 +85,7 @@ function ScoreExport({ id, courseId, termId, name, percentage, score }) {
             ${editData !== undefined ? 'hidden' : 'flex'}
             `}>
                 <div className="w-full h-full mr-0.5 text-center text-xs font-light">
-                    {name} ({percentage}%)
+                    {name} ({props.percentage}%)
                 </div>
             </div>
             <div className="mt-1 w-full h-full flex items-end">
@@ -131,6 +132,15 @@ function ScoreExport({ id, courseId, termId, name, percentage, score }) {
             </div>
         </div>
     );
+}
+
+ScoreExport.propTypes = {
+    id: PropTypes.string,
+    courseId: PropTypes.string,
+    termId: PropTypes.string,
+    name: PropTypes.string,
+    percentage: PropTypes.string,
+    score: PropTypes.string
 }
 
 export default ScoreExport;

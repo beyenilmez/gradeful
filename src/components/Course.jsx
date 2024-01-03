@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { PropTypes } from 'prop-types';
 import { University, Course, Score } from '../utils/Program';
 import { ChevronRight, Edit2, Menu, Plus, Trash, Save, X } from 'react-feather';
 import { useUniData } from './UniContext';
@@ -6,7 +7,7 @@ import { useInactive } from './InactiveContext';
 import Button from './Button';
 import Checkbox from './Checkbox';
 
-function CourseExport({ id, termId, name, credit, score, grade, autoCalcScore, autoCalcGrade, includeCalc, expanded, children }) {
+function CourseExport(props) {
     // Context
     const { universityData, setUniversityData, editJSON, setEditJSON, save } = useUniData();
     const { classInactive } = useInactive();
@@ -15,16 +16,16 @@ function CourseExport({ id, termId, name, credit, score, grade, autoCalcScore, a
 
     const [contentHeight, setContentHeight] = useState('0');
 
-    const [nameValue, setNameValue] = useState(name);
-    const [creditValue, setCreditValue] = useState(credit);
-    const [scoreValue, setScoreValue] = useState(score);
-    const [gradeValue, setGradeValue] = useState(grade);
-    const [autoCalcScoreValue, setAutoCalcScoreValue] = useState(autoCalcScore);
-    const [autoCalcGradeValue, setAutoCalcGradeValue] = useState(autoCalcGrade);
+    const [nameValue, setNameValue] = useState(props.name);
+    const [creditValue, setCreditValue] = useState(props.credit);
+    const [scoreValue, setScoreValue] = useState(props.score);
+    const [gradeValue, setGradeValue] = useState(props.grade);
+    const [autoCalcScoreValue, setAutoCalcScoreValue] = useState(props.autoCalcScore);
+    const [autoCalcGradeValue, setAutoCalcGradeValue] = useState(props.autoCalcGrade);
     // eslint-disable-next-line no-unused-vars
-    const [includeCalcValue, setIncludeCalcValue] = useState(includeCalc);
+    const [includeCalcValue, setIncludeCalcValue] = useState(props.includeCalc);
 
-    const [expandedValue, setExpandedValue] = useState(expanded);
+    const [expandedValue, setExpandedValue] = useState(props.expanded);
 
     const [editing, setEditing] = useState(false);
     const [deleteConfirmation, setDeleteConfirmation] = useState(false);
@@ -35,8 +36,8 @@ function CourseExport({ id, termId, name, credit, score, grade, autoCalcScore, a
 
     // <--- References start --->
 
-    const idRef = useRef(id);
-    const termIdRef = useRef(termId);
+    const idRef = useRef(props.id);
+    const termIdRef = useRef(props.termId);
 
     const childrenRef = useRef(null);
 
@@ -155,11 +156,11 @@ function CourseExport({ id, termId, name, credit, score, grade, autoCalcScore, a
 
     // Update editable values
     useEffect(() => {
-        setNameValue(name);
-        setCreditValue(credit);
-        setAutoCalcGradeValue(autoCalcGrade);
-        setAutoCalcScoreValue(autoCalcScore);
-    }, [editing, name, credit, autoCalcGrade, autoCalcScore])
+        setNameValue(props.name);
+        setCreditValue(props.credit);
+        setAutoCalcGradeValue(props.autoCalcGrade);
+        setAutoCalcScoreValue(props.autoCalcScore);
+    }, [editing, props.name, props.credit, props.autoCalcGrade, props.autoCalcScore])
 
     // <--- Effects end --->
 
@@ -174,7 +175,7 @@ function CourseExport({ id, termId, name, credit, score, grade, autoCalcScore, a
                     <div className={`
                             ${editData !== undefined ? 'hidden' : ''}
                             flex h-full`
-                    }>{name}</div>
+                    }>{props.name}</div>
 
                     <textarea rows="1"
                         className={`
@@ -203,7 +204,7 @@ function CourseExport({ id, termId, name, credit, score, grade, autoCalcScore, a
                 <div className='flex items-center'>
                     <div className={`w-10 flex items-center justify-center mx-1 h-7 px-3 rounded-lg dark:bg-slate-650 bg-slate-350 ${editData !== undefined && !autoCalcScoreValue ? 'hidden' : 'block'}`}>
                         <div>
-                            {score ? score : '-'}
+                            {props.score ? props.score : '-'}
                         </div>
                     </div>
                     <div className={`border dark:border-slate-400 border-slate-500 flex items-center h-7 px-1 mx-1 rounded-lg dark:bg-slate-650 bg-slate-350 ${editData === undefined || autoCalcScoreValue ? 'hidden' : 'block'}`}>
@@ -221,7 +222,7 @@ function CourseExport({ id, termId, name, credit, score, grade, autoCalcScore, a
 
                     <div className={`w-10 flex items-center justify-center mx-1 h-7 px-3 rounded-lg dark:bg-slate-650 bg-slate-350 ${editData !== undefined && !autoCalcGradeValue ? 'hidden' : 'block'}`}>
                         <div>
-                            {grade}
+                            {props.grade}
                         </div>
                     </div>
                     <div className={`border dark:border-slate-400 border-slate-500 flex items-center h-7 px-1 mx-1 rounded-lg dark:bg-slate-650 bg-slate-350 ${editData === undefined || autoCalcGradeValue ? 'hidden' : 'block'}`}>
@@ -322,7 +323,7 @@ function CourseExport({ id, termId, name, credit, score, grade, autoCalcScore, a
             >
                 <div ref={childrenRef}>
                     <div className='flex justify-between w-full'>
-                        {children}
+                        {props.children}
                         <div className={`flex-row text-xs whitespace-nowrap ${editData === undefined ? 'hidden' : ''}`}>
                             <Checkbox className={'flex'} size={'1rem'} value={autoCalcScoreValue} setValue={setAutoCalcScoreValue}>
                                 Auto calculate score
@@ -337,6 +338,20 @@ function CourseExport({ id, termId, name, credit, score, grade, autoCalcScore, a
             </div>
         </div>
     );
+}
+
+CourseExport.propTypes = {
+    id: PropTypes.string,
+    termId: PropTypes.string,
+    name: PropTypes.string,
+    credit: PropTypes.string,
+    score: PropTypes.string,
+    grade: PropTypes.string,
+    autoCalcScore: PropTypes.bool,
+    autoCalcGrade: PropTypes.bool,
+    includeCalc: PropTypes.bool,
+    expanded: PropTypes.bool,
+    children: PropTypes.node
 }
 
 export default CourseExport;
