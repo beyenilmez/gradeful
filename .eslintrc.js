@@ -10,6 +10,7 @@ module.exports = {
     "overrides": [
         {
             "env": {
+                "browser": true,
                 "node": true
             },
             "files": [
@@ -25,8 +26,15 @@ module.exports = {
         "sourceType": "module"
     },
     "plugins": [
-        "react"
+        "react",
+        "react-hooks",
+        "tailwindcss"
     ],
+    "settings": {
+        "react": {
+            "version": "detect"
+        }
+    },
     "rules": {
         // suppress errors for missing 'import React' in files
         "react/react-in-jsx-scope": "off"

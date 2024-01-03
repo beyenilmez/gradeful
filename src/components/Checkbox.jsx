@@ -1,26 +1,36 @@
+import PropTypes from 'prop-types';
 import { CheckSquare, Square } from 'react-feather';
 
-function Checkbox({ value, setValue, size, id, className, children }) {
+function Checkbox(props) {
     return (
         <button
-            id={id}
-            className={className}
+            id={props.id}
+            className={props.className}
         >
-            <Square size={size}
+            <Square size={props.size}
                 className={`cursor-pointer
-                ${value ? 'hidden' : ''}
+                ${props.value ? 'hidden' : ''}
                 `}
-                onClick={() => setValue(true)}
+                onClick={() => props.setValue(true)}
             />
-            <CheckSquare size={size}
+            <CheckSquare size={props.size}
                 className={`cursor-pointer 
-                ${value ? '' : 'hidden'}
+                ${props.value ? '' : 'hidden'}
                 `}
-                onClick={() => setValue(false)}
+                onClick={() => props.setValue(false)}
             />
-            {children}
+            {props.children}
         </button>
     );
+}
+
+Checkbox.propTypes = {
+    value: PropTypes.bool,
+    setValue: PropTypes.func,
+    size: PropTypes.string,
+    id: PropTypes.string,
+    className: PropTypes.string,
+    children: PropTypes.node
 }
 
 export default Checkbox;

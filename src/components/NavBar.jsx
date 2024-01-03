@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { PropTypes } from "prop-types";
 import { University, Term } from "../utils/Program";
 import { Settings, Moon, Sun, Monitor, PlusSquare } from "react-feather";
 import { useUniData } from "./UniContext";
@@ -6,7 +7,7 @@ import OutsideAlerter from "../utils/OutsideAlerter";
 import { themeDark, themeLight, themeSystem } from "../utils/theme";
 import Button from "./Button";
 
-function NavBar({ setShowSettings }) {
+function NavBar(props) {
     // Context
     const { universityData, setUniversityData, save } = useUniData();
 
@@ -66,12 +67,12 @@ function NavBar({ setShowSettings }) {
 
                     {/* Add term button */}
                     <Button id='addTermButton' onClick={addTerm} className={'flex font-semibold items-center pr-2'} >
-                        <PlusSquare size={'1.75rem'}/>
+                        <PlusSquare size={'1.75rem'} />
                         &nbsp;
                         Add term
                     </Button>
                     {/* Add term button */}
-                    
+
                     <OutsideAlerter action={() => {
                         setThemeDropdown(false);
                     }}>
@@ -135,9 +136,9 @@ function NavBar({ setShowSettings }) {
                                 </button>
                                 <button onClick={() => { setSettingsDropdown(false); }}
                                     className="w-full py-1 dark:hover:bg-slate-700 hover:bg-slate-350 dark:active:bg-slate-650 active:bg-slate-400 transition-all duration-100">
-                                    Export 
+                                    Export
                                 </button>
-                                <button onClick={() => { setSettingsDropdown(false); setShowSettings(true); }}
+                                <button onClick={() => { setSettingsDropdown(false); props.setShowSettings(true); }}
                                     className="w-full py-1 dark:hover:bg-slate-700 hover:bg-slate-350 dark:active:bg-slate-650 active:bg-slate-400 transition-all duration-100 border-t dark:border-slate-700 border-slate-400">
                                     Settings
                                 </button>
@@ -151,6 +152,10 @@ function NavBar({ setShowSettings }) {
 
         </nav >
     );
+}
+
+NavBar.propTypes = {
+    setShowSettings: PropTypes.func
 }
 
 export default NavBar;

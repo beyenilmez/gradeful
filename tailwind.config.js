@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+
 /** @type {import('tailwindcss').Config} */
 const plugin = require('tailwindcss/plugin')
 
@@ -51,7 +53,7 @@ const colors = {
 
 
 module.exports = {
-  content: ["./src/**/*.{js,jsx,ts,tsx}",],
+  purge: ["./src/**/*.{js,jsx,ts,tsx}",],
   darkMode: 'class',
   theme: {
     extend: {
@@ -78,3 +80,4 @@ module.exports = {
   ],
 }
 
+/* eslint-enable no-undef */

@@ -39,6 +39,6 @@ function setTheme() {
 setTheme();
 
 window.matchMedia('(prefers-color-scheme: dark)')
-    .addEventListener('change', ({ matches }) => {
+    .addEventListener('change', () => {
         setTheme();
     })

@@ -1,11 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { University, Term, Course } from '../utils/Program';
 import { Plus, ChevronRight, Trash, Move, Edit2, Save, X } from 'react-feather';
 import { useUniData } from './UniContext';
 import { useInactive } from './InactiveContext';
 import Button from './Button';
 
-function TermExport({ id, name, includeCalc, children, expanded }) {
+function TermExport(props) {
     const { universityData, setUniversityData, editJSON, setEditJSON, save } = useUniData();
 
     // Context
@@ -16,11 +17,11 @@ function TermExport({ id, name, includeCalc, children, expanded }) {
     const [contentHeight, setContentHeight] = useState('0');
     const [contentTransitionDuration, setContentTransitionDuration] = useState('150');
 
-    const [nameValue, setNameValue] = useState(name);
+    const [nameValue, setNameValue] = useState(props.name);
     // eslint-disable-next-line no-unused-vars
-    const [includeCalcValue, setIncludeCalcValue] = useState(includeCalc);
+    const [includeCalcValue, setIncludeCalcValue] = useState(props.includeCalc);
 
-    const [expandedValue, setExpandedValue] = useState(expanded);
+    const [expandedValue, setExpandedValue] = useState(props.expanded);
 
     const [editing, setEditing] = useState(false);
     const [deleteConfirmation, setDeleteConfirmation] = useState(false);
@@ -31,7 +32,7 @@ function TermExport({ id, name, includeCalc, children, expanded }) {
 
     // <--- References start --->
 
-    const idRef = useRef(id);
+    const idRef = useRef(props.id);
     const childrenRef = useRef(null);
 
     // <--- References end --->
@@ -179,8 +180,8 @@ function TermExport({ id, name, includeCalc, children, expanded }) {
 
     // Update editable values
     useEffect(() => {
-        setNameValue(name);
-    }, [editing, name])
+        setNameValue(props.name);
+    }, [editing, props.name])
 
     // <--- Effects end --->
 
@@ -191,7 +192,7 @@ function TermExport({ id, name, includeCalc, children, expanded }) {
                 <div className='flex items-center'>
                     <Move size="1.5rem" className={`handle mr-1 transform transition-transform duration-300 shrink-0`} />
                     <ChevronRight size="1.5rem" className={`mr-1 transform transition-transform duration-300 ${expandedValue && !inactive ? 'rotate-90' : ''}`} />
-                    <div className={`flex h-full ${editing ? 'hidden' : 'block'}`}>{name}</div>
+                    <div className={`flex h-full ${editing ? 'hidden' : 'block'}`}>{props.name}</div>
 
                     <textarea rows="1" onClick={(e) => e.stopPropagation()}
                         className={`
@@ -292,11 +293,19 @@ function TermExport({ id, name, includeCalc, children, expanded }) {
                 onTransitionEnd={handleTransitionEnd}
             >
                 <div ref={childrenRef}>
-                    {children}
+                    {props.children}
                 </div>
             </div>
         </div>
     );
+}
+
+TermExport.propTypes = {
+    id: PropTypes.string,
+    name: PropTypes.string,
+    includeCalc: PropTypes.bool,
+    expanded: PropTypes.bool,
+    children: PropTypes.node
 }
 
 export default TermExport;

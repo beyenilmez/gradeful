@@ -1,10 +1,11 @@
 import { useState } from "react";
+import PropTypes from 'prop-types';
 import { X } from 'react-feather';
 import Button from './Button';
 
-function InfoSettings({ className }) {
+function InfoSettings(props) {
   return (
-    <div className={`${className} h-full flex flex-col`}>
+    <div className={`${props.className} h-full flex flex-col`}>
       <div className="w-full mr-2 flex flex-col items-start mb-3">
         <div className="w-full h-full flex">
           <div className="w-full h-full mr-0.5 text-xs">
@@ -47,9 +48,13 @@ function InfoSettings({ className }) {
   );
 }
 
-function GradeSettings({ className }) {
+InfoSettings.propTypes = {
+  className: PropTypes.string
+}
+
+function GradeSettings(props) {
   return (
-    <div className={`${className} h-full flex flex-col`}>
+    <div className={`${props.className} h-full flex flex-col`}>
 
       <div className="w-full mr-2 flex flex-col items-start mb-3">
         <div className="w-full h-full flex">
@@ -109,11 +114,15 @@ function GradeSettings({ className }) {
   );
 }
 
-function SettingsPopup({ showSettings, setShowSettings }) {
+GradeSettings.propTypes = {
+  className: PropTypes.string
+}
+
+function SettingsPopup(props) {
   let [settingsTab, setSettingsTab] = useState("infoSettings");
 
   return (
-    <div className={`${showSettings ? "flex" : "hidden"
+    <div className={`${props.showSettings ? "flex" : "hidden"
       } w-full h-full absolute z-40 top-0 justify-center items-center bg-black/[.70] dark:text-slate-300 text-slate-750`}>
       <div
         className="absolute z-50 md:w-[40rem] w-[80%] rounded-lg flex flex-col dark:bg-slate-650 bg-slate-350 shadow-lg">
@@ -121,7 +130,7 @@ function SettingsPopup({ showSettings, setShowSettings }) {
           <div className="pl-3 text-lg font-semibold">
             Settings
           </div>
-          <Button onClick={() => setShowSettings(false)} className={"dark:active:bg-slate-650 active:bg-slate-400"}><X size="1.5rem" /></Button>
+          <Button onClick={() => props.setShowSettings(false)} className={"dark:active:bg-slate-650 active:bg-slate-400"}><X size="1.5rem" /></Button>
         </div>
         <div className="md:flex-row flex flex-col min-h-fit h-80">
           <div
@@ -139,6 +148,11 @@ function SettingsPopup({ showSettings, setShowSettings }) {
       </div>
     </div>
   );
+}
+
+SettingsPopup.propTypes = {
+  showSettings: PropTypes.bool,
+  setShowSettings: PropTypes.func
 }
 
 export default SettingsPopup;
