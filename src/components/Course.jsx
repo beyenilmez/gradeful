@@ -209,7 +209,7 @@ function CourseExport(props) {
                 <div className='flex items-center'>
                     <div className={`w-10 flex items-center justify-center mx-1 h-7 px-3 rounded-lg dark:bg-slate-650 bg-slate-350 ${editData !== undefined && !autoCalcScoreValue ? 'hidden' : 'block'}`}>
                         <div>
-                            {props.score ? props.score : '-'}
+                            {props.score ? Math.round(props.score * 100) / 100 : '-'}
                         </div>
                     </div>
                     <div className={`border dark:border-slate-400 border-slate-500 flex items-center h-7 px-1 mx-1 rounded-lg dark:bg-slate-650 bg-slate-350 ${editData === undefined || autoCalcScoreValue ? 'hidden' : 'block'}`}>

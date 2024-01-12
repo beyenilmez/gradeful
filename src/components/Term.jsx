@@ -218,7 +218,7 @@ function TermExport(props) {
                 <div className='flex items-center'>
                     <div className={`w-10 flex items-center justify-center mx-1 h-8 px-1 rounded-lg dark:bg-slate-700 bg-slate-300 ${editData !== undefined && !autoCalcScoreValue ? 'hidden' : 'block'}`}>
                         <div>
-                            {props.gpa ? props.gpa : '-'}
+                            {props.gpa ? Math.round(props.gpa * 100) / 100 : '-'}
                         </div>
                     </div>
                     <textarea rows="1" inputMode="numeric"

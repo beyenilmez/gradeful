@@ -116,7 +116,7 @@ export class University {
                 }
             }
 
-            this.gpa = Math.round(gpa / this.totalIncludedCredit * 100) / 100;
+            this.gpa = gpa / this.totalIncludedCredit;
         }
     }
 
@@ -246,7 +246,7 @@ export class Term {
                     gpa += Number(course.credit * course.multiplier);
                 }
             }
-            this.gpa = Math.round(gpa / this.totalIncludedCredit * 100) / 100;
+            this.gpa = gpa / this.totalIncludedCredit;
         }
     }
 
@@ -357,7 +357,7 @@ export class Course {
             this.score = '';
             return;
         }
-        this.score = Math.floor((this.scores.reduce((a, b) => a + Number((b.score === null || b.score === "" || b.score === undefined ? 0 : Number(b.score) * Number(b.percentage))), 0) / this.totalPercentage));  
+        this.score =(this.scores.reduce((a, b) => a + Number((b.score === null || b.score === "" || b.score === undefined ? 0 : Number(b.score) * Number(b.percentage))), 0) / this.totalPercentage);  
     }
 
     calcGrade() {
