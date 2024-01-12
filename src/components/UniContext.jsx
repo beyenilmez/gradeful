@@ -22,7 +22,7 @@ export const UniProvider = (props) => {
       localStorage.setItem('university', JSON.stringify(uni));
       setSaveNextChange(false);
       if(reloadNextChange){
-        window.location.href = '/';
+        window.location.href = window.location.href.substring(0, window.location.href.lastIndexOf('/'));
       }
     }
   }, [universityData, saveNextChange]);
