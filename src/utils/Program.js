@@ -265,7 +265,7 @@ export class Term {
     }
 }
 
-// Lesson class definition
+// Course class definition
 export class Course {
     name;
     credit;
@@ -355,7 +355,7 @@ export class Course {
             this.score = '';
             return;
         }
-        this.score = (this.scores.reduce((a, b) => a + Number((b.score === null || b.score === "" || b.score === undefined ? 0 : Number(b.score) * Number(b.percentage))), 0) / this.totalPercentage);
+        this.score = Math.floor((this.scores.reduce((a, b) => a + Number((b.score === null || b.score === "" || b.score === undefined ? 0 : Number(b.score) * Number(b.percentage))), 0) / this.totalPercentage));  
     }
 
     calcGrade() {

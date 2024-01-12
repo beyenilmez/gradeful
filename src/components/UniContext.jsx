@@ -14,7 +14,11 @@ export const UniProvider = (props) => {
 
   useEffect(() => {
     if (saveNextChange) {
-      localStorage.setItem('university', JSON.stringify(universityData));
+      const uni = new University(universityData);
+      console.log('calc');
+      uni.calc();
+      setUniversityData(uni);
+      localStorage.setItem('university', JSON.stringify(uni));
       setSaveNextChange(false);
     }
   }, [universityData, saveNextChange]);
