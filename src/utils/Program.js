@@ -227,6 +227,8 @@ export class Term {
                 totalCredit += Number(course.credit);
                 if (!course.inactive) {
                     totalIncludedCredit += Number(course.credit);
+                }else if(!course.autoCalcGrade && this.gradeTable.find(grade => grade === course.grade)) {
+                    totalIncludedCredit += Number(course.credit);
                 }
             }
         }
@@ -373,15 +375,15 @@ export class Course {
     }
 
     calcMultiplier() {
-        if (this.inactive) {
-            this.multiplier = '';
-            return;
-        }
         for (let i = 0; i < this.gradeTable.length; i++) {
             if (this.grade === this.gradeTable[i]) {
                 this.multiplier = this.multiplierTable[i];
                 return;
             }
+        }
+        if (this.inactive) {
+            this.multiplier = '';
+            return;
         }
         this.multiplier = this.multiplierTable[this.multiplierTable.length - 1];
     }
