@@ -116,7 +116,7 @@ export class University {
                 }
             }
 
-            this.gpa = gpa / this.totalIncludedCredit;
+            this.gpa = Math.round(gpa / this.totalIncludedCredit * 100) / 100;
         }
     }
 
@@ -244,7 +244,7 @@ export class Term {
                     gpa += Number(course.credit * course.multiplier);
                 }
             }
-            this.gpa = gpa / this.totalIncludedCredit;
+            this.gpa = Math.round(gpa / this.totalIncludedCredit * 100) / 100;
         }
     }
 
