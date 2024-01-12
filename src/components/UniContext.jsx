@@ -11,6 +11,7 @@ export const UniProvider = (props) => {
   const [editJSON, setEditJSON] = useState({});
 
   const [saveNextChange, setSaveNextChange] = useState(false);
+  const [reloadNextChange, setReloadNextChange] = useState(false);
 
   useEffect(() => {
     if (saveNextChange) {
@@ -20,10 +21,16 @@ export const UniProvider = (props) => {
       setUniversityData(uni);
       localStorage.setItem('university', JSON.stringify(uni));
       setSaveNextChange(false);
+      if(reloadNextChange){
+        window.location.href = '/';
+      }
     }
   }, [universityData, saveNextChange]);
 
-  function save() {
+  function save(reload = false) {
+    if(reload){
+      setReloadNextChange(true);
+    }
     setSaveNextChange(true);
   }
 
