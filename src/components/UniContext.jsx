@@ -11,15 +11,26 @@ export const UniProvider = (props) => {
   const [editJSON, setEditJSON] = useState({});
 
   const [saveNextChange, setSaveNextChange] = useState(false);
+  const [reloadNextChange, setReloadNextChange] = useState(false);
 
   useEffect(() => {
     if (saveNextChange) {
-      localStorage.setItem('university', JSON.stringify(universityData));
+      const uni = new University(universityData);
+      console.log('calc');
+      uni.calc();
+      setUniversityData(uni);
+      localStorage.setItem('university', JSON.stringify(uni));
       setSaveNextChange(false);
+      if(reloadNextChange){
+        window.location.href = '/';
+      }
     }
   }, [universityData, saveNextChange]);
 
-  function save() {
+  function save(reload = false) {
+    if(reload){
+      setReloadNextChange(true);
+    }
     setSaveNextChange(true);
   }
 

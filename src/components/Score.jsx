@@ -85,7 +85,7 @@ function ScoreExport(props) {
             ${editData !== undefined ? 'hidden' : 'flex'}
             `}>
                 <div className="w-full h-full mr-0.5 text-center text-xs font-light">
-                    {name} ({props.percentage}%)
+                    {props.name} ({props.percentage}%)
                 </div>
             </div>
             <div className="mt-1 w-full h-full flex items-end">

@@ -5,6 +5,7 @@ import { Plus, ChevronRight, Trash, Move, Edit2, Save, X } from 'react-feather';
 import { useUniData } from './UniContext';
 import { useInactive } from './InactiveContext';
 import Button from './Button';
+import Checkbox from './Checkbox';
 
 function TermExport(props) {
     const { universityData, setUniversityData, editJSON, setEditJSON, save } = useUniData();
@@ -18,8 +19,9 @@ function TermExport(props) {
     const [contentTransitionDuration, setContentTransitionDuration] = useState('150');
 
     const [nameValue, setNameValue] = useState(props.name);
-    // eslint-disable-next-line no-unused-vars
+    const [gpaValue, setGpaValue] = useState(props.gpa);
     const [includeCalcValue, setIncludeCalcValue] = useState(props.includeCalc);
+    const [autoCalcScoreValue, setAutoCalcScoreValue] = useState(props.autoCalc);
 
     const [expandedValue, setExpandedValue] = useState(props.expanded);
 
@@ -77,8 +79,12 @@ function TermExport(props) {
     function saveEdit() {
         if (editData !== undefined) {
             const uni = new University(universityData);
+            const term = uni.getTermById(idRef.current);
 
-            uni.getTermById(idRef.current).name = editData.name;
+            term.name = editData.name;
+            term.gpa = editData.gpa;
+            term.includeCalc = editData.includeCalc;
+            term.autoCalc = editData.autoCalc;
 
             save();
             setUniversityData(uni);
@@ -94,10 +100,7 @@ function TermExport(props) {
 
             const uni = new University(universityData);
 
-            const initialOrder = [];
-            (initialData.courses).forEach(course => {
-                initialOrder.push(course['id']);
-            });
+            const initialOrder = initialData.courses.map(course => course.id);
 
             uni.getTermById(idRef.current).reorderCourses(initialOrder);
 
@@ -172,16 +175,22 @@ function TermExport(props) {
             const term = new Term(editData);
 
             term.name = nameValue;
+            term.includeCalc = includeCalcValue;
+            term.autoCalc = autoCalcScoreValue;
+            term.gpa = gpaValue;
 
             setEditJSON({ ...editJSON, [idRef.current]: term });
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [nameValue]);
+    }, [nameValue, includeCalcValue, autoCalcScoreValue, gpaValue]);
 
     // Update editable values
     useEffect(() => {
         setNameValue(props.name);
-    }, [editing, props.name])
+        setIncludeCalcValue(props.includeCalc);
+        setAutoCalcScoreValue(props.autoCalc);
+        setGpaValue(props.gpa);
+    }, [editing, props.name, props.includeCalc, props.autoCalc, props.gpa]);
 
     // <--- Effects end --->
 
@@ -191,7 +200,7 @@ function TermExport(props) {
             <div className="flex items-center justify-between py-1 px-2 hover:cursor-pointer" onClick={toggleExpanded}>
                 <div className='flex items-center'>
                     <Move size="1.5rem" className={`handle mr-1 transform transition-transform duration-300 shrink-0`} />
-                    <ChevronRight size="1.5rem" className={`mr-1 transform transition-transform duration-300 ${expandedValue && !inactive ? 'rotate-90' : ''}`} />
+                    <ChevronRight size="1.5rem" className={`mr-1 transform transition-transform duration-300 shrink-0 ${expandedValue && !inactive ? 'rotate-90' : ''}`} />
                     <div className={`flex h-full ${editing ? 'hidden' : 'block'}`}>{props.name}</div>
 
                     <textarea rows="1" onClick={(e) => e.stopPropagation()}
@@ -207,11 +216,22 @@ function TermExport(props) {
                 </div>
 
                 <div className='flex items-center'>
-                    <div className="flex items-center h-[2rem] px-1 mx-1 rounded-lg dark:bg-slate-700 bg-slate-300">
+                    <div className={`w-10 flex items-center justify-center mx-1 h-8 px-1 rounded-lg dark:bg-slate-700 bg-slate-300 ${editData !== undefined && !autoCalcScoreValue ? 'hidden' : 'block'}`}>
                         <div>
-                            0.00
+                            {props.gpa ? Math.round(props.gpa * 100) / 100 : '-'}
                         </div>
                     </div>
+                    <textarea rows="1" inputMode="numeric"
+                        className={`
+                            ${editData === undefined || autoCalcScoreValue ? 'hidden' : 'block'}
+                            text-center
+                            whitespace-nowrap mr-2
+                            no-scrollbar resize-none w-14 h-full outline-none rounded-lg border dark:text-slate-250 text-slate-750 dark:border-slate-450 border-slate-450 dark:bg-slate-700 bg-slate-300 dark:placeholder-slate-550 placeholder-slate-400
+                        `}
+                        placeholder="GPA"
+                        value={gpaValue}
+                        onChange={(e) => setGpaValue(e.target.value.replace(/\.\./g, '.').replace(/[^0-9.]/g, ''))}
+                        ></textarea>
 
                     <Button onMouseUp={startEdit} onClick={(event) => {
                         event.stopPropagation();
@@ -287,6 +307,20 @@ function TermExport(props) {
                 </div>
             </div>
 
+            <div className={`
+                    flex-row text-xs whitespace-nowrap 
+                    m-2
+                    ${editData === undefined ? 'hidden' : ''}
+                    `}>
+                <Checkbox className={'flex'} size={'1rem'} value={includeCalcValue} setValue={setIncludeCalcValue}>
+                    Include in GPA calculation
+                </Checkbox>
+
+                <Checkbox className={'flex'} size={'1rem'} value={autoCalcScoreValue} setValue={setAutoCalcScoreValue}>
+                    Auto calculate score
+                </Checkbox>
+            </div>
+
             <div
                 className="overflow-hidden transition-all"
                 style={{ maxHeight: contentHeight, transitionDuration: contentTransitionDuration ? contentTransitionDuration + 'ms' : 150 }}
@@ -303,7 +337,9 @@ function TermExport(props) {
 TermExport.propTypes = {
     id: PropTypes.string,
     name: PropTypes.string,
+    gpa: PropTypes.string,
     includeCalc: PropTypes.bool,
+    autoCalc: PropTypes.bool,
     expanded: PropTypes.bool,
     children: PropTypes.node
 }

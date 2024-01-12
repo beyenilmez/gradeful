@@ -59,7 +59,7 @@ function NavBar(props) {
                 {/* GPA */}
                 <div
                     className="font-semibold text-center text-lg ml-4 dark:text-slate-150 text-slate-800 border-none dark:bg-slate-600 bg-slate-200 bg-opacity-50 dark:border-slate-450 border-slate-450 rounded-lg p-2.5 max-w-[6rem] w-full">
-                    {Math.round(universityData.gpa * 100) / 100}
+                    {universityData.gpa ? Math.round(universityData.gpa * 100) / 100 : ' - '}
                 </div>
                 {/* GPA */}
 
@@ -138,6 +138,10 @@ function NavBar(props) {
                                     className="w-full py-1 dark:hover:bg-slate-700 hover:bg-slate-350 dark:active:bg-slate-650 active:bg-slate-400 transition-all duration-100">
                                     Export
                                 </button>
+                                <button onClick={() => { setSettingsDropdown(false); props.setShowExportURLPopup(true); }}
+                                    className="w-full py-1 dark:hover:bg-slate-700 hover:bg-slate-350 dark:active:bg-slate-650 active:bg-slate-400 transition-all duration-100">
+                                    Export as URL
+                                </button>
                                 <button onClick={() => { setSettingsDropdown(false); props.setShowSettings(true); }}
                                     className="w-full py-1 dark:hover:bg-slate-700 hover:bg-slate-350 dark:active:bg-slate-650 active:bg-slate-400 transition-all duration-100 border-t dark:border-slate-700 border-slate-400">
                                     Settings
@@ -155,7 +159,8 @@ function NavBar(props) {
 }
 
 NavBar.propTypes = {
-    setShowSettings: PropTypes.func
+    setShowSettings: PropTypes.func,
+    setShowExportURLPopup: PropTypes.func
 }
 
 export default NavBar;

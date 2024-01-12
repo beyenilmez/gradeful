@@ -6,18 +6,17 @@ function Checkbox(props) {
         <button
             id={props.id}
             className={props.className}
+            onClick={() => props.setValue(!props.value)}
         >
             <Square size={props.size}
                 className={`cursor-pointer
                 ${props.value ? 'hidden' : ''}
                 `}
-                onClick={() => props.setValue(true)}
             />
             <CheckSquare size={props.size}
                 className={`cursor-pointer 
                 ${props.value ? '' : 'hidden'}
                 `}
-                onClick={() => props.setValue(false)}
             />
             {props.children}
         </button>

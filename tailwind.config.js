@@ -1,5 +1,3 @@
-/* eslint-disable no-undef */
-
 /** @type {import('tailwindcss').Config} */
 const plugin = require('tailwindcss/plugin')
 
@@ -79,5 +77,3 @@ module.exports = {
     },
   ],
 }
-
-/* eslint-enable no-undef */
