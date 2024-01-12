@@ -70,7 +70,7 @@ function Grid() {
                 {...sortableOptions}
             >
                 {universityData.terms.map((term) => (
-                    <Term key={term.id} id={term.id} name={term.name} expanded={term.expanded} includeCalc={term.includeCalc}>
+                    <Term key={term.id} id={term.id} name={term.name} expanded={term.expanded} includeCalc={term.includeCalc} autoCalc={term.autoCalc} gpa={String(term.gpa)}>
                         <ReactSortable
                             list={term.courses}
                             setList={(newList) => {

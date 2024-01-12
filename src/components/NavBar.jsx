@@ -59,7 +59,7 @@ function NavBar(props) {
                 {/* GPA */}
                 <div
                     className="font-semibold text-center text-lg ml-4 dark:text-slate-150 text-slate-800 border-none dark:bg-slate-600 bg-slate-200 bg-opacity-50 dark:border-slate-450 border-slate-450 rounded-lg p-2.5 max-w-[6rem] w-full">
-                    {Math.round(universityData.gpa * 100) / 100}
+                    {universityData.gpa ? (Math.round(universityData.gpa * 100) / 100) : ' - '}
                 </div>
                 {/* GPA */}
 

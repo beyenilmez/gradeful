@@ -22,7 +22,6 @@ function CourseExport(props) {
     const [gradeValue, setGradeValue] = useState(props.grade);
     const [autoCalcScoreValue, setAutoCalcScoreValue] = useState(props.autoCalcScore);
     const [autoCalcGradeValue, setAutoCalcGradeValue] = useState(props.autoCalcGrade);
-    // eslint-disable-next-line no-unused-vars
     const [includeCalcValue, setIncludeCalcValue] = useState(props.includeCalc);
 
     const [expandedValue, setExpandedValue] = useState(props.expanded);
@@ -148,11 +147,14 @@ function CourseExport(props) {
             course.credit = creditValue;
             course.autoCalcGrade = autoCalcGradeValue;
             course.autoCalcScore = autoCalcScoreValue;
+            course.includeCalc = includeCalcValue;
+            course.score = scoreValue;
+            course.grade = gradeValue;
 
             setEditJSON({ ...editJSON, [idRef.current]: course });
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [nameValue, creditValue, autoCalcGradeValue, autoCalcScoreValue]);
+    }, [nameValue, creditValue, autoCalcGradeValue, autoCalcScoreValue, includeCalcValue, scoreValue, gradeValue]);
 
     // Update editable values
     useEffect(() => {
@@ -160,7 +162,10 @@ function CourseExport(props) {
         setCreditValue(props.credit);
         setAutoCalcGradeValue(props.autoCalcGrade);
         setAutoCalcScoreValue(props.autoCalcScore);
-    }, [editing, props.name, props.credit, props.autoCalcGrade, props.autoCalcScore])
+        setIncludeCalcValue(props.includeCalc);
+        setScoreValue(props.score);
+        setGradeValue(props.grade);
+    }, [editing, props.name, props.credit, props.autoCalcGrade, props.autoCalcScore, props.includeCalc, props.score, props.grade]);
 
     // <--- Effects end --->
 
@@ -222,7 +227,7 @@ function CourseExport(props) {
 
                     <div className={`w-10 flex items-center justify-center mx-1 h-7 px-3 rounded-lg dark:bg-slate-650 bg-slate-350 ${editData !== undefined && !autoCalcGradeValue ? 'hidden' : 'block'}`}>
                         <div>
-                            {props.grade}
+                            {props.grade ? props.grade : '-'}
                         </div>
                     </div>
                     <div className={`border dark:border-slate-400 border-slate-500 flex items-center h-7 px-1 mx-1 rounded-lg dark:bg-slate-650 bg-slate-350 ${editData === undefined || autoCalcGradeValue ? 'hidden' : 'block'}`}>
@@ -324,7 +329,15 @@ function CourseExport(props) {
                 <div ref={childrenRef}>
                     <div className='flex justify-between w-full'>
                         {props.children}
-                        <div className={`flex-row text-xs whitespace-nowrap ${editData === undefined ? 'hidden' : ''}`}>
+                        <div className={`
+                        flex-row text-xs whitespace-nowrap 
+                        m-2
+                        ${editData === undefined ? 'hidden' : ''}
+                        `}>
+                            <Checkbox className={'flex'} size={'1rem'} value={includeCalcValue} setValue={setIncludeCalcValue}>
+                                Include in GPA calculation
+                            </Checkbox>
+
                             <Checkbox className={'flex'} size={'1rem'} value={autoCalcScoreValue} setValue={setAutoCalcScoreValue}>
                                 Auto calculate score
                             </Checkbox>
