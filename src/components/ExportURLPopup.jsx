@@ -23,7 +23,7 @@ function ExportURLPopup(props) {
     // <-- Functions start -->
     async function generateURL() {
         const encoded = await encode(universityData);
-        textAreaRef.current.value = location + "?data=" + encoded;
+        textAreaRef.current.value = window.location.href.split('?')[0] + "?data=" + encoded;
     }
 
     function onCopy() {
@@ -55,8 +55,8 @@ function ExportURLPopup(props) {
                     />
                     <Button
                         onClick={onCopy}
-                        hoverColor={'dark:hover:bg-slate-450 hover:bg-slate-550'}
-                        activeColor={'dark:active:bg-slate-400 active:bg-slate-600'}
+                        hoverColor={'dark:hover:bg-slate-450 hover:bg-slate-350'}
+                        activeColor={'dark:active:bg-slate-400 active:bg-slate-400'}
                     >
                         <Copy size="1.5rem" />
                     </Button>
