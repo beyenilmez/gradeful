@@ -36,10 +36,10 @@ function Window(props) {
                         </Button>
                     </div>
                     <div className={`
-                    ${props.height ? props.height : ""}
-                    w-full
-                    rounded-b-lg
-                    dark:bg-slate-500 bg-slate-300
+                        ${props.height ? props.height : ""}
+                        w-full
+                        rounded-b-lg
+                        dark:bg-slate-500 bg-slate-300
                 `}>
                         {props.children}
                     </div>
