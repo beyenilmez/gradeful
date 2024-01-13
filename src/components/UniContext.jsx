@@ -22,7 +22,7 @@ export const UniProvider = (props) => {
       localStorage.setItem('university', JSON.stringify(uni));
       setSaveNextChange(false);
       if(reloadNextChange){
-        window.location.href = '/gradeful';
+        history.replaceState(null, null, window.location.href.split('?')[0]);
       }
     }
   }, [universityData, saveNextChange]);
