@@ -12,7 +12,7 @@ function ExportURLPopup(props) {
 
     async function generateURL() {
         const encoded = await encode(universityData);
-        textAreaRef.current.value = location.origin + "/?data=" + encoded;
+        textAreaRef.current.value = location + "?data=" + encoded;
     }
 
     useEffect(() => {

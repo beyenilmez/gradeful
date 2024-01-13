@@ -47,6 +47,7 @@ function LoadURLPopup() {
     function loadURL() {
         save(true);
         setUniversityData(data);
+        closePopup();
     }
 
     return (
