@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { PropTypes } from "prop-types";
 import { University, Term } from "../utils/Program";
-import { Settings, Moon, Sun, Monitor, PlusSquare } from "react-feather";
+import { Settings, Moon, Sun, Monitor, PlusSquare, GitHub } from "react-feather";
 import { useUniData } from "./UniContext";
 import OutsideAlerter from "../utils/OutsideAlerter";
 import { themeDark, themeLight, themeSystem } from "../utils/theme";
@@ -73,6 +73,13 @@ function NavBar(props) {
                     </Button>
                     {/* Add term button */}
 
+                    {/* Github button */}
+                    <Button onClick={() => { window.open("https://github.com/beyenilmez/gradeful", "_blank"); }}>
+                        <GitHub size="1.75rem" />
+                    </Button>
+                    {/* Github button */}
+
+                    {/* Theme switch */}
                     <OutsideAlerter action={() => {
                         setThemeDropdown(false);
                     }}>
