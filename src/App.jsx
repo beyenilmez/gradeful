@@ -15,12 +15,12 @@ function App() {
   return (
     <div>
       <NavBar setShowSettings={setShowSettings} setShowExportURLPopup={setShowExportURLPopup}/>
-      <SettingsPopup showSettings={showSettings} setShowSettings={setShowSettings} />
-      <ExportURLPopup showExportURLPopup={showExportURLPopup} setShowExportURLPopup={setShowExportURLPopup}/>
-      <LoadURLPopup />
       <InactiveProvider>
         <Grid />
       </InactiveProvider>
+      <SettingsPopup showSettings={showSettings} setShowSettings={setShowSettings} />
+      <ExportURLPopup showExportURLPopup={showExportURLPopup} setShowExportURLPopup={setShowExportURLPopup}/>
+      <LoadURLPopup />
     </div>
   );
 }
