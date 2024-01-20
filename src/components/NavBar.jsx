@@ -50,8 +50,8 @@ function NavBar(props) {
                 {/* Uni name and department */}
                 <div className="w-full hidden md:flex dark:text-slate-150 text-slate-800">
                     <div className="h-full ml-3">
-                        <div className="font-semibold text-lg min-w-[20rem]">Dokuz Eylül Üniversitesi</div>
-                        <div className="text-xs">Bilgisayar Mühendisliği</div>
+                        <div className="font-semibold text-lg min-w-[20rem]">{universityData.name}</div>
+                        <div className="text-xs">{universityData.department}</div>
                     </div>
                 </div>
                 {/* Uni name and department */}

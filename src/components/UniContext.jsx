@@ -16,7 +16,6 @@ export const UniProvider = (props) => {
   useEffect(() => {
     if (saveNextChange) {
       const uni = new University(universityData);
-      console.log('calc');
       uni.calc();
       setUniversityData(uni);
       localStorage.setItem('university', JSON.stringify(uni));

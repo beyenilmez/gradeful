@@ -13,6 +13,7 @@ function Button(props) {
             ${props.transition ? `${props.transition}` : 'transition-colors duration-100'}
             ${props.rounded ? `${props.rounded}` : 'rounded-lg'}
             ${props.className}`}
+            disabled={props.disabled}
         >
             {props.children}
         </button>
@@ -29,7 +30,8 @@ Button.propTypes = {
     transition: PropTypes.string,
     rounded: PropTypes.string,
     className: PropTypes.string,
-    children: PropTypes.node
+    children: PropTypes.node,
+    disabled: PropTypes.bool
 }
 
 export default Button;

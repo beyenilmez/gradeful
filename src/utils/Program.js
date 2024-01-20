@@ -36,6 +36,9 @@ export class University {
     setGradeTable(gradesArray) { this.gradeTable = gradesArray; this.terms.forEach(term => term.setGradeTable(gradesArray)); }
     setScoreTable(scoresArray) { this.scoreTable = scoresArray; this.terms.forEach(term => term.setScoreTable(scoresArray)); }
     setMultiplierTable(multipliersArray) { this.multiplierTable = multipliersArray; this.terms.forEach(term => term.setMultiplierTable(multipliersArray)); }
+    setGradeTableDefault() { this.setGradeTable(gradeTableDefault); }
+    setScoreTableDefault() { this.setScoreTable(scoreTableDefault); }
+    setMultiplierTableDefault() { this.setMultiplierTable(multiplierTableDefault); }
     getGradeTable() { return this.gradeTable; }
     getScoreTable() { return this.scoreTable; }
     getMultiplierTable() { return this.multiplierTable; }
