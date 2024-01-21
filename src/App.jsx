@@ -1,6 +1,6 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import NavBar from "./components/NavBar";
-import SettingsPopup from "./components/SettingsPopup";
+import SettingsWindow from "./components/SettingsWindow";
 import ExportURLPopup from "./components/ExportURLPopup";
 import LoadURLPopup from "./components/LoadURLPopup";
 import Grid from "./components/Grid";
@@ -13,15 +13,15 @@ function App() {
   const [showExportURLPopup, setShowExportURLPopup] = useState(false);
 
   return (
-    <div>
-      <NavBar setShowSettings={setShowSettings} setShowExportURLPopup={setShowExportURLPopup}/>
+    <React.Fragment>
+      <NavBar setShowSettings={setShowSettings} setShowExportURLPopup={setShowExportURLPopup} />
       <InactiveProvider>
         <Grid />
       </InactiveProvider>
-      <SettingsPopup showSettings={showSettings} setShowSettings={setShowSettings} />
-      <ExportURLPopup showExportURLPopup={showExportURLPopup} setShowExportURLPopup={setShowExportURLPopup}/>
+      <SettingsWindow showSettingsPopup={showSettings} setShowSettingsPopup={setShowSettings} />
+      <ExportURLPopup showExportURLPopup={showExportURLPopup} setShowExportURLPopup={setShowExportURLPopup} />
       <LoadURLPopup />
-    </div>
+    </React.Fragment>
   );
 }
 

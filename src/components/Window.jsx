@@ -40,6 +40,7 @@ function Window(props) {
                         w-full
                         rounded-b-lg
                         dark:bg-slate-500 bg-slate-300
+                        overflow-hidden
                 `}>
                         {props.children}
                     </div>

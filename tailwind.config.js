@@ -69,7 +69,8 @@ module.exports = {
           'scrollbar-width': 'none'
         },
       })
-    })
+    }),
+    require('tailwind-scrollbar')({ nocompatible: true })
   ],
   safelist: [
     {
