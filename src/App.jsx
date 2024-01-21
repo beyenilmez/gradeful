@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import NavBar from "./components/NavBar";
 import SettingsWindow from "./components/SettingsWindow";
 import ExportURLPopup from "./components/ExportURLPopup";
@@ -13,7 +13,7 @@ function App() {
   const [showExportURLPopup, setShowExportURLPopup] = useState(false);
 
   return (
-    <div>
+    <React.Fragment>
       <NavBar setShowSettings={setShowSettings} setShowExportURLPopup={setShowExportURLPopup} />
       <InactiveProvider>
         <Grid />
@@ -21,7 +21,7 @@ function App() {
       <SettingsWindow showSettingsPopup={showSettings} setShowSettingsPopup={setShowSettings} />
       <ExportURLPopup showExportURLPopup={showExportURLPopup} setShowExportURLPopup={setShowExportURLPopup} />
       <LoadURLPopup />
-    </div>
+    </React.Fragment>
   );
 }
 

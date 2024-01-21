@@ -5,6 +5,9 @@ import Button from "./Button";
 import Window from "./Window";
 import { Plus, Minus } from 'react-feather';
 import { University } from '../utils/Program';
+import Selector from './Selector';
+
+import gradeScalePresets from '../presets/gradeScale';
 
 function InformationSettings() {
     // Context
@@ -99,6 +102,7 @@ function GradeScaleSettings() {
 
     const [saveActive, setSaveActive] = useState(false);
     const [discardActive, setDiscardActive] = useState(false);
+
     // <--- States end --->
 
     // <--- Effects start --->
@@ -150,7 +154,7 @@ function GradeScaleSettings() {
         })
 
         multiplierTable.forEach((multiplier) => {
-            if (multiplier.length === 0 || (multiplier !== '0' && multiplier !== 0 && multiplier !== '.' && Number(multiplier) === 0)) {
+            if (multiplier.length === 0 || multiplier === '.' || (multiplier !== '0' && multiplier !== 0 && multiplier !== '.' && Number(multiplier) === 0)) {
                 setSaveActive(false);
             }
         })
@@ -169,9 +173,7 @@ function GradeScaleSettings() {
         const newGradeTable = gradeTable.filter((_, index) => index !== i);
         const newMultiplierTable = multiplierTable.filter((_, index) => index !== i);
 
-        setScoreTable(newScoreTable);
-        setGradeTable(newGradeTable);
-        setMultiplierTable(newMultiplierTable);
+        setGradeScale({ scoreTable: newScoreTable, gradeTable: newGradeTable, multiplierTable: newMultiplierTable });
     }
 
     function addRow(i) {
@@ -179,9 +181,7 @@ function GradeScaleSettings() {
         const newGradeTable = [...gradeTable.slice(0, i), '', ...gradeTable.slice(i)];
         const newMultiplierTable = [...multiplierTable.slice(0, i), '', ...multiplierTable.slice(i)];
 
-        setScoreTable(newScoreTable);
-        setGradeTable(newGradeTable);
-        setMultiplierTable(newMultiplierTable);
+        setGradeScale({ scoreTable: newScoreTable, gradeTable: newGradeTable, multiplierTable: newMultiplierTable });
     }
 
     function discardChanges() {
@@ -207,19 +207,14 @@ function GradeScaleSettings() {
         setDiscardActive(false);
     }
 
-    function setToDefault() {
-        const uni = new University(universityData);
+    function setGradeScale(item) {
+        const newScoreTable = item.scoreTable;
+        const newGradeTable = item.gradeTable;
+        const newMultiplierTable = item.multiplierTable;
 
-        uni.setGradeTableDefault();
-        uni.setScoreTableDefault();
-        uni.setMultiplierTableDefault();
-
-        setScoreTable(uni.scoreTable);
-        setGradeTable(uni.gradeTable);
-        setMultiplierTable(uni.multiplierTable);
-
-        save();
-        setUniversityData(uni);
+        setScoreTable(newScoreTable);
+        setGradeTable(newGradeTable);
+        setMultiplierTable(newMultiplierTable);
     }
     // <--- Functions end --->
 
@@ -263,7 +258,7 @@ function GradeScaleSettings() {
                                 text-center
                                 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none
                     `}
-                                        
+
                                         value={score}
                                         onChange={(e) => {
                                             const newScoreTable = [...scoreTable];
@@ -290,7 +285,7 @@ function GradeScaleSettings() {
                                 text-center
                                 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none
                     `}
-                                    
+
                                     value={score}
                                     onChange={(e) => {
                                         const newScoreTable = [...scoreTable];
@@ -333,7 +328,7 @@ function GradeScaleSettings() {
                             text-center
                             [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none
                 `}
-                                
+
                                 value={grade}
                                 onChange={(e) => {
                                     const newGradeTable = [...gradeTable];
@@ -363,7 +358,7 @@ function GradeScaleSettings() {
                             text-center
                             [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none
                 `}
-                                
+
                                 value={multiplier}
                                 onChange={(e) => {
                                     const newMultiplierTable = [...multiplierTable];
@@ -409,14 +404,16 @@ function GradeScaleSettings() {
             </div>
 
             <div className='flex w-full justify-between p-2 px-5'>
-                <Button
-                    onClick={setToDefault}
-                    className='dark:bg-slate-550 bg-slate-350'
+                <Selector
+                    onSelect={setGradeScale}
+                    className='rounded-lg outline-none'
+                    bgColor={'dark:bg-slate-550 bg-slate-350'}
                     hoverColor='dark:hover:bg-slate-600 hover:bg-slate-400'
                     activeColor='dark:active:bg-slate-650 active:bg-slate-450'
+                    data={gradeScalePresets}
                 >
-                    Set to default
-                </Button>
+                    Presets
+                </Selector>
                 <div className='flex space-x-2'>
                     <Button disabled={!discardActive}
                         onClick={discardChanges}
