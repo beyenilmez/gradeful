@@ -22,6 +22,8 @@
 - [tailwindcss](https://tailwindcss.com/)
 - [react-feather](https://github.com/feathericons/react-feather)
 - [react-sortablejs](https://github.com/SortableJS/react-sortablejs)
+- [base64-compressor](https://github.com/eliot-akira/base64-compressor)
+- [tailwind-scrollbar](https://github.com/adoxography/tailwind-scrollbar)
 
 ## License
 
