@@ -10,7 +10,7 @@ function LoadURLPopup() {
 
     // States
     const [showPopup, setShowPopup] = useState(false);
-    const [data, setData] = useState();
+    const [data, setData] = useState({});
     const [uniName, setUniName] = useState();
     const [departmentName, setDepartmentName] = useState();
     const [gpa, setGpa] = useState();
@@ -35,12 +35,15 @@ function LoadURLPopup() {
         const urlParams = new URLSearchParams(window.location.search);
         const data = urlParams.get('data');
         if (data) {
-            const decoded = await decode(data);
-            setData(decoded);
-            setUniName(decoded.name);
-            setDepartmentName(decoded.department);
-            setGpa(decoded.gpa);
-            console.log(decoded.gpa);
+            try {
+                const decoded = await decode(data);
+                setData(decoded);
+                setUniName(decoded.name);
+                setDepartmentName(decoded.department);
+                setGpa(decoded.gpa);
+            } catch (e) {
+                console.log(e);
+            }
         }
     }
 
@@ -101,17 +104,24 @@ function LoadURLPopup() {
 
                 <div className="flex w-full h-full p-5 pt-0 space-x-5">
                     <Button
+                        disabled={Object.keys(data).length === 0}
                         onClick={loadURL}
-                        className={'border-2 border-slate-400'}
-                        hoverColor={'dark:hover:bg-slate-450 hover:bg-slate-350'}
-                        activeColor={'dark:active:bg-slate-400 active:bg-slate-400'}
+                        className='dark:bg-emerald-500 bg-emerald-300
+                        disabled:opacity-50
+                        dark:disabled:hover:bg-emerald-500 disabled:hover:bg-emerald-300
+                    '
+                        hoverColor='dark:hover:bg-emerald-600 hover:bg-emerald-400'
+                        activeColor='active:opacity-80'
                     >
                         Load
                     </Button>
                     <Button onClick={closePopup}
-                        className={'border-2 border-slate-400'}
-                        hoverColor={'dark:hover:bg-slate-450 hover:bg-slate-350'}
-                        activeColor={'dark:active:bg-slate-400 active:bg-slate-400'}
+                        className='dark:bg-rose-500 bg-rose-300
+                        disabled:opacity-50
+                        dark:disabled:hover:bg-rose-500 disabled:hover:bg-rose-300
+                    '
+                        hoverColor='dark:hover:bg-rose-600 hover:bg-rose-400'
+                        activeColor='active:opacity-80'
                     >
                         Cancel
                     </Button>

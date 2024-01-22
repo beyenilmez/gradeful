@@ -445,7 +445,7 @@ function GradeScaleSettings() {
 
 function SettingsWindow(props) {
 
-    const [settingsTab, setSettingsTab] = useState("grade-scale");
+    const [settingsTab, setSettingsTab] = useState("information");
 
     return (
         <Window title="Settings" showWindow={props.showSettingsPopup} setShowWindow={props.setShowSettingsPopup}>
