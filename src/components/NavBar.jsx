@@ -6,6 +6,9 @@ import { useUniData } from "./UniContext";
 import OutsideAlerter from "../utils/OutsideAlerter";
 import { themeDark, themeLight, themeSystem } from "../utils/theme";
 import Button from "./Button";
+import ExportToFileWindow from "./ExportToFileWindow";
+import ImportFromFileWindow from "./ImportFromFileWindow";
+
 
 function NavBar(props) {
     // Context
@@ -16,6 +19,9 @@ function NavBar(props) {
     const [settingsDropdown, setSettingsDropdown] = useState(false);
     const [themeDropdown, setThemeDropdown] = useState(false);
     const [activeTheme, setActiveTheme] = useState(localStorage.getItem('theme'));
+
+    const [showExportFilePopup, setShowExportFilePopup] = useState(false);
+    const [showImportFilePopup, setShowImportFilePopup] = useState(false);
 
     // <-- States end -->
 
@@ -28,11 +34,12 @@ function NavBar(props) {
         save();
         setUniversityData(uni);
     }
-
     // <-- Functions end -->
 
     return (
         <nav className="sticky top-0 z-30 p-5 pb-0 pt-0">
+            <ExportToFileWindow showExportFilePopup={showExportFilePopup} setShowExportFilePopup={setShowExportFilePopup} />
+            <ImportFromFileWindow showImportFilePopup={showImportFilePopup} setShowImportFilePopup={setShowImportFilePopup} />
             <div
                 className="rounded-xl p-5 mt-5 dark:bg-slate-650 bg-slate-300 border dark:border-slate-550 border-slate-400 drop-shadow flex items-center h-24">
 
@@ -137,16 +144,16 @@ function NavBar(props) {
                                 } absolute mt-1 right-0 w-44 py-2 dark:bg-slate-750 bg-slate-250 border dark:border-slate-700 rounded-lg shadow-lg z-10 dark:text-slate-150 text-slate-800`}
                             >
 
-                                <button onClick={() => { setSettingsDropdown(false); }}
+                                <button onClick={() => { setSettingsDropdown(false); setShowImportFilePopup(true); }}
                                     className="w-full py-1 dark:hover:bg-slate-700 hover:bg-slate-350 dark:active:bg-slate-650 active:bg-slate-400 transition-all duration-100">
-                                    Import
+                                    Import from file
                                 </button>
-                                <button onClick={() => { setSettingsDropdown(false); }}
+                                <button onClick={() => { setSettingsDropdown(false); setShowExportFilePopup(true); }}
                                     className="w-full py-1 dark:hover:bg-slate-700 hover:bg-slate-350 dark:active:bg-slate-650 active:bg-slate-400 transition-all duration-100">
-                                    Export
+                                    Export to file
                                 </button>
                                 <button onClick={() => { setSettingsDropdown(false); props.setShowExportURLPopup(true); }}
-                                    className="w-full py-1 dark:hover:bg-slate-700 hover:bg-slate-350 dark:active:bg-slate-650 active:bg-slate-400 transition-all duration-100">
+                                    className="w-full py-1 dark:hover:bg-slate-700 hover:bg-slate-350 dark:active:bg-slate-650 active:bg-slate-400 transition-all duration-100 border-t dark:border-slate-700 border-slate-400">
                                     Export as URL
                                 </button>
                                 <button onClick={() => { setSettingsDropdown(false); props.setShowSettings(true); }}
