@@ -34,7 +34,7 @@ module.exports = {
             "version": "detect"
         }
     },
-    "ignorePatterns": ["tailwind.config.js", "src/presets/*"],
+    "ignorePatterns": ["tailwind.config.js", "config-overrides.js",  "src/presets/*"],
     "rules": {
         // suppress errors for missing 'import React' in files
         "react/react-in-jsx-scope": "off"
