@@ -13,7 +13,7 @@ function Window(props) {
         `}>
             <div className='
                 flex justify-center items-center
-                w-full h-2/3
+                w-full h-full md:h-2/3
             '>
                 <div className='
                 md:w-[40rem] w-[80%]

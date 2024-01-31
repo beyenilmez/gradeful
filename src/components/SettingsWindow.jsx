@@ -443,6 +443,27 @@ function GradeScaleSettings() {
     )
 }
 
+function About() {
+    return (
+        <div className='min-h-[25rem]'>
+            <div className='flex flex-col px-5 py-3 space-y-2'>
+                <div className='w-fit'>
+                    v-{"1.2.0"}
+                </div>
+                <a
+                    className='dark:text-sky-300 text-sky-300 underline w-fit'
+                    href='https://github.com/beyenilmez/gradeful' target="_blank" rel="noreferrer">
+                    Github
+                </a>
+                <a
+                    className='dark:text-sky-300 text-sky-300 underline w-fit'
+                    href='./licenses.json' target="_blank">
+                    View Licenses
+                </a>
+            </div>
+        </div>
+    )
+}
 function SettingsWindow(props) {
 
     const [settingsTab, setSettingsTab] = useState("information");
@@ -481,6 +502,19 @@ function SettingsWindow(props) {
                     >
                         Grade scale
                     </Button>
+                    <Button
+                        onClick={() => setSettingsTab("about")}
+                        rounded='rounded-none'
+                        hoverColor='dark:hover:bg-slate-550 hover:bg-slate-350'
+                        activeColor='dark:active:bg-slate-600 active:bg-slate-400'
+                        className={`
+                        ${settingsTab === "about" ? "dark:bg-slate-600 bg-slate-400" : ""}
+                        w-full
+                        border-b border-r dark:border-slate-450 border-slate-350
+                        `}
+                    >
+                        About
+                    </Button>
                 </div>
                 <div className='w-full '>
                     <div className={`${settingsTab === "information" ? "" : "hidden"}`}>
@@ -488,6 +522,9 @@ function SettingsWindow(props) {
                     </div>
                     <div className={`${settingsTab === "grade-scale" ? "" : "hidden"}`}>
                         <GradeScaleSettings />
+                    </div>
+                    <div className={`${settingsTab === "about" ? "" : "hidden"}`}>
+                        <About />
                     </div>
                 </div>
             </div>
