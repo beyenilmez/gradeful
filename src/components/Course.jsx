@@ -193,7 +193,7 @@ function CourseExport(props) {
                         onChange={(e) => setNameValue(e.target.value)}
                     ></textarea>
 
-                    <textarea rows="1" inputMode="numeric"
+                    <textarea rows="1" inputMode="decimal"
                         className={`
                             ${editData !== undefined ? 'block' : 'hidden'}
                             whitespace-nowrap
@@ -201,8 +201,8 @@ function CourseExport(props) {
                         `}
                         placeholder="Credit"
                         value={creditValue}
-                        onChange={(e) => setCreditValue(e.target.value.replace(/[^0-9]/g, ''))}
-                        maxLength={3}
+                        onChange={(e) => setCreditValue(e.target.value.replace(/[^0-9.]/g, ''))}
+                        maxLength={4}
                     ></textarea>
                 </div>
 
@@ -213,15 +213,15 @@ function CourseExport(props) {
                         </div>
                     </div>
                     <div className={`border dark:border-slate-400 border-slate-500 flex items-center h-7 px-1 mx-1 rounded-lg dark:bg-slate-650 bg-slate-350 ${editData === undefined || autoCalcScoreValue ? 'hidden' : 'block'}`}>
-                        <textarea rows="1" inputMode="numeric"
+                        <textarea rows="1" inputMode="decimal"
                             className={`
                             whitespace-nowrap w-10
                             no-scrollbar resize-none text-center outline-none dark:text-slate-300 text-slate-700 dark:border-slate-400 border-slate-500 bg-transparent dark:placeholder-slate-500 placeholder-slate-450
                         `}
                             placeholder="Score"
                             value={scoreValue}
-                            onChange={(e) => setScoreValue(e.target.value.replace(/[^0-9]/g, ''))}
-                            maxLength={3}
+                            onChange={(e) => setScoreValue(e.target.value.replace(/[^0-9.]/g, ''))}
+                            maxLength={4}
                         ></textarea>
                     </div>
 
