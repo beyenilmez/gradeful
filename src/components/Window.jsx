@@ -13,7 +13,7 @@ function Window(props) {
         `}>
             <div className='
                 flex justify-center items-center
-                w-full h-2/3
+                w-full h-full md:h-2/3
             '>
                 <div className='
                 md:w-[40rem] w-[80%]
@@ -27,7 +27,12 @@ function Window(props) {
                 '>
                         {props.title}
                         <Button
-                            onClick={() => props.setShowWindow(false)}
+                            onClick={() => {
+                                props.setShowWindow(false);
+                                if (props.onClose) {
+                                    props.onClose();
+                                }
+                            }}
                             className={"outline-slate-400"}
                             hoverColor={"dark:hover:bg-slate-500 hover:bg-slate-300"}
                             activeColor={"dark:active:bg-slate-450 active:bg-slate-350"}
@@ -55,7 +60,8 @@ Window.propTypes = {
     title: PropTypes.string,
     showWindow: PropTypes.bool,
     setShowWindow: PropTypes.func,
-    height: PropTypes.string
+    height: PropTypes.string,
+    onClose: PropTypes.func
 }
 
 export default Window;

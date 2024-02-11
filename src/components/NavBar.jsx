@@ -9,6 +9,7 @@ import Button from "./Button";
 import ExportToFileWindow from "./ExportToFileWindow";
 import ImportFromFileWindow from "./ImportFromFileWindow";
 
+import {ReactComponent as Logo} from "../logo.svg"
 
 function NavBar(props) {
     // Context
@@ -44,14 +45,7 @@ function NavBar(props) {
                 className="rounded-xl p-5 mt-5 dark:bg-slate-650 bg-slate-300 border dark:border-slate-550 border-slate-400 drop-shadow flex items-center h-24">
 
                 {/* Uni logo */}
-                <div className="w-fit">
-                    <svg className="w-10 dark:fill-slate-300 fill-slate-700" xmlns="http://www.w3.org/2000/svg"
-                        data-name="Layer 1" viewBox="0 0 24 24">
-                        <path
-                            d="M21,10a.99974.99974,0,0,0,1-1V6a.9989.9989,0,0,0-.68359-.94824l-9-3a1.002,1.002,0,0,0-.63282,0l-9,3A.9989.9989,0,0,0,2,6V9a.99974.99974,0,0,0,1,1H4v7.18427A2.99507,2.99507,0,0,0,2,20v2a.99974.99974,0,0,0,1,1H21a.99974.99974,0,0,0,1-1V20a2.99507,2.99507,0,0,0-2-2.81573V10ZM20,21H4V20a1.001,1.001,0,0,1,1-1H19a1.001,1.001,0,0,1,1,1ZM6,17V10H8v7Zm4,0V10h4v7Zm6,0V10h2v7ZM4,8V6.7207l8-2.667,8,2.667V8Z">
-                        </path>
-                    </svg>
-                </div>
+                <Logo className="shrink-0 w-fit h-full"/>
                 {/* Uni logo */}
 
                 {/* Uni name and department */}

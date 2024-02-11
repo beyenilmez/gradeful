@@ -8,7 +8,7 @@ export const UniProvider = (props) => {
   const jsonData = localStorage.getItem('university');
   const [universityData, setUniversityData] = useState(jsonData ? JSON.parse(jsonData) : new University());
 
-  const [editJSON, setEditJSON] = useState({});
+  const [editJSON, setEditJSON] = useState({"preset": new University()});
 
   const [saveNextChange, setSaveNextChange] = useState(false);
   const [reloadNextChange, setReloadNextChange] = useState(false);

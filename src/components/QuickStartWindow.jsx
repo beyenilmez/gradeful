@@ -1,91 +1,98 @@
-import { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
+import { useEffect, useState } from "react";
 import { useUniData } from "./UniContext";
+import { University } from "../utils/Program";
 import Button from "./Button";
-import Window from "./Window";
+import { decode } from "base64-compressor";
 import { Plus, Minus } from 'react-feather';
-import { University } from '../utils/Program';
-import Selector from './Selector';
+import Window from "./Window";
+import Selector from "./Selector";
 
+import presets from '../presets/department';
 import gradeScalePresets from '../presets/gradeScale';
 
-function InformationSettings() {
+function PageZero() {
     // Context
-    const { universityData, setUniversityData, save } = useUniData();
+    const { editJSON, setEditJSON } = useUniData();
 
     // <--- States start --->
-
-    const [uniNameValue, setUniNameValue] = useState(universityData.name);
-    const [departmentNameValue, setDepartmentNameValue] = useState(universityData.department);
-
+    const [uniNameValue, setUniNameValue] = useState("");
+    const [departmentNameValue, setDepartmentNameValue] = useState("");
+    const [sourceValue, setSourceValue] = useState("");
     // <--- States end --->
 
+    // <--- Effects start --->
+    useEffect(() => {
+        if (editJSON["preset"]) {
+            setEditJSON({ ...editJSON, "preset": { ...editJSON["preset"], name: `${uniNameValue}`, department: `${departmentNameValue}` } });
+        }
+    }, [uniNameValue, departmentNameValue]);
+    // <--- Effects end --->
+    
     // <--- Functions start --->
+    async function decodeData(data) {
+        try {
+            const decoded = await decode(data);
+            setEditJSON({ ...editJSON, "preset": decoded });
 
-    function saveChanges() {
-        universityData.name = uniNameValue;
-        universityData.department = departmentNameValue;
-
-        save();
-        setUniversityData(universityData);
+            setUniNameValue(decoded.name);
+            setDepartmentNameValue(decoded.department);
+        } catch (e) {
+            console.log(e);
+        }
     }
 
-    function discardChanges() {
-        setUniNameValue(universityData.name);
-        setDepartmentNameValue(universityData.department);
+    function setPreset(preset) {
+        decodeData(preset.data);
+        setSourceValue(preset.source);
     }
-
     // <--- Functions end --->
 
+    // Render
     return (
-        <div className='min-h-[25rem] flex flex-col justify-between'>
-            <div className='px-5 py-3 space-y-2'>
-                <div>
-                    <div className='text-sm font-light p-1'>University name</div>
-                    <input
-                        type="text"
-                        className={`w-full h-7 pl-3 text-sm outline-none rounded-lg border dark:text-slate-300 text-slate-700 dark:border-slate-400 border-slate-500 bg-transparent dark:placeholder-slate-500 placeholder-slate-450`}
-                        placeholder="University name"
-                        value={uniNameValue}
-                        onChange={(e) => setUniNameValue(e.target.value)}
-                    />
-                </div>
-                <div>
-                    <div className='text-sm font-light p-1'>Department</div>
-                    <input
-                        type="text"
-                        className={`w-full h-7 pl-3 text-sm outline-none rounded-lg border dark:text-slate-300 text-slate-700 dark:border-slate-400 border-slate-500 bg-transparent dark:placeholder-slate-500 placeholder-slate-450`}
-                        placeholder="University name"
-                        value={departmentNameValue}
-                        onChange={(e) => setDepartmentNameValue(e.target.value)}
-                    />
-                </div>
+        <div className='min-h-[20rem]'>
+
+            <div className='text-sm font-light p-1'>Select a preset (This will load the courses from the preset)</div>
+
+            <Selector
+                onSelect={setPreset}
+                className='rounded-lg outline-none w-[75%]'
+                bgColor={'dark:bg-slate-550 bg-slate-350'}
+                hoverColor='dark:hover:bg-slate-600 hover:bg-slate-400'
+                activeColor='dark:active:bg-slate-650 active:bg-slate-450'
+                data={presets}
+            >
+                Presets
+            </Selector>
+
+            {sourceValue && (
+                <a href={sourceValue} target="_blank" rel="noreferrer" className='dark:text-sky-300 text-sky-300 underline w-fit'>
+                    Source
+                </a>
+            )}
+
+            <div className="pt-2 flex justify-center">
+                or
             </div>
-            <div className='flex w-full justify-end space-x-2 p-2 pr-5'>
-                <Button
-                    disabled={uniNameValue === universityData.name && departmentNameValue === universityData.department}
-                    onClick={discardChanges}
-                    className='dark:bg-rose-500 bg-rose-300
-                    disabled:opacity-50
-                    dark:disabled:hover:bg-rose-500 disabled:hover:bg-rose-300
-                    '
-                    hoverColor='dark:hover:bg-rose-600 hover:bg-rose-400'
-                    activeColor='active:opacity-80'
-                >
-                    Discard
-                </Button>
-                <Button
-                    disabled={uniNameValue === universityData.name && departmentNameValue === universityData.department}
-                    onClick={saveChanges}
-                    className='dark:bg-emerald-500 bg-emerald-300
-                        disabled:opacity-50
-                        dark:disabled:hover:bg-emerald-500 disabled:hover:bg-emerald-300
-                    '
-                    hoverColor='dark:hover:bg-emerald-600 hover:bg-emerald-400'
-                    activeColor='active:opacity-80'
-                >
-                    Save
-                </Button>
+
+            <div>
+                <div className='text-sm font-light p-1'>University name</div>
+                <input
+                    type="text"
+                    className={`w-full h-7 pl-3 text-sm outline-none rounded-lg border dark:text-slate-300 text-slate-700 dark:border-slate-400 border-slate-500 bg-transparent dark:placeholder-slate-450 placeholder-slate-350`}
+                    placeholder="University name"
+                    value={uniNameValue}
+                    onChange={(e) => setUniNameValue(e.target.value)}
+                />
+            </div>
+            <div>
+                <div className='text-sm font-light p-1'>Department</div>
+                <input
+                    type="text"
+                    className={`w-full h-7 pl-3 text-sm outline-none rounded-lg border dark:text-slate-300 text-slate-700 dark:border-slate-400 border-slate-500 bg-transparent dark:placeholder-slate-450 placeholder-slate-350`}
+                    placeholder="Department"
+                    value={departmentNameValue}
+                    onChange={(e) => setDepartmentNameValue(e.target.value)}
+                />
             </div>
         </div>
     )
@@ -93,12 +100,12 @@ function InformationSettings() {
 
 function GradeScaleSettings() {
     // Context
-    const { universityData, setUniversityData, save } = useUniData();
+    const { editJSON, setEditJSON } = useUniData();
 
     // <--- States start --->
-    const [scoreTable, setScoreTable] = useState(universityData.scoreTable);
-    const [gradeTable, setGradeTable] = useState(universityData.gradeTable);
-    const [multiplierTable, setMultiplierTable] = useState(universityData.multiplierTable);
+    const [scoreTable, setScoreTable] = useState(editJSON["preset"].scoreTable);
+    const [gradeTable, setGradeTable] = useState(editJSON["preset"].gradeTable);
+    const [multiplierTable, setMultiplierTable] = useState(editJSON["preset"].multiplierTable);
 
     const [saveActive, setSaveActive] = useState(false);
     const [discardActive, setDiscardActive] = useState(false);
@@ -111,24 +118,24 @@ function GradeScaleSettings() {
         let equals = true;
 
         scoreTable.forEach((score, i) => {
-            if (score != universityData.scoreTable[i]) {
+            if (score != editJSON["preset"].scoreTable[i]) {
                 equals = false;
             }
         })
 
         gradeTable.forEach((grade, i) => {
-            if (grade != universityData.gradeTable[i]) {
+            if (grade != editJSON["preset"].gradeTable[i]) {
                 equals = false;
             }
         })
 
         multiplierTable.forEach((multiplier, i) => {
-            if (multiplier != universityData.multiplierTable[i]) {
+            if (multiplier != editJSON["preset"].multiplierTable[i]) {
                 equals = false;
             }
         })
 
-        if (scoreTable.length !== universityData.scoreTable.length || gradeTable.length !== universityData.gradeTable.length || multiplierTable.length !== universityData.multiplierTable.length) {
+        if (scoreTable.length !== editJSON["preset"].scoreTable.length || gradeTable.length !== editJSON["preset"].gradeTable.length || multiplierTable.length !== editJSON["preset"].multiplierTable.length) {
             equals = false;
         }
 
@@ -185,23 +192,22 @@ function GradeScaleSettings() {
     }
 
     function discardChanges() {
-        setScoreTable(universityData.scoreTable);
-        setGradeTable(universityData.gradeTable);
-        setMultiplierTable(universityData.multiplierTable);
+        setScoreTable(editJSON["preset"].scoreTable);
+        setGradeTable(editJSON["preset"].gradeTable);
+        setMultiplierTable(editJSON["preset"].multiplierTable);
 
         setSaveActive(false);
         setDiscardActive(false);
     }
 
     function saveChanges() {
-        const uni = new University(universityData);
+        const uni = new University(editJSON["preset"]);
 
         uni.setGradeTable(gradeTable);
         uni.setScoreTable(scoreTable);
         uni.setMultiplierTable(multiplierTable);
 
-        save();
-        setUniversityData(uni);
+        setEditJSON({ ...editJSON, preset: uni });
 
         setSaveActive(false);
         setDiscardActive(false);
@@ -220,8 +226,11 @@ function GradeScaleSettings() {
 
     // Render
     return (
-        <div className='min-h-[25rem] flex flex-col justify-between'>
-            <div className='flex px-5 py-3 space-x-1'>
+        <div className='min-h-[20rem] flex flex-col justify-between'>
+            <div className="pb-1.5">
+                You can customize your grade scale here.
+            </div>
+            <div className='flex space-x-1'>
                 <div>
                     <div className='w-full pb-1 text-center text-sm border-b border-slate-400 mb-1.5'>
                         Percentage
@@ -403,128 +412,112 @@ function GradeScaleSettings() {
                 </div>
             </div>
 
-            <div className='flex w-full justify-between p-2 px-5'>
-                <Selector
-                    onSelect={setGradeScale}
-                    className='rounded-lg outline-none'
-                    bgColor={'dark:bg-slate-550 bg-slate-350'}
-                    hoverColor='dark:hover:bg-slate-600 hover:bg-slate-400'
-                    activeColor='dark:active:bg-slate-650 active:bg-slate-450'
-                    data={gradeScalePresets}
-                >
-                    Presets
-                </Selector>
-                <div className='flex space-x-2'>
-                    <Button disabled={!discardActive}
-                        onClick={discardChanges}
-                        className='dark:bg-rose-500 bg-rose-300
+            <div>
+                <div className="py-1.5">{"Please save your changes by clicking the \"Save\" button."}</div>
+
+                <div className='flex w-full justify-between pb-2'>
+                    <Selector
+                        onSelect={setGradeScale}
+                        className='rounded-lg outline-none'
+                        bgColor={'dark:bg-slate-550 bg-slate-350'}
+                        hoverColor='dark:hover:bg-slate-600 hover:bg-slate-400'
+                        activeColor='dark:active:bg-slate-650 active:bg-slate-450'
+                        data={gradeScalePresets}
+                    >
+                        Presets
+                    </Selector>
+                    <div className='flex space-x-2'>
+                        <Button disabled={!discardActive}
+                            onClick={discardChanges}
+                            className='dark:bg-rose-500 bg-rose-300
                     disabled:opacity-50
                     dark:disabled:hover:bg-rose-500 disabled:hover:bg-rose-300
                     '
-                        hoverColor='dark:hover:bg-rose-600 hover:bg-rose-400'
-                        activeColor='active:opacity-80'
-                    >
-                        Discard
-                    </Button>
-                    <Button disabled={!saveActive}
-                        onClick={saveChanges}
-                        className='dark:bg-emerald-500 bg-emerald-300
+                            hoverColor='dark:hover:bg-rose-600 hover:bg-rose-400'
+                            activeColor='active:opacity-80'
+                        >
+                            Discard
+                        </Button>
+                        <Button disabled={!saveActive}
+                            onClick={saveChanges}
+                            className='dark:bg-emerald-500 bg-emerald-300
                         disabled:opacity-50
                         dark:disabled:hover:bg-emerald-500 disabled:hover:bg-emerald-300
                     '
-                        hoverColor='dark:hover:bg-emerald-600 hover:bg-emerald-400'
-                        activeColor='active:opacity-80'
-                    >
-                        Save
-                    </Button>
+                            hoverColor='dark:hover:bg-emerald-600 hover:bg-emerald-400'
+                            activeColor='active:opacity-80'
+                        >
+                            Save
+                        </Button>
+                    </div>
                 </div>
             </div>
         </div>
     )
 }
 
-function About() {
-    return (
-        <div className='min-h-[25rem]'>
-            <div className='flex flex-col px-5 py-3 space-y-2'>
-                <div className='w-fit'>
-                    v-{"1.2.0"}
-                </div>
-                <a
-                    className='dark:text-sky-300 text-sky-300 underline w-fit'
-                    href='https://github.com/beyenilmez/gradeful' target="_blank" rel="noreferrer">
-                    Github
-                </a>
-                <a
-                    className='dark:text-sky-300 text-sky-300 underline w-fit'
-                    href='./licenses.json' target="_blank">
-                    View Licenses
-                </a>
-            </div>
-        </div>
-    )
-}
-function SettingsWindow(props) {
+function QuickStartWindow() {
+    // Context
+    const { editJSON, setUniversityData, save } = useUniData();
 
-    const [settingsTab, setSettingsTab] = useState("information");
+    // <--- States start --->
+    const [page, setPage] = useState(1);
+    const [showQuickStart, setShowQuickStart] = useState(false);
+    // <--- States end --->
 
+    // <-- Effects start -->
+    useEffect(() => {
+        const firstVisit = localStorage.getItem("visited");
+
+        if (firstVisit !== "visited") {
+            setShowQuickStart(true);
+        }
+    }, [])
+    // <-- Effects end -->
+
+    // Render
     return (
-        <Window title="Settings" showWindow={props.showSettingsPopup} setShowWindow={props.setShowSettingsPopup}>
+        <Window title="Quick start" showWindow={showQuickStart} setShowWindow={setShowQuickStart} onClose={() => localStorage.setItem("visited", "visited")}>
             <div className='flex md:flex-row flex-col'>
-                <div className='
-                    flex md:flex-col flex-row
-                    border-b border-r dark:border-slate-450 border-slate-350
-                '>
-                    <Button
-                        onClick={() => setSettingsTab("information")}
-                        rounded='rounded-none'
-                        hoverColor='dark:hover:bg-slate-550 hover:bg-slate-350'
-                        activeColor='dark:active:bg-slate-600 active:bg-slate-400'
-                        padding='p-2 px-6'
-                        className={`
-                        ${settingsTab === "information" ? "dark:bg-slate-600 bg-slate-400" : ""}
-                        w-full
-                        border-b border-r dark:border-slate-450 border-slate-350
-                        `}
-                    >
-                        Information
-                    </Button>
-                    <Button
-                        onClick={() => setSettingsTab("grade-scale")}
-                        rounded='rounded-none'
-                        hoverColor='dark:hover:bg-slate-550 hover:bg-slate-350'
-                        activeColor='dark:active:bg-slate-600 active:bg-slate-400'
-                        className={`
-                        ${settingsTab === "grade-scale" ? "dark:bg-slate-600 bg-slate-400" : ""}
-                        w-full
-                        border-b border-r dark:border-slate-450 border-slate-350
-                        `}
-                    >
-                        Grade scale
-                    </Button>
-                    <Button
-                        onClick={() => setSettingsTab("about")}
-                        rounded='rounded-none'
-                        hoverColor='dark:hover:bg-slate-550 hover:bg-slate-350'
-                        activeColor='dark:active:bg-slate-600 active:bg-slate-400'
-                        className={`
-                        ${settingsTab === "about" ? "dark:bg-slate-600 bg-slate-400" : ""}
-                        w-full
-                        border-b border-r dark:border-slate-450 border-slate-350
-                        `}
-                    >
-                        About
-                    </Button>
-                </div>
-                <div className='w-full '>
-                    <div className={`${settingsTab === "information" ? "" : "hidden"}`}>
-                        <InformationSettings />
+                <div className='w-full p-4'>
+                    <div className="pb-2 border-b dark:border-b-slate-400 border-b-slate-400">
+                        Step {page}/2 - {page === 1 ? "Information" : "Grade scale"}
                     </div>
-                    <div className={`${settingsTab === "grade-scale" ? "" : "hidden"}`}>
-                        <GradeScaleSettings />
+                    <div className="mt-2">
+                        <div className={`${page === 1 ? "" : "hidden"}`}>
+                            <PageZero />
+                        </div>
+                        <div className={`${page === 2 ? "" : "hidden"}`}>
+                            <GradeScaleSettings />
+                        </div>
                     </div>
-                    <div className={`${settingsTab === "about" ? "" : "hidden"}`}>
-                        <About />
+                    <div className="flex space-x-1 border-t dark:border-t-slate-400 border-t-slate-400 pt-2">
+                        <Button
+                            onClick={() => setPage(1)}
+                            hoverColor='dark:hover:bg-slate-600 hover:bg-slate-400'
+                            activeColor='dark:active:bg-slate-650 active:bg-slate-450'
+                            className={`dark:bg-slate-550 bg-slate-350 disabled:opacity-50 disabled:dark:hover:bg-slate-550 disabled:hover:bg-slate-350`}
+                            disabled={page === 1}
+                        >
+                            Previous
+                        </Button>
+                        <Button
+                            onClick={() => {
+                                if (page === 2) {
+                                    setUniversityData(editJSON["preset"]);
+                                    save();
+                                    localStorage.setItem("visited", "visited");
+                                    setShowQuickStart(false);
+                                } else {
+                                    setPage(2);
+                                }
+                            }}
+                            hoverColor='dark:hover:bg-slate-600 hover:bg-slate-400'
+                            activeColor='dark:active:bg-slate-650 active:bg-slate-450'
+                            className={`dark:bg-slate-550 bg-slate-350 disabled:opacity-50 disabled:dark:hover:bg-slate-550 disabled:hover:bg-slate-350`}
+                        >
+                            {page === 2 ? "Finish" : "Next"}
+                        </Button>
                     </div>
                 </div>
             </div>
@@ -532,9 +525,4 @@ function SettingsWindow(props) {
     );
 }
 
-SettingsWindow.propTypes = {
-    showSettingsPopup: PropTypes.bool,
-    setShowSettingsPopup: PropTypes.func
-};
-
-export default SettingsWindow;
+export default QuickStartWindow;
