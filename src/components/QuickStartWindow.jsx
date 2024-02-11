@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useUniData } from "./UniContext";
+import { University } from "../utils/Program";
 import Button from "./Button";
 import { decode } from "base64-compressor";
 import { Plus, Minus } from 'react-feather';
@@ -8,16 +9,26 @@ import Selector from "./Selector";
 
 import presets from '../presets/department';
 import gradeScalePresets from '../presets/gradeScale';
-import { University } from "../utils/Program";
 
 function PageZero() {
+    // Context
     const { editJSON, setEditJSON } = useUniData();
 
-    const [uniNameValue, setUniNameValue] = useState();
-    const [departmentNameValue, setDepartmentNameValue] = useState();
-
+    // <--- States start --->
+    const [uniNameValue, setUniNameValue] = useState("");
+    const [departmentNameValue, setDepartmentNameValue] = useState("");
     const [sourceValue, setSourceValue] = useState("");
+    // <--- States end --->
 
+    // <--- Effects start --->
+    useEffect(() => {
+        if (editJSON["preset"]) {
+            setEditJSON({ ...editJSON, "preset": { ...editJSON["preset"], name: `${uniNameValue}`, department: `${departmentNameValue}` } });
+        }
+    }, [uniNameValue, departmentNameValue]);
+    // <--- Effects end --->
+    
+    // <--- Functions start --->
     async function decodeData(data) {
         try {
             const decoded = await decode(data);
@@ -34,13 +45,9 @@ function PageZero() {
         decodeData(preset.data);
         setSourceValue(preset.source);
     }
+    // <--- Functions end --->
 
-    useEffect(() => {
-        if (editJSON["preset"]) {
-            setEditJSON({ ...editJSON, "preset": { ...editJSON["preset"], name: `${uniNameValue}`, department: `${departmentNameValue}` } });
-        }
-    }, [uniNameValue, departmentNameValue]);
-
+    // Render
     return (
         <div className='min-h-[20rem]'>
 
@@ -449,13 +456,16 @@ function GradeScaleSettings() {
     )
 }
 
-function QucikStartWindow() {
+function QuickStartWindow() {
+    // Context
     const { editJSON, setUniversityData, save } = useUniData();
 
-    const [page, setPage] = useState(0);
-
+    // <--- States start --->
+    const [page, setPage] = useState(1);
     const [showQuickStart, setShowQuickStart] = useState(false);
+    // <--- States end --->
 
+    // <-- Effects start -->
     useEffect(() => {
         const firstVisit = localStorage.getItem("visited");
 
@@ -463,49 +473,50 @@ function QucikStartWindow() {
             setShowQuickStart(true);
         }
     }, [])
+    // <-- Effects end -->
 
+    // Render
     return (
         <Window title="Quick start" showWindow={showQuickStart} setShowWindow={setShowQuickStart} onClose={() => localStorage.setItem("visited", "visited")}>
             <div className='flex md:flex-row flex-col'>
                 <div className='w-full p-4'>
                     <div className="pb-2 border-b dark:border-b-slate-400 border-b-slate-400">
-                        Step {page + 1}/2 - {page === 0 ? "Information" : "Grade scale"}
+                        Step {page}/2 - {page === 1 ? "Information" : "Grade scale"}
                     </div>
                     <div className="mt-2">
-                        <div className={`${page === 0 ? "" : "hidden"}`}>
+                        <div className={`${page === 1 ? "" : "hidden"}`}>
                             <PageZero />
                         </div>
-                        <div className={`${page === 1 ? "" : "hidden"}`}>
+                        <div className={`${page === 2 ? "" : "hidden"}`}>
                             <GradeScaleSettings />
                         </div>
                     </div>
-                    <div className="flex space-x-1">
+                    <div className="flex space-x-1 border-t dark:border-t-slate-400 border-t-slate-400 pt-2">
                         <Button
-                            onClick={() => setPage(page - 1 > 0 ? page - 1 : 0)}
+                            onClick={() => setPage(1)}
                             hoverColor='dark:hover:bg-slate-600 hover:bg-slate-400'
                             activeColor='dark:active:bg-slate-650 active:bg-slate-450'
                             className={`dark:bg-slate-550 bg-slate-350 disabled:opacity-50 disabled:dark:hover:bg-slate-550 disabled:hover:bg-slate-350`}
-                            disabled={page === 0}
+                            disabled={page === 1}
                         >
                             Previous
                         </Button>
                         <Button
                             onClick={() => {
-                                if (page === 1) {
+                                if (page === 2) {
                                     setUniversityData(editJSON["preset"]);
                                     save();
                                     localStorage.setItem("visited", "visited");
                                     setShowQuickStart(false);
                                 } else {
-                                    setPage(page + 1 < 2 ? page + 1 : 1);
+                                    setPage(2);
                                 }
                             }}
                             hoverColor='dark:hover:bg-slate-600 hover:bg-slate-400'
                             activeColor='dark:active:bg-slate-650 active:bg-slate-450'
                             className={`dark:bg-slate-550 bg-slate-350 disabled:opacity-50 disabled:dark:hover:bg-slate-550 disabled:hover:bg-slate-350`}
-                            disabled={page === 2}
                         >
-                            {page === 1 ? "Finish" : "Next"}
+                            {page === 2 ? "Finish" : "Next"}
                         </Button>
                     </div>
                 </div>
@@ -514,4 +525,4 @@ function QucikStartWindow() {
     );
 }
 
-export default QucikStartWindow;
+export default QuickStartWindow;
