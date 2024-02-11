@@ -22,6 +22,7 @@ function LoadURLPopup() {
         const urlParams = new URLSearchParams(window.location.search);
         const data = urlParams.get('data');
         if (data) {
+            localStorage.setItem('visited', 'visited');
             decodeURL();
             setShowPopup(true);
         }
