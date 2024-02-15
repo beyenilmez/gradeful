@@ -22,7 +22,7 @@ const sortableOptions = {
 function Grid() {
     const { setInactive } = useInactive();
     const { setClassInactive } = useInactive();
-    const { universityData, setUniversityData, save } = useUniData();
+    const { universityData, setUniversityData, save, editJSON } = useUniData();
 
     return (
         <ReactSortable
@@ -73,9 +73,14 @@ function Grid() {
                                     }}
                                     {...sortableOptions}
                                 >
-                                    {course.scores.map((score) => (
-                                        <Score key={score.id} id={score.id} courseId={course.id} termId={course.termId} name={score.name} percentage={score.percentage} score={score.score} />
-                                    ))}
+                                    <React.Fragment>
+                                        {editJSON[course.id] === undefined && course.scores.map((score) => (
+                                            <Score key={score.id} id={score.id} courseId={course.id} termId={course.termId} name={score.name} percentage={score.percentage} score={score.score} />
+                                        ))}
+                                        {editJSON[course.id] !== undefined && editJSON[course.id].scores && editJSON[course.id].scores.map((score) => (
+                                            <Score key={score.id} id={score.id} courseId={course.id} termId={course.termId} name={score.name} percentage={score.percentage} />
+                                        ))}
+                                    </React.Fragment>
                                 </ReactSortable>
                             </Course>
                         ))}

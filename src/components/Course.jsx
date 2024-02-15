@@ -48,14 +48,10 @@ function CourseExport(props) {
     // <--- Functions start --->
 
     function addScore() {
-        const uni = new University(universityData);
-        const course = uni.getTermById(termIdRef.current).getCourseById(idRef.current);
-
+        const course = new Course(editData);
         course.addScore(new Score());
 
         setEditJSON({ ...editJSON, [idRef.current]: course });
-
-        setUniversityData(uni);
     }
 
     function deleteCourse() {

@@ -1,4 +1,4 @@
-import React, {  useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { University, Course } from "../utils/Program";
 import { Trash } from 'react-feather';
@@ -38,11 +38,13 @@ function ScoreExport(props) {
     }
 
     function updateScore() {
-        const uni = new University();
-        uni.load(universityData);
-        uni.getTermById(termIdRef.current).getCourseById(courseIdRef.current).getScoreById(idRef.current).score = scoreValue;
-        save();
-        setUniversityData(uni);
+        if (editData === undefined) {
+            const uni = new University();
+            uni.load(universityData);
+            uni.getTermById(termIdRef.current).getCourseById(courseIdRef.current).getScoreById(idRef.current).score = scoreValue;
+            save();
+            setUniversityData(uni);
+        }
     }
 
     // Effects
