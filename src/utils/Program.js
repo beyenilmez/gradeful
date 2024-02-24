@@ -351,7 +351,7 @@ export class Course {
     }
 
     calcTotalPercentage() {
-        this.totalPercentage = this.scores.reduce((a, b) => a + Number((b.score === null || b.score === "" || b.score === undefined ? 0 : b.percentage)), 0);
+        this.totalPercentage = this.scores.reduce((a, b) => a + Number((b.score === null || b.score === "" || b.score === undefined || b.percentage === null || b.percentage === "" || b.percentage === undefined ? 0 : b.percentage)), 0);
         this.inactive = this.totalPercentage === 0;
     }
 
@@ -360,7 +360,7 @@ export class Course {
             this.score = '';
             return;
         }
-        this.score =(this.scores.reduce((a, b) => a + Number((b.score === null || b.score === "" || b.score === undefined ? 0 : Number(b.score) * Number(b.percentage))), 0) / this.totalPercentage);  
+        this.score =(this.scores.reduce((a, b) => a + Number((b.score === null || b.score === "" || b.score === undefined || b.percentage === null || b.percentage === "" || b.percentage === undefined ? 0 : Number(b.score) * Number(b.percentage))), 0) / this.totalPercentage);  
     }
 
     calcGrade() {

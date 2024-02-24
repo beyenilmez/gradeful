@@ -450,15 +450,21 @@ function About() {
                 <div className='w-fit'>
                     v-{"1.2.0"}
                 </div>
-                <a
-                    className='dark:text-sky-300 text-sky-300 underline w-fit'
-                    href='https://github.com/beyenilmez/gradeful' target="_blank" rel="noreferrer">
-                    Github
+                <a className='dark:text-sky-300 text-sky-300 underline w-fit cursor-pointer' onClick={() => {
+                    localStorage.clear();
+                    window.location.reload();
+                }} target="_blank">
+                    Delete all data
                 </a>
                 <a
                     className='dark:text-sky-300 text-sky-300 underline w-fit'
                     href='./licenses.json' target="_blank">
                     View Licenses
+                </a>
+                <a
+                    className='dark:text-sky-300 text-sky-300 underline w-fit'
+                    href='https://github.com/beyenilmez/gradeful' target="_blank" rel="noreferrer">
+                    Github
                 </a>
             </div>
         </div>

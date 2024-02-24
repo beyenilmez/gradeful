@@ -12,6 +12,7 @@ export const UniProvider = (props) => {
 
   const [saveNextChange, setSaveNextChange] = useState(false);
   const [reloadNextChange, setReloadNextChange] = useState(false);
+  const [refresh, setRefresh] = useState(0);
 
   useEffect(() => {
     if (saveNextChange) {
@@ -21,7 +22,9 @@ export const UniProvider = (props) => {
       localStorage.setItem('university', JSON.stringify(uni));
       setSaveNextChange(false);
       if(reloadNextChange){
+        setReloadNextChange(false);
         history.replaceState(null, null, window.location.href.split('?')[0]);
+        setRefresh(refresh + 1);
       }
     }
   }, [universityData, saveNextChange]);
@@ -34,7 +37,7 @@ export const UniProvider = (props) => {
   }
 
   return (
-    <UniContext.Provider value={{ universityData, setUniversityData, editJSON, setEditJSON, save }}>
+    <UniContext.Provider value={{ universityData, setUniversityData, editJSON, setEditJSON, save, refresh }}>
       {props.children}
     </UniContext.Provider>
   );
