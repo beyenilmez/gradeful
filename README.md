@@ -20,6 +20,7 @@
 
 ![Main](./assets/screenshot-1.png)
 ![Settings](./assets/screenshot-2.png)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fbeyenilmez%2Fgradeful.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fbeyenilmez%2Fgradeful?ref=badge_shield)
 
 ## Features
 
@@ -55,3 +56,6 @@
 ## License
 
 Distributed under the MIT License. See [LICENSE](https://github.com/beyenilmez/gradeful/blob/main/LICENSE) for more information.
+
+
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fbeyenilmez%2Fgradeful.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fbeyenilmez%2Fgradeful?ref=badge_large)
