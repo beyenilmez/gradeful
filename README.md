@@ -23,7 +23,8 @@
 
 ## Features
 
-- Serverless auto GPA calculation
+- Auto GPA calculation
+- Credit and ECTS calculations
 - Import/Export your grades from/to files
 - Export/Share your grades with a URL
 - Dark and light themes
@@ -51,6 +52,7 @@
 - [react-sortablejs](https://github.com/SortableJS/react-sortablejs)
 - [base64-compressor](https://github.com/eliot-akira/base64-compressor)
 - [tailwind-scrollbar](https://github.com/adoxography/tailwind-scrollbar)
+- [webpack-license-plugin](https://github.com/codepunkt/webpack-license-plugin)
 
 ## License
 
