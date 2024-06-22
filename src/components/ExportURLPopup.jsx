@@ -38,7 +38,7 @@ function ExportURLPopup(props) {
             showWindow={props.showExportURLPopup} setShowWindow={props.setShowExportURLPopup}
         >
             <div className='p-2'>
-                <div className='text-sm pl-1'>
+                <div className='pl-1 text-sm'>
                     Paste this link to your browser to import the data.
                 </div>
                 <div className='flex items-center space-x-3'>
@@ -46,11 +46,7 @@ function ExportURLPopup(props) {
                         readOnly
 
                         rows="1"
-                        className="whitespace-nowrap no-scrollbar resize-none w-full h-7 pl-3 pt-[0.15rem] text-sm outline-none rounded-lg border
-                    bg-transparent
-                    dark:text-slate-300 text-slate-700
-                    dark:border-slate-400 border-slate-500
-                    dark:placeholder-slate-500 placeholder-slate-450"
+                        className="border-slate-500 dark:border-slate-400 bg-transparent pt-[0.15rem] pl-3 border rounded-lg w-full h-7 text-slate-700 text-sm dark:text-slate-300 whitespace-nowrap no-scrollbar outline-none placeholder-slate-450 resize-none dark:placeholder-slate-500"
                         placeholder="Please wait..."
                     />
                     <Button
