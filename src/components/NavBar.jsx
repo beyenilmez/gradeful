@@ -158,7 +158,7 @@ function NavBar(props) {
                             {/* Settings button */}
                             <Button onClick={() => { setSettingsDropdown(!settingsDropdown); }} className="has-tooltip">
                                 <Settings size={"1.75rem"} />
-                                <span className='tooltip'>Settings</span>
+                                <span className='-ml-8 tooltip'>Settings</span>
                             </Button>
                             {/* Settings button */}
 
