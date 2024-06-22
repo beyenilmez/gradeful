@@ -20,6 +20,8 @@ export class University {
     totalCredit;
     totalIncludedCredit;
 
+    totalEcts;
+
     // Array to store terms
     terms = [];
 
@@ -93,6 +95,8 @@ export class University {
         let totalCredit = 0;
         let totalIncludedCredit = 0;
 
+        let totalEcts = 0;
+
         for (const term of this.terms) {
             if (term.includeCalc) {
                 if (!isNaN(term.totalCredit)) {
@@ -106,11 +110,17 @@ export class University {
             if(!isNaN(term.totalCredit)) {
                 realTotalCredit += Number(term.totalCredit);
             }
+
+            if(!isNaN(term.totalEcts)) {
+                totalEcts += Number(term.totalEcts);
+            }
         }
 
         this.realTotalCredit = realTotalCredit;
         this.totalCredit = totalCredit;
         this.totalIncludedCredit = totalIncludedCredit;
+
+        this.totalEcts = totalEcts;
     }
 
     calcGpa() {
@@ -159,6 +169,9 @@ export class Term {
 
     totalCredit;
     totalIncludedCredit;
+
+    totalEcts;
+
     gpa;
 
     includeCalc = true;
@@ -232,6 +245,9 @@ export class Term {
     calcTotalCredit() {
         let totalCredit = 0;
         let totalIncludedCredit = 0;
+
+        let totalEcts = 0;
+
         for (const course of this.courses) {
             if (!isNaN(course.credit) && course.includeCalc) {
                 totalCredit += Number(course.credit);
@@ -241,9 +257,15 @@ export class Term {
                     totalIncludedCredit += Number(course.credit);
                 }
             }
+
+            if (!isNaN(course.ects)) {
+                totalEcts += Number(course.ects);
+            }
         }
         this.totalCredit = totalCredit;
         this.totalIncludedCredit = totalIncludedCredit;
+
+        this.totalEcts = totalEcts;
     }
 
     calcGpa() {
@@ -281,6 +303,7 @@ export class Term {
 export class Course {
     name;
     credit;
+    ects;
     id = uniqid();
     termId;
 
