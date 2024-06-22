@@ -16,6 +16,7 @@ export class University {
     department;
 
     gpa;
+    realTotalCredit;
     totalCredit;
     totalIncludedCredit;
 
@@ -88,6 +89,7 @@ export class University {
     }
 
     calcTotalCredit() {
+        let realTotalCredit = 0;
         let totalCredit = 0;
         let totalIncludedCredit = 0;
 
@@ -100,8 +102,13 @@ export class University {
                     totalIncludedCredit += Number(term.totalIncludedCredit);
                 }
             }
+
+            if(!isNaN(term.totalCredit)) {
+                realTotalCredit += Number(term.totalCredit);
+            }
         }
 
+        this.realTotalCredit = realTotalCredit;
         this.totalCredit = totalCredit;
         this.totalIncludedCredit = totalIncludedCredit;
     }

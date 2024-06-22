@@ -9,7 +9,7 @@ import Button from "./Button";
 import ExportToFileWindow from "./ExportToFileWindow";
 import ImportFromFileWindow from "./ImportFromFileWindow";
 
-import {ReactComponent as Logo} from "../logo.svg"
+import { ReactComponent as Logo } from "../logo.svg"
 
 function NavBar(props) {
     // Context
@@ -38,33 +38,39 @@ function NavBar(props) {
     // <-- Functions end -->
 
     return (
-        <nav className="sticky top-0 z-30 p-5 pb-0 pt-0">
+        <nav className="top-0 z-30 sticky p-5 pt-0 pb-0">
             <ExportToFileWindow showExportFilePopup={showExportFilePopup} setShowExportFilePopup={setShowExportFilePopup} />
             <ImportFromFileWindow showImportFilePopup={showImportFilePopup} setShowImportFilePopup={setShowImportFilePopup} />
             <div
-                className="rounded-xl p-5 mt-5 dark:bg-slate-650 bg-slate-300 border dark:border-slate-550 border-slate-400 drop-shadow flex items-center h-24">
+                className="flex items-center border-slate-400 dark:border-slate-550 bg-slate-300 dark:bg-slate-650 drop-shadow mt-5 p-5 border rounded-xl h-24">
 
                 {/* Uni logo */}
-                <Logo className="shrink-0 w-fit h-full"/>
+                <Logo className="w-fit h-full shrink-0" />
                 {/* Uni logo */}
 
                 {/* Uni name and department */}
-                <div className="w-full hidden md:flex dark:text-slate-150 text-slate-800">
-                    <div className="h-full ml-3">
-                        <div className="font-semibold text-lg min-w-[20rem]">{universityData.name}</div>
+                <div className="md:flex hidden w-full text-slate-800 dark:text-slate-150">
+                    <div className="ml-3 h-full">
+                        <div className="min-w-[20rem] font-semibold text-lg">{universityData.name}</div>
                         <div className="text-xs">{universityData.department}</div>
                     </div>
                 </div>
                 {/* Uni name and department */}
 
                 {/* GPA */}
-                <div
-                    className="font-semibold text-center text-lg ml-4 dark:text-slate-150 text-slate-800 border-none dark:bg-slate-600 bg-slate-200 bg-opacity-50 dark:border-slate-450 border-slate-450 rounded-lg p-2.5 max-w-[6rem] w-full">
-                    {universityData.gpa ? Math.round(universityData.gpa * 100) / 100 : ' - '}
+                <div className="flex flex-row gap-1 p-2.5">
+                    <div
+                        className="border-slate-450 dark:border-slate-450 bg-slate-200 dark:bg-slate-600 bg-opacity-50 p-2.5 border-none rounded-lg w-24 font-semibold text-center text-lg text-slate-800 dark:text-slate-150">
+                        {universityData.gpa ? Math.round(universityData.gpa * 100) / 100 : ' - '}
+                    </div>
+                    <div
+                        className="sm:block border-slate-450 dark:border-slate-450 hidden bg-slate-200 dark:bg-slate-600 bg-opacity-50 p-2.5 border-none rounded-lg min-w-24 font-semibold text-center text-lg text-slate-800 dark:text-slate-150">
+                        {universityData.totalIncludedCredit && universityData.realTotalCredit ? universityData.totalIncludedCredit + '/' + universityData.realTotalCredit : '0/0'}
+                    </div>
                 </div>
                 {/* GPA */}
 
-                <div className="w-full flex justify-end space-x-1">
+                <div className="flex justify-end space-x-1 w-full">
 
                     {/* Add term button */}
                     <Button id='addTermButton' onClick={addTerm} className={'flex font-semibold items-center pr-2'} >
@@ -139,19 +145,19 @@ function NavBar(props) {
                             >
 
                                 <button onClick={() => { setSettingsDropdown(false); setShowImportFilePopup(true); }}
-                                    className="w-full py-1 dark:hover:bg-slate-700 hover:bg-slate-350 dark:active:bg-slate-650 active:bg-slate-400 transition-all duration-100">
+                                    className="dark:hover:bg-slate-700 hover:bg-slate-350 dark:active:bg-slate-650 active:bg-slate-400 py-1 w-full transition-all duration-100">
                                     Import from file
                                 </button>
                                 <button onClick={() => { setSettingsDropdown(false); setShowExportFilePopup(true); }}
-                                    className="w-full py-1 dark:hover:bg-slate-700 hover:bg-slate-350 dark:active:bg-slate-650 active:bg-slate-400 transition-all duration-100">
+                                    className="dark:hover:bg-slate-700 hover:bg-slate-350 dark:active:bg-slate-650 active:bg-slate-400 py-1 w-full transition-all duration-100">
                                     Export to file
                                 </button>
                                 <button onClick={() => { setSettingsDropdown(false); props.setShowExportURLPopup(true); }}
-                                    className="w-full py-1 dark:hover:bg-slate-700 hover:bg-slate-350 dark:active:bg-slate-650 active:bg-slate-400 transition-all duration-100 border-t dark:border-slate-700 border-slate-400">
+                                    className="border-slate-400 dark:border-slate-700 dark:hover:bg-slate-700 hover:bg-slate-350 dark:active:bg-slate-650 active:bg-slate-400 py-1 border-t w-full transition-all duration-100">
                                     Export as URL
                                 </button>
                                 <button onClick={() => { setSettingsDropdown(false); props.setShowSettings(true); }}
-                                    className="w-full py-1 dark:hover:bg-slate-700 hover:bg-slate-350 dark:active:bg-slate-650 active:bg-slate-400 transition-all duration-100 border-t dark:border-slate-700 border-slate-400">
+                                    className="border-slate-400 dark:border-slate-700 dark:hover:bg-slate-700 hover:bg-slate-350 dark:active:bg-slate-650 active:bg-slate-400 py-1 border-t w-full transition-all duration-100">
                                     Settings
                                 </button>
                             </div>
