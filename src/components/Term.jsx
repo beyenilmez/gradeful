@@ -196,8 +196,8 @@ function TermExport(props) {
 
     // Render
     return (
-        <div className="draggable dark:bg-slate-750 bg-slate-250 border dark:border-slate-550 border-slate-350 shadow-lg rounded-md h-fit overflow-hidden">
-            <div className="flex items-center justify-between py-1 px-2 hover:cursor-pointer" onClick={toggleExpanded}>
+        <div className="border-slate-350 dark:border-slate-550 bg-slate-250 dark:bg-slate-750 shadow-lg border rounded-md h-fit overflow-hidden draggable">
+            <div className="flex justify-between items-center px-2 py-1 hover:cursor-pointer" onClick={toggleExpanded}>
                 <div className='flex items-center'>
                     <Move size="1.5rem" className={`handle mr-1 transform transition-transform duration-300 shrink-0`} />
                     <ChevronRight size="1.5rem" className={`mr-1 transform transition-transform duration-300 shrink-0 ${expandedValue && !inactive ? 'rotate-90' : ''}`} />
@@ -216,6 +216,16 @@ function TermExport(props) {
                 </div>
 
                 <div className='flex items-center'>
+                    <div className={`flex items-center justify-center mx-1 h-8 px-1 rounded-lg dark:bg-slate-700 bg-slate-300 transition duration-300  ${(editData !== undefined && !autoCalcScoreValue) || (!expandedValue || inactive) ? 'w-10 opacity-0' : 'w-20 opacity-100'}`}>
+                        <div>
+                            {(props.totalCredit ? props.totalCredit : '0') + 'C'}
+                        </div>
+                    </div>
+                    <div className={`flex items-center justify-center mx-1 h-8 px-1 rounded-lg dark:bg-slate-700 bg-slate-300 transition duration-300  ${(editData !== undefined && !autoCalcScoreValue) || (!expandedValue || inactive) ? 'w-10 opacity-0' : 'w-20 opacity-100'}`}>
+                        <div>
+                            {(props.totalEcts ? props.totalEcts : '0') + 'ECTS'}
+                        </div>
+                    </div>
                     <div className={`w-10 flex items-center justify-center mx-1 h-8 px-1 rounded-lg dark:bg-slate-700 bg-slate-300 ${editData !== undefined && !autoCalcScoreValue ? 'hidden' : 'block'}`}>
                         <div>
                             {props.gpa ? Math.round(props.gpa * 100) / 100 : '-'}
@@ -322,7 +332,7 @@ function TermExport(props) {
             </div>
 
             <div
-                className="overflow-hidden transition-all"
+                className="transition-all overflow-hidden"
                 style={{ maxHeight: contentHeight, transitionDuration: contentTransitionDuration ? contentTransitionDuration + 'ms' : 150 }}
                 onTransitionEnd={handleTransitionEnd}
             >
@@ -337,6 +347,8 @@ function TermExport(props) {
 TermExport.propTypes = {
     id: PropTypes.string,
     name: PropTypes.string,
+    totalCredit: PropTypes.string,
+    totalEcts: PropTypes.string,
     gpa: PropTypes.string,
     includeCalc: PropTypes.bool,
     autoCalc: PropTypes.bool,
