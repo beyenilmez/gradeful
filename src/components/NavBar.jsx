@@ -92,16 +92,18 @@ function NavBar(props) {
                 <div className="flex justify-end space-x-1 w-full">
 
                     {/* Add term button */}
-                    <Button id='addTermButton' onClick={addTerm} className={'flex font-semibold items-center pr-2'} >
+                    <Button id='addTermButton' onClick={addTerm} className={'flex font-semibold items-center pr-2 has-tooltip'}>
                         <PlusSquare size={'1.75rem'} />
                         &nbsp;
                         Add term
+                        <span className="mt-16 tooltip">Adds a new term</span>
                     </Button>
                     {/* Add term button */}
 
                     {/* Github button */}
-                    <Button onClick={() => { window.open("https://github.com/beyenilmez/gradeful", "_blank"); }}>
+                    <Button onClick={() => { window.open("https://github.com/beyenilmez/gradeful", "_blank"); }} className="has-tooltip">
                         <GitHub size="1.75rem" />
+                        <span className="tooltip">Github</span>
                     </Button>
                     {/* Github button */}
 
@@ -110,11 +112,12 @@ function NavBar(props) {
                         setThemeDropdown(false);
                     }}>
                         <React.Fragment>
-                            <Button onClick={() => { setThemeDropdown(!themeDropdown); }}>
+                            <Button onClick={() => { setThemeDropdown(!themeDropdown); }} className="has-tooltip">
                                 <div>
                                     <Moon size={"1.75rem"} className={"hidden dark:block"} />
                                     <Sun size={"1.75rem"} className={"dark:hidden block"} />
                                 </div>
+                                <span className="tooltip">Theme</span>
                             </Button>
 
                             {/* Theme dropdown */}
@@ -153,8 +156,9 @@ function NavBar(props) {
 
                         <React.Fragment>
                             {/* Settings button */}
-                            <Button onClick={() => { setSettingsDropdown(!settingsDropdown); }} >
+                            <Button onClick={() => { setSettingsDropdown(!settingsDropdown); }} className="has-tooltip">
                                 <Settings size={"1.75rem"} />
+                                <span className='tooltip'>Settings</span>
                             </Button>
                             {/* Settings button */}
 
