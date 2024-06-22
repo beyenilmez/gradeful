@@ -51,11 +51,11 @@ function PageZero() {
     return (
         <div className='min-h-[20rem]'>
 
-            <div className='text-sm font-light p-1'>Select a preset (This will load the courses from the preset)</div>
+            <div className='p-1 font-light text-sm'>Select a preset (This will load the courses from the preset)</div>
 
             <Selector
                 onSelect={setPreset}
-                className='rounded-lg outline-none w-[75%]'
+                className='rounded-lg w-[75%] outline-none'
                 bgColor={'dark:bg-slate-550 bg-slate-350'}
                 hoverColor='dark:hover:bg-slate-600 hover:bg-slate-400'
                 activeColor='dark:active:bg-slate-650 active:bg-slate-450'
@@ -65,17 +65,17 @@ function PageZero() {
             </Selector>
 
             {sourceValue && (
-                <a href={sourceValue} target="_blank" rel="noreferrer" className='dark:text-sky-300 text-sky-300 underline w-fit'>
+                <a href={sourceValue} target="_blank" rel="noreferrer" className='w-fit text-sky-300 dark:text-sky-300 underline'>
                     Source
                 </a>
             )}
 
-            <div className="pt-2 flex justify-center">
+            <div className="flex justify-center pt-2">
                 or
             </div>
 
             <div>
-                <div className='text-sm font-light p-1'>University name</div>
+                <div className='p-1 font-light text-sm'>University name</div>
                 <input
                     type="text"
                     className={`w-full h-7 pl-3 text-sm outline-none rounded-lg border dark:text-slate-300 text-slate-700 dark:border-slate-400 border-slate-500 bg-transparent dark:placeholder-slate-450 placeholder-slate-350`}
@@ -85,7 +85,7 @@ function PageZero() {
                 />
             </div>
             <div>
-                <div className='text-sm font-light p-1'>Department</div>
+                <div className='p-1 font-light text-sm'>Department</div>
                 <input
                     type="text"
                     className={`w-full h-7 pl-3 text-sm outline-none rounded-lg border dark:text-slate-300 text-slate-700 dark:border-slate-400 border-slate-500 bg-transparent dark:placeholder-slate-450 placeholder-slate-350`}
@@ -226,13 +226,13 @@ function GradeScaleSettings() {
 
     // Render
     return (
-        <div className='min-h-[20rem] flex flex-col justify-between'>
+        <div className='flex flex-col justify-between min-h-[20rem]'>
             <div className="pb-1.5">
                 You can customize your grade scale here.
             </div>
             <div className='flex space-x-1'>
                 <div>
-                    <div className='w-full pb-1 text-center text-sm border-b border-slate-400 mb-1.5'>
+                    <div className='border-slate-400 mb-1.5 pb-1 border-b w-full text-center text-sm'>
                         Percentage
                     </div>
                     <div className='flex'>
@@ -282,7 +282,7 @@ function GradeScaleSettings() {
                             ))}
                         </div>
 
-                        <div className='w-14 space-y-1'>
+                        <div className='space-y-1 w-14'>
                             {scoreTable.map((score, index) => (
                                 <input key={index}
                                     type="number"
@@ -319,13 +319,13 @@ function GradeScaleSettings() {
                     </div>
                 </div>
 
-                <div className='w-0 border-r border-slate-400' />
+                <div className='border-slate-400 border-r w-0' />
 
                 <div>
-                    <div className='w-full pb-1 text-center text-sm border-b border-slate-400 mb-1.5'>
+                    <div className='border-slate-400 mb-1.5 pb-1 border-b w-full text-center text-sm'>
                         Grade
                     </div>
-                    <div className='w-16 space-y-1'>
+                    <div className='space-y-1 w-16'>
                         {gradeTable.map((grade, index) => (
                             <input key={index}
                                 type="text"
@@ -349,13 +349,13 @@ function GradeScaleSettings() {
                     </div>
                 </div>
 
-                <div className='w-0 border-r border-slate-400' />
+                <div className='border-slate-400 border-r w-0' />
 
                 <div>
-                    <div className='w-full pb-1 text-center text-sm border-b border-slate-400 mb-1.5'>
+                    <div className='border-slate-400 mb-1.5 pb-1 border-b w-full text-center text-sm'>
                         GPA
                     </div>
-                    <div className='w-16 space-y-1'>
+                    <div className='space-y-1 w-16'>
                         {multiplierTable.map((multiplier, index) => (
                             <input key={index}
                                 type="text"
@@ -379,10 +379,10 @@ function GradeScaleSettings() {
                     </div>
                 </div>
 
-                <div className='w-0 border-r border-slate-400' />
+                <div className='border-slate-400 border-r w-0' />
 
                 <div>
-                    <div className='w-full pb-1 text-center text-sm mb-1.5'>
+                    <div className='mb-1.5 pb-1 w-full text-center text-sm'>
                         &nbsp;
                     </div>
                     <div className='space-y-1'>
@@ -415,7 +415,7 @@ function GradeScaleSettings() {
             <div>
                 <div className="py-1.5">{"Please save your changes by clicking the \"Save\" button."}</div>
 
-                <div className='flex w-full justify-between pb-2'>
+                <div className='flex justify-between pb-2 w-full'>
                     <Selector
                         onSelect={setGradeScale}
                         className='rounded-lg outline-none'
@@ -429,10 +429,7 @@ function GradeScaleSettings() {
                     <div className='flex space-x-2'>
                         <Button disabled={!discardActive}
                             onClick={discardChanges}
-                            className='dark:bg-rose-500 bg-rose-300
-                    disabled:opacity-50
-                    dark:disabled:hover:bg-rose-500 disabled:hover:bg-rose-300
-                    '
+                            className='bg-rose-300 dark:disabled:hover:bg-rose-500 disabled:hover:bg-rose-300 dark:bg-rose-500 disabled:opacity-50'
                             hoverColor='dark:hover:bg-rose-600 hover:bg-rose-400'
                             activeColor='active:opacity-80'
                         >
@@ -440,10 +437,7 @@ function GradeScaleSettings() {
                         </Button>
                         <Button disabled={!saveActive}
                             onClick={saveChanges}
-                            className='dark:bg-emerald-500 bg-emerald-300
-                        disabled:opacity-50
-                        dark:disabled:hover:bg-emerald-500 disabled:hover:bg-emerald-300
-                    '
+                            className='bg-emerald-300 dark:disabled:hover:bg-emerald-500 disabled:hover:bg-emerald-300 dark:bg-emerald-500 disabled:opacity-50'
                             hoverColor='dark:hover:bg-emerald-600 hover:bg-emerald-400'
                             activeColor='active:opacity-80'
                         >
@@ -479,8 +473,8 @@ function QuickStartWindow() {
     return (
         <Window title="Quick start" showWindow={showQuickStart} setShowWindow={setShowQuickStart} onClose={() => localStorage.setItem("visited", "visited")}>
             <div className='flex md:flex-row flex-col'>
-                <div className='w-full p-4'>
-                    <div className="pb-2 border-b dark:border-b-slate-400 border-b-slate-400">
+                <div className='p-4 w-full'>
+                    <div className="pb-2 border-b border-b-slate-400 dark:border-b-slate-400">
                         Step {page}/2 - {page === 1 ? "Information" : "Grade scale"}
                     </div>
                     <div className="mt-2">
@@ -491,7 +485,7 @@ function QuickStartWindow() {
                             <GradeScaleSettings />
                         </div>
                     </div>
-                    <div className="flex space-x-1 border-t dark:border-t-slate-400 border-t-slate-400 pt-2">
+                    <div className="flex space-x-1 pt-2 border-t border-t-slate-400 dark:border-t-slate-400">
                         <Button
                             onClick={() => setPage(1)}
                             hoverColor='dark:hover:bg-slate-600 hover:bg-slate-400'

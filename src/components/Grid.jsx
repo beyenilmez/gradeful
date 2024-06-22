@@ -26,7 +26,7 @@ function Grid() {
 
     return (
         <ReactSortable
-            className="grid gap-7 grid-cols-1 md:grid-cols-2 m-8 dark:text-slate-200 text-slate-800"
+            className="gap-7 grid grid-cols-1 md:grid-cols-2 m-8 text-slate-800 dark:text-slate-200"
             list={universityData.terms}
             setList={(newList) => {
                 save();
@@ -41,7 +41,7 @@ function Grid() {
             {...sortableOptions}
         >
             {universityData.terms.map((term) => (
-                <Term key={term.id} id={term.id} name={term.name} expanded={term.expanded} includeCalc={term.includeCalc} autoCalc={term.autoCalc} gpa={String(term.gpa)}>
+                <Term key={term.id} id={term.id} name={term.name} totalCredit={String(term.totalCredit)} totalEcts={String(term.totalEcts)} expanded={term.expanded} includeCalc={term.includeCalc} autoCalc={term.autoCalc} gpa={String(term.gpa)}>
                     <ReactSortable
                         list={term.courses}
                         setList={(newList) => {
@@ -60,7 +60,7 @@ function Grid() {
                         {term.courses.map((course) => (
                             <Course key={course.id}
                                 id={course.id} termId={course.termId} name={course.name}
-                                credit={course.credit} score={String(course.score)} grade={course.grade}
+                                credit={course.credit} ects={course.ects} score={String(course.score)} grade={course.grade}
                                 autoCalcScore={course.autoCalcScore} autoCalcGrade={course.autoCalcGrade} includeCalc={course.includeCalc}
                                 expanded={course.expanded}>
                                 <ReactSortable

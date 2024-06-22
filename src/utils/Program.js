@@ -16,8 +16,12 @@ export class University {
     department;
 
     gpa;
+    realTotalCredit;
     totalCredit;
     totalIncludedCredit;
+
+    totalEcts;
+    totalTakenEcts;
 
     // Array to store terms
     terms = [];
@@ -88,8 +92,12 @@ export class University {
     }
 
     calcTotalCredit() {
+        let realTotalCredit = 0;
         let totalCredit = 0;
         let totalIncludedCredit = 0;
+
+        let totalEcts = 0;
+        let totalTakenEcts = 0;
 
         for (const term of this.terms) {
             if (term.includeCalc) {
@@ -100,10 +108,23 @@ export class University {
                     totalIncludedCredit += Number(term.totalIncludedCredit);
                 }
             }
+
+            if (!isNaN(term.totalCredit)) {
+                realTotalCredit += Number(term.totalCredit);
+            }
+
+            if (!isNaN(term.totalEcts)) {
+                totalEcts += Number(term.totalEcts);
+                totalTakenEcts += Number(term.totalTakenEcts);
+            }
         }
 
+        this.realTotalCredit = realTotalCredit;
         this.totalCredit = totalCredit;
         this.totalIncludedCredit = totalIncludedCredit;
+
+        this.totalEcts = totalEcts;
+        this.totalTakenEcts = totalTakenEcts;
     }
 
     calcGpa() {
@@ -152,6 +173,10 @@ export class Term {
 
     totalCredit;
     totalIncludedCredit;
+
+    totalEcts;
+    totalTakenEcts;
+
     gpa;
 
     includeCalc = true;
@@ -217,7 +242,7 @@ export class Term {
 
     calc() {
         this.calcTotalCredit();
-        if(this.autoCalc) {
+        if (this.autoCalc) {
             this.calcGpa();
         }
     }
@@ -225,18 +250,33 @@ export class Term {
     calcTotalCredit() {
         let totalCredit = 0;
         let totalIncludedCredit = 0;
+
+        let totalEcts = 0;
+        let totalTakenEcts = 0;
+
         for (const course of this.courses) {
             if (!isNaN(course.credit) && course.includeCalc) {
                 totalCredit += Number(course.credit);
                 if (!course.inactive) {
                     totalIncludedCredit += Number(course.credit);
-                }else if(!course.autoCalcGrade && this.gradeTable.find(grade => grade === course.grade)) {
+                } else if (!course.autoCalcGrade && this.gradeTable.find(grade => grade === course.grade)) {
                     totalIncludedCredit += Number(course.credit);
+                }
+            }
+
+            if (!isNaN(course.ects)) {
+                totalEcts += Number(course.ects);
+
+                if (course.grade) {
+                    totalTakenEcts += Number(course.ects);
                 }
             }
         }
         this.totalCredit = totalCredit;
         this.totalIncludedCredit = totalIncludedCredit;
+
+        this.totalEcts = totalEcts;
+        this.totalTakenEcts = totalTakenEcts;
     }
 
     calcGpa() {
@@ -274,6 +314,7 @@ export class Term {
 export class Course {
     name;
     credit;
+    ects;
     id = uniqid();
     termId;
 
@@ -341,10 +382,10 @@ export class Course {
 
     calc() {
         this.calcTotalPercentage();
-        if(this.autoCalcScore) {
+        if (this.autoCalcScore) {
             this.calcScore();
         }
-        if(this.autoCalcGrade) {
+        if (this.autoCalcGrade) {
             this.calcGrade();
         }
         this.calcMultiplier();
@@ -360,7 +401,7 @@ export class Course {
             this.score = '';
             return;
         }
-        this.score =(this.scores.reduce((a, b) => a + Number((b.score === null || b.score === "" || b.score === undefined || b.percentage === null || b.percentage === "" || b.percentage === undefined ? 0 : Number(b.score) * Number(b.percentage))), 0) / this.totalPercentage);  
+        this.score = (this.scores.reduce((a, b) => a + Number((b.score === null || b.score === "" || b.score === undefined || b.percentage === null || b.percentage === "" || b.percentage === undefined ? 0 : Number(b.score) * Number(b.percentage))), 0) / this.totalPercentage);
     }
 
     calcGrade() {

@@ -59,28 +59,25 @@ function ImportFromFileWindow(props) {
             title={'Import from file'}
             showWindow={props.showImportFilePopup} setShowWindow={props.setShowImportFilePopup}
         >
-            <div className='flex flex-col items-center p-2 space-y-3'>
+            <div className='flex flex-col items-center space-y-3 p-2'>
                 {/* Uni logo and name */}
                 {selectedFile && (
-                    <div className=" w-full
-                    flex items-center rounded-lg
-                    border dark:border-slate-550 border-slate-400
-                    dark:bg-slate-650 bg-slate-350"
+                    <div className="flex items-center border-slate-400 dark:border-slate-550 bg-slate-350 dark:bg-slate-650 border rounded-lg w-full"
                     >
                         {/* Uni logo */}
-                        <Logo className="shrink-0 w-10 mr-4 m-3" />
+                        <Logo className="m-3 mr-4 w-10 shrink-0" />
                         {/* Uni logo */}
 
                         <div className="py-3 pr-4 shrink-0">
-                            <div className="text-md font-semibold">
+                            <div className="font-semibold text-md">
                                 {decodedData.name ? decodedData.name : 'No university name'}
                             </div>
                             <div className="text-md">
                                 {decodedData.department ? decodedData.department : 'No department name'}
                             </div>
                         </div>
-                        <div className="w-full flex justify-end py-3">
-                            <div className="dark:text-slate-150 text-slate-800 border-none dark:bg-slate-600 bg-slate-200 bg-opacity-50 dark:border-slate-450 border-slate-450 w-fit h-fit p-2 rounded-lg">
+                        <div className="flex justify-end py-3 w-full">
+                            <div className="border-slate-450 dark:border-slate-450 bg-slate-200 dark:bg-slate-600 bg-opacity-50 p-2 border-none rounded-lg w-fit h-fit text-slate-800 dark:text-slate-150">
                                 {decodedData.gpa ? Math.round(Number(decodedData.gpa) * 100) / 100 : ' - '}
                             </div>
                         </div>
@@ -89,8 +86,7 @@ function ImportFromFileWindow(props) {
                                 setSelectedFile(null);
                                 setDecodedData({});
                             }}
-                                className='
-                    rounded-full dark:bg-rose-500 bg-rose-300'>
+                                className='bg-rose-300 dark:bg-rose-500 rounded-full'>
                                 <X size={'1rem'} />
                             </button>
                         </div>
@@ -107,10 +103,7 @@ function ImportFromFileWindow(props) {
                         disabled={!selectedFile || Object.keys(decodedData).length === 0}
                         onClick={handleImport}
                         padding='px-4 py-2'
-                        className='dark:bg-emerald-500 bg-emerald-300
-                        disabled:opacity-50
-                        dark:disabled:hover:bg-emerald-500 disabled:hover:bg-emerald-300
-                    '
+                        className='bg-emerald-300 dark:disabled:hover:bg-emerald-500 disabled:hover:bg-emerald-300 dark:bg-emerald-500 disabled:opacity-50'
                         hoverColor='dark:hover:bg-emerald-600 hover:bg-emerald-400'
                         activeColor='active:opacity-80'
                     >
@@ -125,10 +118,7 @@ function ImportFromFileWindow(props) {
                             props.setShowImportFilePopup(false);
                         }}
                         padding='px-4 py-2'
-                        className='dark:bg-rose-500 bg-rose-300
-                        disabled:opacity-50
-                        dark:disabled:hover:bg-rose-500 disabled:hover:bg-rose-300
-                    '
+                        className='bg-rose-300 dark:disabled:hover:bg-rose-500 disabled:hover:bg-rose-300 dark:bg-rose-500 disabled:opacity-50'
                         hoverColor='dark:hover:bg-rose-600 hover:bg-rose-400'
                         activeColor='active:opacity-80'
                     >

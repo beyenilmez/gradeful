@@ -47,7 +47,7 @@ const FileUpload = (props) => {
             <div
                 onDragOver={handleDragOver}
                 onDrop={handleDrop}
-                className='border-2 rounded-lg border-dashed w-64 h-32 flex justify-center items-center'
+                className='flex justify-center items-center border-2 border-dashed rounded-lg w-64 h-32'
             >
                 <button onClick={() => document.querySelector('input[type="file"]').click()}
                     className='flex flex-col items-center space-y-2'

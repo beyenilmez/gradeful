@@ -28,19 +28,15 @@ function ExportToFileWindow(props) {
             title={'Export to file'}
             showWindow={props.showExportFilePopup} setShowWindow={props.setShowExportFilePopup}
         >
-            <div className='p-2 space-y-1'>
-                <div className='text-sm pl-1'>
+            <div className='space-y-1 p-2'>
+                <div className='pl-1 text-sm'>
                     File name
                 </div>
                 <div className='flex flex-col space-y-3'>
                     <div className='flex space-x-2'>
                         <textarea
                             rows="1"
-                            className="whitespace-nowrap no-scrollbar resize-none w-full h-7 pl-3 pt-[0.15rem] text-sm outline-none rounded-lg border
-                    bg-transparent
-                    dark:text-slate-300 text-slate-700
-                    dark:border-slate-400 border-slate-500
-                    dark:placeholder-slate-500 placeholder-slate-450"
+                            className="border-slate-500 dark:border-slate-400 bg-transparent pt-[0.15rem] pl-3 border rounded-lg w-full h-7 text-slate-700 text-sm dark:text-slate-300 whitespace-nowrap no-scrollbar outline-none placeholder-slate-450 resize-none dark:placeholder-slate-500"
                             placeholder="File name"
                             value={fileName}
                             onChange={(e) => setFileName(e.target.value)}
@@ -53,10 +49,7 @@ function ExportToFileWindow(props) {
                         <Button
                             onClick={downloadFile}
                             padding='px-4 py-2'
-                            className='dark:bg-emerald-500 bg-emerald-300
-                        disabled:opacity-50
-                        dark:disabled:hover:bg-emerald-500 disabled:hover:bg-emerald-300
-                    '
+                            className='bg-emerald-300 dark:disabled:hover:bg-emerald-500 disabled:hover:bg-emerald-300 dark:bg-emerald-500 disabled:opacity-50'
                             hoverColor='dark:hover:bg-emerald-600 hover:bg-emerald-400'
                             activeColor='active:opacity-80'
                         >

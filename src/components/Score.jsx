@@ -86,12 +86,12 @@ function ScoreExport(props) {
             <div className={`w-full h-full
             ${editData !== undefined ? 'hidden' : 'flex'}
             `}>
-                <div className="w-full h-full mr-0.5 text-center text-xs font-light">
+                <div className="mr-0.5 w-full h-full font-light text-center text-xs">
                     {props.name} ({props.percentage}%)
                 </div>
             </div>
-            <div className="mt-1 w-full h-full flex items-end">
-                <div className="w-full flex-row">
+            <div className="flex items-end mt-1 w-full h-full">
+                <div className="flex-row w-full">
                     <textarea rows="1" inputMode="numeric"
                         className={`
                         ${editData !== undefined ? 'hidden' : 'block'}

@@ -11,20 +11,9 @@ function Window(props) {
         top-0 left-0
         bg-black/60
         `}>
-            <div className='
-                flex justify-center items-center
-                w-full h-full md:h-2/3
-            '>
-                <div className='
-                md:w-[40rem] w-[80%]
-            '>
-                    <div className='
-                    flex justify-between items-center
-                    w-full
-                    rounded-t-lg py-1.5 pl-4 pr-2
-                    dark:bg-slate-550 bg-slate-250
-                    dark:text-slate-250 text-slate-550
-                '>
+            <div className='flex justify-center items-center w-full h-full md:h-2/3'>
+                <div className='w-[80%] md:w-[40rem]'>
+                    <div className='flex justify-between items-center bg-slate-250 dark:bg-slate-550 py-1.5 pr-2 pl-4 rounded-t-lg w-full text-slate-550 dark:text-slate-250'>
                         {props.title}
                         <Button
                             onClick={() => {

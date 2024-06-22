@@ -38,10 +38,10 @@ function InformationSettings() {
     // <--- Functions end --->
 
     return (
-        <div className='min-h-[25rem] flex flex-col justify-between'>
-            <div className='px-5 py-3 space-y-2'>
+        <div className='flex flex-col justify-between min-h-[25rem]'>
+            <div className='space-y-2 px-5 py-3'>
                 <div>
-                    <div className='text-sm font-light p-1'>University name</div>
+                    <div className='p-1 font-light text-sm'>University name</div>
                     <input
                         type="text"
                         className={`w-full h-7 pl-3 text-sm outline-none rounded-lg border dark:text-slate-300 text-slate-700 dark:border-slate-400 border-slate-500 bg-transparent dark:placeholder-slate-500 placeholder-slate-450`}
@@ -51,7 +51,7 @@ function InformationSettings() {
                     />
                 </div>
                 <div>
-                    <div className='text-sm font-light p-1'>Department</div>
+                    <div className='p-1 font-light text-sm'>Department</div>
                     <input
                         type="text"
                         className={`w-full h-7 pl-3 text-sm outline-none rounded-lg border dark:text-slate-300 text-slate-700 dark:border-slate-400 border-slate-500 bg-transparent dark:placeholder-slate-500 placeholder-slate-450`}
@@ -61,14 +61,11 @@ function InformationSettings() {
                     />
                 </div>
             </div>
-            <div className='flex w-full justify-end space-x-2 p-2 pr-5'>
+            <div className='flex justify-end space-x-2 p-2 pr-5 w-full'>
                 <Button
                     disabled={uniNameValue === universityData.name && departmentNameValue === universityData.department}
                     onClick={discardChanges}
-                    className='dark:bg-rose-500 bg-rose-300
-                    disabled:opacity-50
-                    dark:disabled:hover:bg-rose-500 disabled:hover:bg-rose-300
-                    '
+                    className='bg-rose-300 dark:disabled:hover:bg-rose-500 disabled:hover:bg-rose-300 dark:bg-rose-500 disabled:opacity-50'
                     hoverColor='dark:hover:bg-rose-600 hover:bg-rose-400'
                     activeColor='active:opacity-80'
                 >
@@ -77,10 +74,7 @@ function InformationSettings() {
                 <Button
                     disabled={uniNameValue === universityData.name && departmentNameValue === universityData.department}
                     onClick={saveChanges}
-                    className='dark:bg-emerald-500 bg-emerald-300
-                        disabled:opacity-50
-                        dark:disabled:hover:bg-emerald-500 disabled:hover:bg-emerald-300
-                    '
+                    className='bg-emerald-300 dark:disabled:hover:bg-emerald-500 disabled:hover:bg-emerald-300 dark:bg-emerald-500 disabled:opacity-50'
                     hoverColor='dark:hover:bg-emerald-600 hover:bg-emerald-400'
                     activeColor='active:opacity-80'
                 >
@@ -220,10 +214,10 @@ function GradeScaleSettings() {
 
     // Render
     return (
-        <div className='min-h-[25rem] flex flex-col justify-between'>
-            <div className='flex px-5 py-3 space-x-1'>
+        <div className='flex flex-col justify-between min-h-[25rem]'>
+            <div className='flex space-x-1 px-5 py-3'>
                 <div>
-                    <div className='w-full pb-1 text-center text-sm border-b border-slate-400 mb-1.5'>
+                    <div className='border-slate-400 mb-1.5 pb-1 border-b w-full text-center text-sm'>
                         Percentage
                     </div>
                     <div className='flex'>
@@ -273,7 +267,7 @@ function GradeScaleSettings() {
                             ))}
                         </div>
 
-                        <div className='w-14 space-y-1'>
+                        <div className='space-y-1 w-14'>
                             {scoreTable.map((score, index) => (
                                 <input key={index}
                                     type="number"
@@ -310,13 +304,13 @@ function GradeScaleSettings() {
                     </div>
                 </div>
 
-                <div className='w-0 border-r border-slate-400' />
+                <div className='border-slate-400 border-r w-0' />
 
                 <div>
-                    <div className='w-full pb-1 text-center text-sm border-b border-slate-400 mb-1.5'>
+                    <div className='border-slate-400 mb-1.5 pb-1 border-b w-full text-center text-sm'>
                         Grade
                     </div>
-                    <div className='w-16 space-y-1'>
+                    <div className='space-y-1 w-16'>
                         {gradeTable.map((grade, index) => (
                             <input key={index}
                                 type="text"
@@ -340,13 +334,13 @@ function GradeScaleSettings() {
                     </div>
                 </div>
 
-                <div className='w-0 border-r border-slate-400' />
+                <div className='border-slate-400 border-r w-0' />
 
                 <div>
-                    <div className='w-full pb-1 text-center text-sm border-b border-slate-400 mb-1.5'>
+                    <div className='border-slate-400 mb-1.5 pb-1 border-b w-full text-center text-sm'>
                         GPA
                     </div>
-                    <div className='w-16 space-y-1'>
+                    <div className='space-y-1 w-16'>
                         {multiplierTable.map((multiplier, index) => (
                             <input key={index}
                                 type="text"
@@ -370,10 +364,10 @@ function GradeScaleSettings() {
                     </div>
                 </div>
 
-                <div className='w-0 border-r border-slate-400' />
+                <div className='border-slate-400 border-r w-0' />
 
                 <div>
-                    <div className='w-full pb-1 text-center text-sm mb-1.5'>
+                    <div className='mb-1.5 pb-1 w-full text-center text-sm'>
                         &nbsp;
                     </div>
                     <div className='space-y-1'>
@@ -403,7 +397,7 @@ function GradeScaleSettings() {
                 </div>
             </div>
 
-            <div className='flex w-full justify-between p-2 px-5'>
+            <div className='flex justify-between px-5 p-2 w-full'>
                 <Selector
                     onSelect={setGradeScale}
                     className='rounded-lg outline-none'
@@ -417,10 +411,7 @@ function GradeScaleSettings() {
                 <div className='flex space-x-2'>
                     <Button disabled={!discardActive}
                         onClick={discardChanges}
-                        className='dark:bg-rose-500 bg-rose-300
-                    disabled:opacity-50
-                    dark:disabled:hover:bg-rose-500 disabled:hover:bg-rose-300
-                    '
+                        className='bg-rose-300 dark:disabled:hover:bg-rose-500 disabled:hover:bg-rose-300 dark:bg-rose-500 disabled:opacity-50'
                         hoverColor='dark:hover:bg-rose-600 hover:bg-rose-400'
                         activeColor='active:opacity-80'
                     >
@@ -428,10 +419,7 @@ function GradeScaleSettings() {
                     </Button>
                     <Button disabled={!saveActive}
                         onClick={saveChanges}
-                        className='dark:bg-emerald-500 bg-emerald-300
-                        disabled:opacity-50
-                        dark:disabled:hover:bg-emerald-500 disabled:hover:bg-emerald-300
-                    '
+                        className='bg-emerald-300 dark:disabled:hover:bg-emerald-500 disabled:hover:bg-emerald-300 dark:bg-emerald-500 disabled:opacity-50'
                         hoverColor='dark:hover:bg-emerald-600 hover:bg-emerald-400'
                         activeColor='active:opacity-80'
                     >
@@ -446,23 +434,23 @@ function GradeScaleSettings() {
 function About() {
     return (
         <div className='min-h-[25rem]'>
-            <div className='flex flex-col px-5 py-3 space-y-2'>
+            <div className='flex flex-col space-y-2 px-5 py-3'>
                 <div className='w-fit'>
-                    v-{"1.2.0"}
+                    v-{"1.2.2"}
                 </div>
-                <a className='dark:text-sky-300 text-sky-300 underline w-fit cursor-pointer' onClick={() => {
+                <a className='w-fit text-sky-300 dark:text-sky-300 underline cursor-pointer' onClick={() => {
                     localStorage.clear();
                     window.location.reload();
                 }} target="_blank">
                     Delete all data
                 </a>
                 <a
-                    className='dark:text-sky-300 text-sky-300 underline w-fit'
+                    className='w-fit text-sky-300 dark:text-sky-300 underline'
                     href='./licenses.json' target="_blank">
                     View Licenses
                 </a>
                 <a
-                    className='dark:text-sky-300 text-sky-300 underline w-fit'
+                    className='w-fit text-sky-300 dark:text-sky-300 underline'
                     href='https://github.com/beyenilmez/gradeful' target="_blank" rel="noreferrer">
                     Github
                 </a>
@@ -477,10 +465,7 @@ function SettingsWindow(props) {
     return (
         <Window title="Settings" showWindow={props.showSettingsPopup} setShowWindow={props.setShowSettingsPopup}>
             <div className='flex md:flex-row flex-col'>
-                <div className='
-                    flex md:flex-col flex-row
-                    border-b border-r dark:border-slate-450 border-slate-350
-                '>
+                <div className='flex flex-row md:flex-col border-slate-350 dark:border-slate-450 border-r border-b'>
                     <Button
                         onClick={() => setSettingsTab("information")}
                         rounded='rounded-none'
@@ -522,7 +507,7 @@ function SettingsWindow(props) {
                         About
                     </Button>
                 </div>
-                <div className='w-full '>
+                <div className='w-full'>
                     <div className={`${settingsTab === "information" ? "" : "hidden"}`}>
                         <InformationSettings />
                     </div>

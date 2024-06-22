@@ -18,6 +18,7 @@ function CourseExport(props) {
 
     const [nameValue, setNameValue] = useState(props.name);
     const [creditValue, setCreditValue] = useState(props.credit);
+    const [ectsValue, setEctsValue] = useState(props.ects);
     const [scoreValue, setScoreValue] = useState(props.score);
     const [gradeValue, setGradeValue] = useState(props.grade);
     const [autoCalcScoreValue, setAutoCalcScoreValue] = useState(props.autoCalcScore);
@@ -141,6 +142,7 @@ function CourseExport(props) {
 
             course.name = nameValue;
             course.credit = creditValue;
+            course.ects = ectsValue;
             course.autoCalcGrade = autoCalcGradeValue;
             course.autoCalcScore = autoCalcScoreValue;
             course.includeCalc = includeCalcValue;
@@ -150,26 +152,27 @@ function CourseExport(props) {
             setEditJSON({ ...editJSON, [idRef.current]: course });
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [nameValue, creditValue, autoCalcGradeValue, autoCalcScoreValue, includeCalcValue, scoreValue, gradeValue]);
+    }, [nameValue, creditValue, ectsValue, autoCalcGradeValue, autoCalcScoreValue, includeCalcValue, scoreValue, gradeValue]);
 
     // Update editable values
     useEffect(() => {
         setNameValue(props.name);
         setCreditValue(props.credit);
+        setEctsValue(props.ects);
         setAutoCalcGradeValue(props.autoCalcGrade);
         setAutoCalcScoreValue(props.autoCalcScore);
         setIncludeCalcValue(props.includeCalc);
         setScoreValue(props.score);
         setGradeValue(props.grade);
-    }, [editing, props.name, props.credit, props.autoCalcGrade, props.autoCalcScore, props.includeCalc, props.score, props.grade]);
+    }, [editing, props.name, props.credit, props.ects, props.autoCalcGrade, props.autoCalcScore, props.includeCalc, props.score, props.grade]);
 
     // <--- Effects end --->
 
     // Render
     return (
-        <div className="draggable font-light dark:bg-slate-700 bg-slate-300 shadow border-t dark:border-slate-550 border-slate-350">
+        <div className="border-slate-350 dark:border-slate-550 bg-slate-300 dark:bg-slate-700 shadow border-t font-light draggable">
 
-            <div className="flex items-center justify-between py-1 px-2 hover:cursor-pointer" onClick={toggleExpanded}>
+            <div className="flex justify-between items-center px-2 py-1 hover:cursor-pointer" onClick={toggleExpanded}>
                 <div className='flex items-center'>
                     <Menu size="1.5rem" className={`shrink-0 handle mr-1 transform transition-transform duration-300 ${editJSON[termIdRef.current] === undefined ? 'hidden' : ''}`} />
                     <ChevronRight size="1.5rem" className={`shrink-0 mr-1 transform transition-transform duration-300 ${expandedValue || editData !== undefined ? 'rotate-90' : ''} ${editJSON[termIdRef.current] !== undefined ? 'hidden' : ''}`} />
@@ -192,12 +195,24 @@ function CourseExport(props) {
                     <textarea rows="1" inputMode="decimal"
                         className={`
                             ${editData !== undefined ? 'block' : 'hidden'}
-                            whitespace-nowrap
+                            whitespace-nowrap mr-1
                             no-scrollbar resize-none min-w-[4rem] max-w-[4rem] w-full h-7 text-center outline-none rounded-lg border dark:text-slate-300 text-slate-700 dark:border-slate-400 border-slate-500 dark:bg-slate-650 bg-slate-350 dark:placeholder-slate-500 placeholder-slate-450
                         `}
                         placeholder="Credit"
                         value={creditValue}
                         onChange={(e) => setCreditValue(e.target.value.replace(/[^0-9.]/g, ''))}
+                        maxLength={4}
+                    ></textarea>
+
+                    <textarea rows="1" inputMode="decimal"
+                        className={`
+                            ${editData !== undefined ? 'block' : 'hidden'}
+                            whitespace-nowrap
+                            no-scrollbar resize-none min-w-[4rem] max-w-[4rem] w-full h-7 text-center outline-none rounded-lg border dark:text-slate-300 text-slate-700 dark:border-slate-400 border-slate-500 dark:bg-slate-650 bg-slate-350 dark:placeholder-slate-500 placeholder-slate-450
+                        `}
+                        placeholder="ECTS"
+                        value={ectsValue}
+                        onChange={(e) => setEctsValue(e.target.value.replace(/[^0-9.]/g, ''))}
                         maxLength={4}
                     ></textarea>
                 </div>
@@ -319,7 +334,7 @@ function CourseExport(props) {
             </div>
 
             <div
-                className="overflow-hidden transition-all"
+                className="transition-all overflow-hidden"
                 style={{ maxHeight: contentHeight, transitionDuration: '150ms' }}
             >
                 <div ref={childrenRef}>
@@ -354,6 +369,7 @@ CourseExport.propTypes = {
     termId: PropTypes.string,
     name: PropTypes.string,
     credit: PropTypes.string,
+    ects: PropTypes.string,
     score: PropTypes.string,
     grade: PropTypes.string,
     autoCalcScore: PropTypes.bool,
