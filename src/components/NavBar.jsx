@@ -74,7 +74,7 @@ function NavBar(props) {
                         </div>
                         <div
                             className="border-slate-450 dark:border-slate-450 bg-slate-200 dark:bg-slate-600 bg-opacity-50 p-2.5 border-none rounded-lg min-w-24 font-semibold text-center text-lg text-slate-800 dark:text-slate-150">
-                            {universityData.totalIncludedCredit && universityData.realTotalCredit ? universityData.totalIncludedCredit + '/' + universityData.realTotalCredit : '0/0'}
+                            {(universityData.totalIncludedCredit ? universityData.totalIncludedCredit  : '0') + '/' + (universityData.realTotalCredit ? universityData.realTotalCredit : '0')}
                         </div>
                     </div>
                     <div className="md:block hidden">
@@ -83,7 +83,7 @@ function NavBar(props) {
                         </div>
                         <div
                             className="border-slate-450 dark:border-slate-450 bg-slate-200 dark:bg-slate-600 bg-opacity-50 p-2.5 border-none rounded-lg min-w-24 font-semibold text-center text-lg text-slate-800 dark:text-slate-150">
-                            {universityData.totalEcts && universityData.totalTakenEcts ? universityData.totalTakenEcts + '/' + universityData.totalEcts : '0/0'}
+                            {(universityData.totalTakenEcts ? universityData.totalTakenEcts : '0') + '/' + (universityData.totalEcts ? universityData.totalEcts : '0')}
                         </div>
                     </div>
                 </div>
