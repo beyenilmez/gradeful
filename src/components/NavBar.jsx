@@ -67,6 +67,10 @@ function NavBar(props) {
                         className="sm:block border-slate-450 dark:border-slate-450 hidden bg-slate-200 dark:bg-slate-600 bg-opacity-50 p-2.5 border-none rounded-lg min-w-24 font-semibold text-center text-lg text-slate-800 dark:text-slate-150">
                         {universityData.totalIncludedCredit && universityData.realTotalCredit ? universityData.totalIncludedCredit + '/' + universityData.realTotalCredit : '0/0'}
                     </div>
+                    <div
+                        className="sm:block border-slate-450 dark:border-slate-450 hidden bg-slate-200 dark:bg-slate-600 bg-opacity-50 p-2.5 border-none rounded-lg min-w-24 font-semibold text-center text-lg text-slate-800 dark:text-slate-150">
+                        {universityData.totalEcts && universityData.totalTakenEcts ? universityData.totalTakenEcts + '/' + universityData.totalEcts : '0/0'}
+                    </div>
                 </div>
                 {/* GPA */}
 
