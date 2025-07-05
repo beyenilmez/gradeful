@@ -409,14 +409,31 @@ export class Course {
             this.grade = '';
             return;
         }
+        const {scaledScore, scaledScoreTable} = this.expandIntervals();
+        
         for (let i = 0; i < this.gradeTable.length; i++) {
-            if (this.score >= this.scoreTable[i]) {
+            if (scaledScore >= scaledScoreTable[i]) {
                 this.grade = this.gradeTable[i];
                 return;
             }
         }
         this.grade = this.gradeTable[this.gradeTable.length - 1];
     }
+
+    calcScale() {
+    const maxFractionDigits = 5;
+    const [, frac = ''] = String(this.score).split('.');
+    return frac.length > 0 ? 10 ** Math.min(frac.length, maxFractionDigits): 1;
+    }
+
+    expandIntervals() {
+        const scale = this.calcScale();
+        const scaledScore = Math.floor(this.score * scale);
+        const scaledScoreTable = this.scoreTable.map(s =>Math.floor(s * scale));
+        return {scaledScore, scaledScoreTable}
+    }
+
+
 
     calcMultiplier() {
         for (let i = 0; i < this.gradeTable.length; i++) {
